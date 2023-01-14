@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>{{site.title}}</title>
+  <title>{{site.title}} - {{page.title}}</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="/assets/styles/simple.css"/>
   <link rel="stylesheet" href="/assets/katex/katex.min.css"/>
@@ -20,6 +20,7 @@
   <header>
     <nav>
       <a href="/">Home</a>
+      <a href="/posts">Posts</a>
       <a href="/feed.xml">RSS</a>
       <a href="https://github.com/Shiandow/shiandow.github.io/">Source</a>
     </nav>
@@ -27,5 +28,14 @@
   <main>
     {{content}}
   </main>
+  <footer>
+    {% if page.previous.url %}
+      <a class="prev" href="{{page.previous.url}}">&laquo; {{page.previous.title}}</a>
+    {% endif %}
+    <a href="/">Home</a>
+    {% if page.next.url %}
+      <a class="next" href="{{page.next.url}}">{{page.next.title}} &raquo;</a>
+    {% endif %}
+  </footer>
 </body>
 </html>
