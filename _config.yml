@@ -8,8 +8,8 @@ kramdown:
 defaults:
 - scope:
     path: ""
-    layout: default
   values:
+    layout: default
     header: true
 - scope:
     path: ""

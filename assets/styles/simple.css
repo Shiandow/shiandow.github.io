@@ -1,6 +1,18 @@
 /* Licensed under MIT license
    Copyright (c) 2020 Simple.css (Kev Quirk): 
    https://github.com/kevquirk/simple.css */
+   
+/* Custom additions */
+.navigation { 
+  display: grid; 
+  grid-template-columns: 1fr auto 1fr;
+}
+.navigation .prev {
+  margin-right: auto;
+}
+.navigation .next {
+  margin-left: auto;
+}
 
 /* Global variables. */
 :root {
