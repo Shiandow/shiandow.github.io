@@ -16,27 +16,18 @@
       });
   </script>
 </head>
-{%- liquid 
-  # Set Defaults
-  if header == nil
-    capture
-      include header.html
-    endcapture
-  endif
--%}
-
 <body>
-  {% if header %}
+  {% if page.header %}
   <header>
-    {{ header }}
+    {{ include header.html }}
   </header>
   {% endif %}
   <main>
     {{content}}
   </main>
-  {% if footer %}
+  {% if page.footer %}
   <footer>
-    {{ footer }}
+    {% include footer.html %}
   </footer>
   {% endif %}
 </body>

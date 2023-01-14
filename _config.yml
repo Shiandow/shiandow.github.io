@@ -4,3 +4,15 @@ host: pages.pragmathics.nl
 markdown: kramdown
 kramdown:
   math_engine: katex
+
+defaults:
+- scope:
+    path: ""
+    header: true
+    layout: default
+- scope:
+    path: ""
+    type: posts
+  values:
+    footer: true
+    layout: post
