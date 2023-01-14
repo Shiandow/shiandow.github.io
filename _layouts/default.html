@@ -16,26 +16,28 @@
       });
   </script>
 </head>
+{%- liquid 
+  # Set Defaults
+  if header == nil
+    capture
+      include header.html
+    endcapture
+  endif
+-%}
+
 <body>
+  {% if header %}
   <header>
-    <nav>
-      <a href="/">Home</a>
-      <a href="/posts">Posts</a>
-      <a href="/feed.xml">RSS</a>
-      <a href="https://github.com/Shiandow/shiandow.github.io/">Source</a>
-    </nav>
+    {{ header }}
   </header>
+  {% endif %}
   <main>
     {{content}}
   </main>
+  {% if footer %}
   <footer>
-    {% if page.previous.url %}
-      <a class="prev" href="{{page.previous.url}}">&laquo; {{page.previous.title}}</a>
-    {% endif %}
-    <a href="/">Home</a>
-    {% if page.next.url %}
-      <a class="next" href="{{page.next.url}}">{{page.next.title}} &raquo;</a>
-    {% endif %}
+    {{ footer }}
   </footer>
+  {% endif %}
 </body>
 </html>
