@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" href="/assets/styles/simple.css"/>
   <link rel="stylesheet" href="/assets/katex/katex.min.css"/>
+  <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="/feed.xml">
   <script defer src="/assets/katex/katex.min.js"></script>
   <script defer src="/assets/katex/contrib/auto-render.min.js"></script>
   <script>
@@ -16,6 +17,15 @@
   </script>
 </head>
 <body>
-  {{content}}
+  <header>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/feed.xml">RSS</a>
+      <a href="https://github.com/Shiandow/shiandow.github.io/">Source</a>
+    </nav>
+  </header>
+  <main>
+    {{content}}
+  </main>
 </body>
 </html>
