@@ -8,11 +8,13 @@ kramdown:
 defaults:
 - scope:
     path: ""
-    header: true
     layout: default
+  values:
+    header: true
 - scope:
     path: ""
     type: posts
   values:
+    header: false
     footer: true
     layout: post

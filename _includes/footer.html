@@ -1,7 +1,13 @@
+<div style="display: grid; grid-template-columns: 1fr auto 1fr;">
 {% if page.previous.url %}
-    <a class="prev" href="{{page.previous.url}}">&laquo; {{page.previous.title}}</a>
-    {% endif %}
-    <a href="/">Home</a>
-    {% if page.next.url %}
-    <a class="next" href="{{page.next.url}}">{{page.next.title}} &raquo;</a>
+    <a class="prev" href="{{page.previous.url}}" style="float: left">&laquo; {{page.previous.title}}</a>
+{% else %}
+    <a class="prev"></a>
 {% endif %}
+    <a href="/">Home</a>
+{% if page.next.url %}
+    <a class="next" href="{{page.next.url}}" style="float: right">{{page.next.title}} &raquo;</a>
+{% else %}
+    <a class="next"></a>
+{% endif %}
+</div>
