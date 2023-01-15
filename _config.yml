@@ -4,6 +4,7 @@ host: pages.pragmathics.nl
 markdown: kramdown
 kramdown:
   math_engine: katex
+  parse_block_html: true
 
 defaults:
 - scope:
