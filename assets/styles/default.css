@@ -18,6 +18,19 @@ a {
     color: inherit;
 }
 
+/* Environments */
+details {
+    border-left: 1px solid;
+    padding: 0 0.5em;
+    margin: 0 0.5em;
+}
+
+blockquote {
+    border: 1px solid;
+    margin: 0.5em;
+    padding: 0 0.5em;
+}
+
 /* Header Styling */
 h1 {
     font-size: 2rem;
@@ -79,10 +92,7 @@ footer {
     margin-left: auto;
 }
 
-/* Add Brackets to footnotes */
-.footnote::before {
-    content: '[';
-}
-.footnote::after {
-    content: ']';
+/* Pandoc Bibliography */
+.csl-entry{
+    display: list-item
 }
