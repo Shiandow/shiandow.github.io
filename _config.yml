@@ -10,11 +10,11 @@ defaults:
     path: ""
   values:
     layout: default
-    header: true
+    header: header.html
 - scope:
     path: ""
     type: posts
   values:
     header: false
-    footer: true
+    footer: post-navigation.html
     layout: post

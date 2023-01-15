@@ -1,0 +1,52 @@
+/* Basics */
+html {
+    line-height: 1.5;
+    font-family: Georgia, serif;
+    font-size: 20px;
+    color: #1a1a1a;
+    background-color: #fdfdfd;
+    max-width: 40em;
+    margin: auto;
+}
+
+/* Personal Taste */
+body {
+    text-align: justify; 
+    hyphens: auto;
+}
+a {
+    color: inherit;
+}
+
+/* Article Header */
+header {
+    border-bottom: 1px solid;
+    text-align: center;
+}
+
+/* Article Footer */
+footer {
+    border-top: 1px solid;
+    font-size: 0.9em;
+    text-align: center;
+}
+
+/* Post Navigation Footer */
+.navigation { 
+    display: grid; 
+    grid-template-columns: 1fr auto 1fr;
+}
+.navigation .prev {
+    margin-right: auto;
+}
+.navigation .next {
+    margin-left: auto;
+}
+
+/* Add Brackets to footnotes */
+.footnote::before {
+    content: '[';
+}
+.footnote::after {
+    content: ']';
+}
