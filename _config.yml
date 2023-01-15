@@ -17,5 +17,5 @@ defaults:
     type: posts
   values:
     header: post-header.html
-    footer: false # post-footer.md Should be included manually to get footnotes to render properly
+    footer: post-footer.html
     layout: post

@@ -9,6 +9,7 @@ html {
     margin: auto;
 }
 
+
 /* Personal Taste */
 body {
     text-align: justify; 
@@ -30,6 +31,15 @@ footer {
     padding: 0.5em;
     border-top: 1px solid;
     text-align: center;
+}
+
+/* Site navigation */
+nav {
+    display: flex;
+    font-variant: small-caps;
+}
+nav > a {
+    flex-grow: 1
 }
 
 /* Post Navigation Footer */
