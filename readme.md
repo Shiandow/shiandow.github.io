@@ -4,18 +4,13 @@ title: About
 permalink: /about/
 ---
 
-## About the Author
+## About
 
-TODO
-
-## About the Blog
-
-TODO
 
 ## Latest Posts
 
 {% for post in site.posts limit:10 %}
-- [{{ post.title }}]({{ post.url }}) ({{ post.date | date: "%Y-%m-%d" }})
+- [{{ post.title }}]({{ post.url }}) ({{ post.date | date: "%Y-%m-%d" }})  
 {% endfor %}
 
 [More.](/posts)
@@ -24,6 +19,10 @@ TODO
 
 Hosted on Github Pages using Jekyll.
 
-This Blog uses [\\( \KaTeX \\)](https://katex.org/)
+This Blog uses [\\( \KaTeX \\)](https://katex.org/).
 
-Favicon generated with: https://favicon.io/favicon-generator/
+Favicon generated with: <https://favicon.io/favicon-generator/>
+
+<footer markdown="1">
+Last processed on {{ site.time | date: "%Y-%m-%d %H:%M:%S %Z"}}
+</footer>

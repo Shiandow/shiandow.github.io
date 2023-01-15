@@ -18,4 +18,3 @@ defaults:
   values:
     header: post-header.html
     footer: post-footer.html
-    layout: post
