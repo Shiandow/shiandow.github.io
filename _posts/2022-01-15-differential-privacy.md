@@ -93,7 +93,7 @@ This divergence has a parameter $\alpha$. Setting this $\alpha$ to $1$ turns thi
 
 Some useful properties of this divergence are that it is non-negative, increases monotonically with $\alpha$, and is 0 if and only if $P$ and $Q$ are the same.
 
-<details>
+<details markdown="block">
 <summary>
 More details
 </summary>
@@ -141,7 +141,7 @@ This definition of channel capacity agrees with the one used by Shannon in his p
 
 Other definitions for both the mutual information and channel capacity exist, but may fail to be able to ensure $\varepsilon$-privacy. The definitions used here are compatible with the definition of $\varepsilon$-privacy, ensure the properties of the $\alpha$-divergence carry over directly to the channel capacity, and make the proofs of various properties easier (and possible).
 
-<details>
+<details markdown="block">
 <summary id="sibson">
 Sibson's definition
 </summary>
@@ -176,6 +176,7 @@ $$
 At $\alpha=\infty$ the latter inequality becomes an equality and this turns out to be very important when it comes to connecting channel capacity to $\varepsilon$-privacy.
 
 </details>
+<p>
 
 ## The Information Theory of Privacy
 
@@ -189,7 +190,7 @@ $$
 C_\infty = \sup_{P_X} \I_\infty(X ; Y) \le \varepsilon.
 $$
 
-<details>
+<details markdown="block">
 <summary>
 Mathematical Details
 </summary>
@@ -298,7 +299,7 @@ Shannon's definition for the channel capacity ($\alpha=1$) has one distinct adva
 
 A brief summary of this theorem is as follows. It is possible to define a typical set of messages and outputs, consisting of blocks of $n$ sent and received signals, and encode a set of $e^{nR}$ messages such that with arbitrarily high probability, each message and its resulting output are in the typical set and no other possible messages are in the typical set with the same output. This makes it possible to send information at a rate of $R$ nats per signal by mapping $e^{nR}$ codewords to the possible messages and decoding the resulting output by picking the codeword corresponding to the only possible message with that output in the typical set. [^4]
 
-<details>
+<details markdown="block">
 <summary>
 Extremely Abridged Proof
 </summary>
@@ -364,7 +365,7 @@ $$
 
 were ${ \H_\alpha(p) =-\frac1{\alpha-1}\log( p^\alpha + (1-p)^\alpha ) }$ is the binary Rényi entropy. At $\alpha=1$ this turns into the regular Shannon entropy and the above turns into a well known formula for the channel capacity of a binary symmetric channel. At $p=\frac12$ the channel capacity reaches its minimum of $0$ and a small deviation from $p=\frac12$ causes the channel capacity to rise (with higher $\alpha$ the channel capacity rises more quickly). This forces the probability $p$ to be close to $\frac12$ as $\varepsilon$ gets smaller, meaning that membership of $A$ is only allowed to have a weak effect on any outcome based on an $\varepsilon$-private system.
 
-<details>
+<details markdown="block">
 <summary>
 Sufficient vs Necessary
 </summary>
@@ -378,6 +379,7 @@ $$
 if $X$ and $Y$ are the binary variables denoting membership of $A$ and $B$ respectively then this is precisely the diameter of the channel $\sup_{x,x'} \D_\alpha(P_{Y|X=x} \| P_{Y | X=x'})$ while $\log(2) - \H_\alpha(p)$ is the radius of the channel. Careful readers may remember that these are exactly the two bounds discussed in the section on [Sibson's definition](#sibson). Not coincidentally the ratio between the radius and the diameter approaches 2 in the small $\varepsilon$ high $\alpha$ limit.
 
 </details>
+<p>
 
 Note however that this protection can only prevent people from being singled out, it cannot prevent someone from doing bad things with the data and does not protect larger groups of people. Besides, mathematics does not care if $B$ stands for 'bad' or 'beneficial' so it would be equally accurate to term this the 'protection against beneficial outcomes' (though that name has never caught on for some reason). Strengthening this protection would prevent *any* outcome, bad or otherwise.
 
@@ -405,7 +407,7 @@ Note that phrasing privacy in terms of information that flows from the rows to t
 
 Now except for $\alpha=1$ and $\alpha=\infty$ the $n\varepsilon$-privacy for the combined input/output holds at a different level than the original because of the interactions between the random variables (if we had input/output pairs that were fully independent from each other the level wouldn't change). In the $\alpha=\infty$ case these interactions do not matter much because the channel capacity assumes the worst case anyway, and for $\alpha=1$ we're in some sense at the 'lowest' level already so the level does not drop any lower.
 
-<details>
+<details markdown="block">
 <summary>
 Derivation
 </summary>
@@ -522,63 +524,14 @@ Moving away from $\varepsilon$-privacy and $(\varepsilon,\delta)$-privacy and an
 
 ## Bibliography
 
-<div style="display:none">
-
-Invisible stuff: Dwork and Roth ([2014](#ref-DPTextbook))
-
-</div>
-
-<div id="refs" class="references csl-bib-body hanging-indent">
-
-<div id="ref-DPTextbook" class="csl-entry">
-
-Dwork, Cynthia, and Aaron Roth. 2014. "[The Algorithmic Foundations of Differential Privacy](https://doi.org/10.1561/0400000042)." *Foundations and Trends® in Theoretical Computer Science* 9 (3-4): 211--407, preprint <https://www.cis.upenn.edu/~aaroth/Papers/privacybook.pdf>.
-
-</div>
-
-<div id="ref-van_Erven_2014" class="csl-entry">
-
-Erven, Tim van, and Peter Harremoës. 2014. "[Rényi Divergence and Kullback-Leibler Divergence](https://doi.org/10.1109/tit.2014.2320500)." *IEEE Transactions on Information Theory* 60 (7): 3797--3820, preprint <https://arxiv.org/abs/1206.2459>.
-
-</div>
-
-<div id="ref-FU_2022" class="csl-entry">
-
-Fu, Jie, Zhili Chen, and XinPeng Ling. 2022. "[SA-DPSGD: Differentially Private Stochastic Gradient Descent Based on Simulated Annealing](https://doi.org/10.48550/ARXIV.2211.07218)." arXiv.
-
-</div>
-
-<div id="ref-Mironov_2017" class="csl-entry">
-
-Mironov, Ilya. 2017. "[Rényi Differential Privacy](https://doi.org/10.1109/csf.2017.11)." In *2017 IEEE 30th Computer Security Foundations Symposium (CSF)*. IEEE, preprint <https://arxiv.org/abs/1702.07476>.
-
-</div>
-
-<div id="ref-Arvind_2006" class="csl-entry">
-
-Narayanan, Arvind, and Vitaly Shmatikov. 2006. "[How to Break Anonymity of the Netflix Prize Dataset](https://doi.org/10.48550/ARXIV.CS/0610105)." arXiv.
-
-</div>
-
-<div id="ref-shannon1948mathematical" class="csl-entry">
-
-Shannon, C. E. 1948. "[A Mathematical Theory of Communication](https://doi.org/10.1002/j.1538-7305.1948.tb01338.x)." *The Bell System Technical Journal* 27 (3): 379--423.
-
-</div>
-
-<div id="ref-sweeney2015only" class="csl-entry">
-
-Sweeney, Latanya. 2015. "[Only You, Your Doctor, and Many Others May Know](https://techscience.org/a/2015092903/)." *Technology Science*, no. 9.
-
-</div>
-
-<div id="ref-Sergio_2015" class="csl-entry">
-
-Verdú, Sergio. 2015. "[$\alpha$-Mutual Information](https://doi.org/10.1109/ITA.2015.7308959)." In *2015 Information Theory and Applications Workshop (ITA)*, 1--6.
-
-</div>
-
-</div>
+- Dwork, Cynthia, and Aaron Roth. 2014. "[The Algorithmic Foundations of Differential Privacy](https://doi.org/10.1561/0400000042)." *Foundations and Trends® in Theoretical Computer Science* 9 (3-4): 211--407, preprint <https://www.cis.upenn.edu/~aaroth/Papers/privacybook.pdf>.
+- Erven, Tim van, and Peter Harremoës. 2014. "[Rényi Divergence and Kullback-Leibler Divergence](https://doi.org/10.1109/tit.2014.2320500)." *IEEE Transactions on Information Theory* 60 (7): 3797--3820, preprint <https://arxiv.org/abs/1206.2459>.
+- Fu, Jie, Zhili Chen, and XinPeng Ling. 2022. "[SA-DPSGD: Differentially Private Stochastic Gradient Descent Based on Simulated Annealing](https://doi.org/10.48550/ARXIV.2211.07218)." arXiv.
+- Mironov, Ilya. 2017. "[Rényi Differential Privacy](https://doi.org/10.1109/csf.2017.11)." In *2017 IEEE 30th Computer Security Foundations Symposium (CSF)*. IEEE, preprint <https://arxiv.org/abs/1702.07476>.
+- Narayanan, Arvind, and Vitaly Shmatikov. 2006. "[How to Break Anonymity of the Netflix Prize Dataset](https://doi.org/10.48550/ARXIV.CS/0610105)." arXiv.
+- Shannon, C. E. 1948. "[A Mathematical Theory of Communication](https://doi.org/10.1002/j.1538-7305.1948.tb01338.x)." *The Bell System Technical Journal* 27 (3): 379--423.
+- Sweeney, Latanya. 2015. "[Only You, Your Doctor, and Many Others May Know](https://techscience.org/a/2015092903/)." *Technology Science*, no. 9.
+- Verdú, Sergio. 2015. "[$\alpha$-Mutual Information](https://doi.org/10.1109/ITA.2015.7308959)." In *2015 Information Theory and Applications Workshop (ITA)*, 1--6.
 
 [^1]: In the following there will be some shenanigans going as to what happens for probability 0 subsets, especially since the value of a conditional probability is not well defined in such cases. Luckily this issue is mostly ignored in articles over differential privacy so it shall be ignored here as well.
 
