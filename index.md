@@ -5,11 +5,8 @@ layout: default
 
 # Latest Posts
 
-<dl>
 {% for post in site.posts limit:10 %}
-<dt>{{ post.date }}</dt>
-<dd>[{{ post.title }}]({{ post.url }})</dd>
+- [{{ post.title }}]({{ post.url }}) (({{ post.date | date: %Y-%m-%d }}))
 {% endfor %}
-</dl>
 
 [More.](/posts)
