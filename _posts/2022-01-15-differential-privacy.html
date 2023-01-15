@@ -1,0 +1,1329 @@
+---
+title: Differential Privacy and Information Theory
+subtitle: How to Secure Data with a Broken Wifi Connection
+date: 2022-01-15
+excerpt: |
+    The goal of this article is to provide a link between differential
+    privacy and information theory. It will start with a short overview of
+    the definitions for differential privacy and information theory. The
+    next section will show how differential privacy and information theory
+    are linked, explain Shannon's noisy channel theorem and what it means
+    for differential privacy. Finally this article will demonstrate how
+    properties of information can be used to protect data by seeing what
+    happens when we try to get more information out of a dataset than we're
+    supposed to.
+---
+<h2 id="introduction">Introduction</h2>
+<p>The goal of this article is to provide a link between differential
+privacy and information theory. It will start with a short overview of
+the definitions for differential privacy and information theory. The
+next section will show how differential privacy and information theory
+are linked, explain Shannon’s noisy channel theorem and what it means
+for differential privacy. Finally this article will demonstrate how
+properties of information can be used to protect data by seeing what
+happens when we try to get more information out of a dataset than we’re
+supposed to.</p>
+<p>Differential privacy is a method to ensure private data is kept
+secure while still allowing aggregated statistics like averages,
+correlation coefficients, histograms to be calculated and published. The
+ability to do this in a way that is secure is of great importance, not
+only because the aggregated data can be of great value to society as a
+whole but also because current methods vary between redacting the parts
+that are considered identifying, which is far from secure, or labelling
+everything private information and forbidding all processing
+thereof.</p>
+<p>While differential privacy is a relatively recent concept, this
+article will show it is linked to some of the earliest theorems of
+information theory (due to Shannon) and that by linking differential
+privacy with information theory it becomes possible to reason about
+flows of private information and choose an appropriate level of
+protection for the data.</p>
+<p>The method used in this article also gives a way to relax the
+requirements of differential privacy in a way that ensures the
+information is still protected. Differential privacy does provide a
+parameter that can be tuned which raise or lowers the amount of
+information that can be leaked about an individual (also called a
+privacy budget), resulting in a lower or higher amount of noise added to
+the output. This article will show what effect this parameter has on the
+amount of information that can be leaked, why it does not allow certain
+types of noise, and how to relax the conditions to allow more types of
+noise and what the trade-offs are.</p>
+<p>Along the way it will become clear that where Shannon was concerned
+with getting the maximum amount of information through a channel and
+differential privacy is concerned with limiting the flow of information
+from a dataset, they both measure this flow of information in an
+analogous way but for the opposite purpose. In this sense differential
+privacy is like protecting private information by putting it behind a
+deliberately broken wifi connection, incapable of transmitting any
+useful amount of information (except by aggregating the output of
+<em>many</em> such connections at the same time).</p>
+<h2 id="differential-privacy">Differential privacy</h2>
+<p>Differential privacy is a method to protect individual rows in a
+dataset while still allowing the calculation of aggregated statistics.
+It does this by limiting how much the value of one row (or one
+individual) is allowed to affect the output of a query. The idea is that
+this will prevent the query from leaking information that can be tied to
+a single individual.</p>
+<p>Recently the concept of differential privacy has been developed
+further and implemented by several organisations to allow researchers to
+use datasets while protecting personally identifiable information. Among
+others the U.S. census bureau has started using it in their publications
+about census results and Microsoft has collaborated with Harvard to
+build an open source implementation as part of the <a
+href="https://opendp.org/">OpenDP Project</a></p>
+<p>The advantage of this approach to other approaches such as
+pseudonymisation or redacting part of the data is that it can limit the
+leakage of <em>any</em> information regardless of what knowledge an
+attacker already has. In the past approaches based on merely redacting
+data have proven to be vulnerable. One such example was Netflix’s
+contest to improve its recommender engine, in which they provided a
+limited redacted subset of viewer data, which nevertheless contained
+enough information to allow researchers to identify individuals in the
+database uniquely by combining it with other information <span
+class="citation" data-cites="Arvind_2006">(<a href="#ref-Arvind_2006"
+role="doc-biblioref">Narayanan and Shmatikov 2006</a>)</span>. Similar
+incidents have happened through the sharing or selling of anonymized
+medical records, best exemplified by Latanya Sweeney who deanonymised
+the medical records of a U.S. senator and went on to show how to do the
+same for many other such records using publicly available information
+like newspaper articles <span class="citation"
+data-cites="sweeney2015only">(<a href="#ref-sweeney2015only"
+role="doc-biblioref">Sweeney 2015</a>)</span>.</p>
+<p>While differential privacy provides tools to prevent the leakage of
+private information at the source the mathematical theory behind it has
+so far shied away from actually calling it information, mostly focussing
+on the <em>how</em> and not necessarily the <em>why</em> or
+<em>what</em>, this has led to the (re)discovery of several theorems
+about information that aren’t identified as such and were partially or
+fully known as other theorems. This is not surprising since there are
+gaps in the information theory required to reason about differential
+privacy and some theory simply does not (yet) exist. Hopefully this
+article can help close the gap somewhat and both allow the usage of
+whatever mathematical machinery already exists as well as give a clearer
+picture of <em>why</em> this all works.</p>
+<p>The exact definitions will follow later in the article, but for now
+the key thing to take away is that differential privacy prevents the
+leakage of information by limiting the change in probability of a
+particular output for two datasets differing by a single row. And when
+it comes to flows of information as well as measuring differences
+between probabilities, Shannon’s work can not be ignored.</p>
+<h2 id="shannon-and-information-theory">Shannon and Information
+Theory</h2>
+<p>Shannon lay the foundations for information theory by applying the
+concept of entropy to the problem of communicating over a noisy channel.
+In his article ‘A Mathematical Theory of Communication’ <span
+class="citation" data-cites="shannon1948mathematical">(<a
+href="#ref-shannon1948mathematical" role="doc-biblioref">Shannon
+1948</a>)</span> he showed how entropy could be used to define the
+information capacity of a channel mathematically, what the maximum
+possible rate of information is and how it could (theoretically) be
+achieved. In some sense the main problems of information theory were
+solved before the field of information theory even existed.</p>
+<p>Entropy is a measure of the amount of randomness and in general if it
+is higher then the output is less ‘known’ (so if we want to communicate
+information the end result should be a <em>decrease</em> in entropy).
+This can also be generalized into something called relative entropy or
+divergence which is a measure of how different two probability functions
+are. In particular how much information is lost or gained if we use one
+probability function over the other. This relative entropy is
+particularly important when defining how much information can pass
+through a channel (where the relative entropy is used to calculate how
+much information was gained after receiving a signal).</p>
+<p>Linking these concepts to differential privacy requires the work of
+Rényi, a Hungarian mathematician who generalized the concept of entropy
+that Shannon was working with. He showed a way to add an additional
+parameter to the definition of entropy which when set to 1 results in
+the definitions used by Shannon, but also allows other values which
+result in a similar but slightly different notion of entropy. This
+generalisation makes it possible to interpolate between Shannon’s
+definitions and the ones used in differential privacy, which has been
+done before <span class="citation" data-cites="Mironov_2017">(<a
+href="#ref-Mironov_2017" role="doc-biblioref">Mironov 2017</a>)</span>.
+This article will go a step further and show that the information
+capacity of a channel as defined by Shannon and the privacy of a system
+as defined in differential privacy are specific cases of a more general
+Rényi channel capacity (which will be defined in the following
+section).</p>
+<p>Unfortunately while Rényi’s definitions have been used before in
+information theory, their use is not particularly widespread and there
+is some ambiguity on how to define some of the concepts. The definitions
+used in this article were chosen to facilitate proofs and get some
+useful properties for the protection of privacy (the group-privacy
+property in particular).</p>
+<h2 id="definitions">Definitions</h2>
+<p><span class="math display"> % Definitions
+\gdef\d{\textrm{d}}
+\gdef\D{\textrm{D}}
+\gdef\H{\textrm{H}}
+\gdef\I{\textrm{I}}
+\gdef\E{\mathbb{E}}
+</span></p>
+<h3 id="varepsilon-privacy"><span
+class="math inline">\varepsilon</span>-privacy</h3>
+<p>Differential privacy uses a concept called <span
+class="math inline">\varepsilon</span>-privacy, which puts a limit on
+the amount of effect a change in a single row is allowed to have on the
+output of a query. The usual definition of <span
+class="math inline">\varepsilon</span>-privacy is as follows. If <span
+class="math inline">f</span> is a stochastic function representing the
+query, then <span class="math inline">f</span> is defined to be <span
+class="math inline">\varepsilon</span>-private if <span
+class="math display">
+P(f(D) \in E) \le e^\varepsilon P(f(D&#39;) \in E)
+</span> for all events <span class="math inline">E</span>, and all
+datasets <span class="math inline">D</span> and <span
+class="math inline">D&#39;</span> that only differ on a single row.</p>
+<p>Note that this results in a randomized answer for a specific query,
+where the randomization ensures that the probability to get a specific
+answer does not change much when just a single row is changed. This
+ensures a query is not able to leak much information (which will become
+explicit once the amount of information leaked by the query is
+defined).</p>
+<h3 id="varepsilon-delta-privacy"><span
+class="math inline">(\varepsilon, \delta)</span>-privacy</h3>
+<p>To relax the strict requirements of <span
+class="math inline">\varepsilon</span>-privacy a common extension of
+<span class="math inline">\varepsilon</span>-privacy is <span
+class="math inline">(\varepsilon, \delta)</span>-privacy, which adds an
+additional term <span class="math inline">\delta</span> to the
+condition</p>
+<p><span class="math display">
+P(f(D) \in E) \le e^\varepsilon P(f(D&#39;) \in E) + \delta.
+</span></p>
+<p>This is often explained as being <span
+class="math inline">\varepsilon</span>-private with probability <span
+class="math inline">1-\delta</span> (though what happens the remaining
+<span class="math inline">\delta</span> part of the time is left
+dangerously unspecified).</p>
+<p>The reason such a relaxation of <span
+class="math inline">\varepsilon</span>-privacy exists suggests that
+<span class="math inline">\varepsilon</span>-privacy is restrictive to
+the point that it gets unpractical. However it turns out the amount of
+information that <span class="math inline">\varepsilon</span>-privacy
+allows to leak through is proportional to <span
+class="math inline">\varepsilon</span> so if it is not the amount of
+information then what is it exactly that <span
+class="math inline">\varepsilon</span>-privacy does not allow? To answer
+this requires a more precise notion of information and an additional
+parameter <span class="math inline">\alpha</span> (which can also be
+used to relax <span class="math inline">\varepsilon</span>-privacy but
+in a more controlled fashion than with <span
+class="math inline">\delta</span>).</p>
+<h3 id="relative-entropy-divergence">Relative Entropy / Divergence</h3>
+<p>Relative entropy or divergence measures how much information is
+gained when going from a probability distribution <span
+class="math inline">Q</span> to a probability distribution <span
+class="math inline">P</span>. To keep things brief the exact definitions
+as used by Shannon are skipped and we immediately go to the
+generalization due to Rényi. This relative entropy, better known as the
+Rényi divergence, from <span class="math inline">Q</span> to <span
+class="math inline">P</span> is defined to be</p>
+<p><span class="math display">
+\D_\alpha(P \| Q)
+= \log \, \biggl\|\frac{\d P}{\d Q}\biggr\|_{P,\alpha-1}
+</span></p>
+<p>here the expression <span class="math inline">\frac{\d P}{\d
+Q}</span> can be thought of as the quotient of the two probability
+densities.</p>
+<p>This divergence has a parameter <span
+class="math inline">\alpha</span>. Setting this <span
+class="math inline">\alpha</span> to <span class="math inline">1</span>
+turns this divergence into the Kullback-Leibler divergence which is
+based on Shannon’s notion of entropy. Almost every definition or formula
+based on this divergence will have a (famous) analogue based on
+Shannon’s notion of entropy when setting <span
+class="math inline">\alpha</span> to <span class="math inline">1</span>.
+At higher <span class="math inline">\alpha</span> the maximum distance
+between the two probability densities starts dominating the expression
+until eventually at <span class="math inline">\alpha=\infty</span> the
+value is simply equal to the maximum of <span class="math inline">\log
+\frac{\d P}{\d Q}</span> (this is related to the so called
+max-entropy).</p>
+<p>Some useful properties of this divergence are that it is
+non-negative, increases monotonically with <span
+class="math inline">\alpha</span>, and is 0 if and only if <span
+class="math inline">P</span> and <span class="math inline">Q</span> are
+the same.</p>
+<details>
+<summary>
+More details
+</summary>
+<ol type="1">
+<li><p>As <span class="math inline">\alpha</span> goes to 1 this
+definition approaches the Kullback-Leibler divergence, which is related
+to Shannon’s definition of entropy: <span class="math display">
+\D_{KL}(P \| Q)
+= \E_P\left[\log \left(\frac{\d P}{\d Q}\right) \right]
+</span></p></li>
+<li><p>The actual definition of <span class="math inline">\frac{\d P}{\d
+Q}</span> is the Radon-Nikodym derivative. Importantly this makes the
+divergence independent of the choice of coordinates.</p></li>
+<li><p>The (absolute) entropy can be recovered by comparing a
+probability measure to a uniform measure (though then the result will
+depend on the choice of coordinates used).</p></li>
+<li><p>The notation <span class="math inline">\| f \|_{P, a}</span> is
+used here to emphasize the relation to the <span
+class="math inline">\alpha-1</span>-norm. It is defined as follows<br />
+<span class="math display">
+   \| f \|_{P, a} = \E_P[ |f|^a ]^{1/a}  = \biggl( \int |f|^a \d P
+\biggr)^{1/a}
+   </span><br />
+in particular this implies that as <span
+class="math inline">\alpha</span> goes to <span
+class="math inline">\infty</span> the result will be the logarithm of
+the <span class="math inline">\infty</span>-norm, which is essentially
+the maximum value, ignoring probability 0 subsets. Some properties of
+the <span class="math inline">\alpha-1</span>-norm carry over to the
+<span class="math inline">\alpha</span>-divergence, in particular the
+Hölder inequality is useful.</p></li>
+<li><p>For more properties of the <span
+class="math inline">\alpha</span>-divergence see <span class="citation"
+data-cites="van_Erven_2014">(<a href="#ref-van_Erven_2014"
+role="doc-biblioref">Erven and Harremoës 2014</a>)</span>.</p></li>
+</ol>
+</details>
+<h3 id="mutual-information">Mutual information</h3>
+<p>With relative entropy it is possible to express how much two random
+variables <span class="math inline">X</span> and <span
+class="math inline">Y</span> depend on one another by looking at how
+much difference there is between sampling <span
+class="math inline">X</span> and <span class="math inline">Y</span>
+independently from one another, and sampling them together. This can be
+done by measuring the divergence of the joint probability <span
+class="math inline">P_{XY}</span> from the product of the two marginal
+probabilities <span class="math inline">P_X P_Y</span>. This is the
+justification for defining the Rényi mutual information to be</p>
+<p><span class="math display">
+\I_\alpha(X; Y) = \D_\alpha(P_{XY} \| P_X P_Y).
+</span></p>
+<h3 id="channel-capacity">Channel Capacity</h3>
+<p>A channel is a pair of random variables <span
+class="math inline">X</span> and <span class="math inline">Y</span> that
+are linked to one another. The assumption is that <span
+class="math inline">X</span> can be chosen by the sender with <span
+class="math inline">Y</span> being the received signal. A noisy channel
+is one where the received signal is not deterministic but instead is
+random with distribution <span class="math inline">P_{Y|X}</span>.</p>
+<p>One example is the binary symmetric channel where <span
+class="math inline">X</span> is either <span
+class="math inline">0</span> or <span class="math inline">1</span>, and
+<span class="math inline">Y</span> has the same value with probability
+<span class="math inline">1-p</span>, or the opposite value with
+probability <span class="math inline">p</span>. Another example is the
+“Additive White Noise Gaussian” channel, where <span
+class="math inline">Y</span> is <span class="math inline">X + N</span>
+where <span class="math inline">N</span> is some random noise with a
+gaussian distribution.</p>
+<p>The maximum capacity of such a channel is the maximum of the mutual
+information for all (possible) choices of <span
+class="math inline">P_X</span>, keeping <span
+class="math inline">P_{Y|X}</span> fixed.</p>
+<p><span class="math display">
+C_\alpha = \sup_{P_X} \I_\alpha(X ; Y).
+</span></p>
+<p>This definition of channel capacity agrees with the one used by
+Shannon in his proof of the noisy channel theorem at <span
+class="math inline">\alpha=1</span>. This channel capacity also
+increases monotonically in <span class="math inline">\alpha</span>
+(since <span class="math inline">\I_\alpha</span> does).</p>
+<p>Other definitions for both the mutual information and channel
+capacity exist, but may fail to be able to ensure <span
+class="math inline">\varepsilon</span>-privacy. The definitions used
+here are compatible with the definition of <span
+class="math inline">\varepsilon</span>-privacy, ensure the properties of
+the <span class="math inline">\alpha</span>-divergence carry over
+directly to the channel capacity, and make the proofs of various
+properties easier (and possible).</p>
+<details>
+<summary id="sibson">
+Sibson’s definition
+</summary>
+<p>One such alternative definition, due to Sibson <span class="citation"
+data-cites="Sergio_2015">(<a href="#ref-Sergio_2015"
+role="doc-biblioref">Verdú 2015</a>)</span>, can be defined as
+follows:</p>
+<p><span class="math display">
+\I^s_\alpha(X;Y) = \min_{Q_Y} \D_\alpha(P_{Y|X} P_X \| Q_Y P_X).
+</span></p>
+<p>the reasoning behind this definition is that unlike in the <span
+class="math inline">\alpha=1</span> case the <span
+class="math inline">P_Y</span> distribution does not actually properly
+minimize the distance to <span class="math inline">P_{Y|X}</span> on
+average, so in some sense this was information that was already ‘known’
+but that the ‘naive’ definition didn’t take into account.</p>
+<p>The minimizing distribution <span class="math inline">Q_Y^*</span>
+can in fact be identified and this gives an easier to calculate
+expression for the mutual information, which is very helpful in
+estimating channel capacity.</p>
+<p><span class="math display">
+\begin{aligned}
+Q_Y^* &amp;= \frac1{Z} \left\| \frac{\d P_{Y|X}}{\d Y} \right\|_{P_X,
+\alpha}\\
+\I^s_\alpha(X;Y) &amp;= \frac{\alpha}{\alpha-1} \log (Z)
+=  \frac{\alpha}{\alpha-1} \log \int \left\| \frac{\d P_{Y|X}}{\d Y}
+\right\|_{P_X, \alpha} \d Y
+\end{aligned}
+</span></p>
+<p>Here <span class="math inline">Z</span> is a normalizing constant,
+and the norm <span class="math inline">\left\| \frac{\d P_{Y|X}}{\d Y}
+\right\|_{P_X, \alpha}</span> is the norm as function of <span
+class="math inline">X</span>. The definition uses an apparently
+arbitrary measure on <span class="math inline">Y</span> but is in fact
+independent of which measure is chosen as long as <span
+class="math inline">P_{Y|X}</span> is absolutely continuous with respect
+to that measure for almost all <span class="math inline">X</span>.</p>
+<p>Despite these nice properties it isn’t useful as a definition of
+channel capacity when it comes to differential privacy as it cannot
+guarantee <span class="math inline">\varepsilon</span>-privacy even at
+<span class="math inline">\alpha=\infty</span>. Consider for instance
+the binary symmetric channel where <span class="math inline">X</span>
+and <span class="math inline">Y</span> both have two possible values and
+they agree with probability <span class="math inline">1-p</span>. In
+this case <span class="math inline">Q_Y</span> will be the uniform
+distribution in order to minimize the worst case divergence, but <span
+class="math inline">P_Y</span> can be anything including <span
+class="math inline">(p, 1-p)</span>, which leads to the worst case <span
+class="math inline">D_\infty(P_{Y|X} \| P_Y P_X) =
+\log(\max(\tfrac{p}{1-p}, \tfrac{1-p}{p}))</span>, which matches the
+value used in <span class="math inline">\varepsilon</span>-privacy,
+instead of <span class="math inline">\I^s_\infty(X;Y) = \log(2 \max(p,
+1-p))</span>. One of these diverges to infinity as <span
+class="math inline">p \to 0</span> whereas the other goes to <span
+class="math inline">\log(2)</span> instead (indeed the channel can only
+transmit 1 bit per second, but unfortunately that’s not exactly what
+we’re interested in).</p>
+<p>Sibson’s definition may still be useful as a necessary condition for
+a sufficient level of privacy as it will always be a lower bound for the
+channel capacity as defined here. This lower bound can be consider the
+‘radius’ of the set of distributions <span
+class="math inline">P_{Y|X}</span> with the divergence as metric, while
+the ‘diameter’ always gives an upper bound</p>
+<p><span class="math display">
+\sup_{P_X} \I^s_\alpha = \inf_{Q_Y} \sup_x \D_\alpha(P_{Y | X=x} | Q_Y)
+\le C_\alpha \le \sup_{x, x} \D_\alpha(P_{Y | X=x} \| P_{Y | X=x&#39;}).
+</span></p>
+<p>At <span class="math inline">\alpha=\infty</span> the latter
+inequality becomes an equality and this turns out to be very important
+when it comes to connecting channel capacity to <span
+class="math inline">\varepsilon</span>-privacy.</p>
+</details>
+<p>
+<h2 id="the-information-theory-of-privacy">The Information Theory of
+Privacy</h2>
+<h3 id="connecting-differential-privacy-to-shannon">Connecting
+Differential Privacy to Shannon</h3>
+<p>So on one hand there is the concept of <span
+class="math inline">\varepsilon</span>-privacy that limits the
+difference between two probabilities and on the other hand there is the
+concept of channel capacity in terms of the difference between two
+probability densities. At this point it probably won’t come as a
+surprise that these are equivalent.</p>
+<p>To go from one to the other <span
+class="math inline">\varepsilon</span>-privacy needs to be rephrased in
+terms of random variables by randomizing the value of a particular row
+in the database. Let <span class="math inline">X</span> be a random
+value and let <span class="math inline">Y=f(D)</span> be the output of
+<span class="math inline">f</span> if we replace a particular row (let’s
+say the first one) with <span class="math inline">X</span>, then <span
+class="math inline">f</span> is <span
+class="math inline">\varepsilon</span>-private precisely when</p>
+<p><span class="math display">
+C_\infty = \sup_{P_X} \I_\infty(X ; Y) \le \varepsilon.
+</span></p>
+<details>
+<summary>
+Mathematical Details
+</summary>
+<p>Recall the definition of <span
+class="math inline">\varepsilon</span>-privacy: <a href="#fn1"
+class="footnote-ref" id="fnref1" role="doc-noteref"><sup>1</sup></a></p>
+<p><span class="math display">
+P_{Y | X = x}(y) \le e^\varepsilon P_{Y | X = x&#39;}(y)  \quad
+\textrm{For almost all $y$, $x$ and $x&#39;$}
+</span></p>
+<p>Since the <span class="math inline">\infty</span>-norm equals the
+maximum of a function this is precisely.</p>
+<p><span class="math display">
+\sup_{x,x&#39;} D_\infty(P_{Y | X = x} \| P_{Y | X = x&#39;})
+=
+\sup_{y,x,x&#39;} \log \left( \frac{\d P_{Y | X = x}}{\d P_{Y | X =
+x&#39;}} (y) \right)
+\le
+\varepsilon
+</span></p>
+<p>Since the probability distributions such that <span
+class="math inline">P_X(X = x&#39;) = 1</span> are a subset of all
+possible distributions</p>
+<p><span class="math display">
+\begin{aligned}
+   \sup_{x,x&#39;} D_\infty(P_{Y | X = x} \| P_{Y | X = x&#39;})
+&amp;\ge \sup_{x,P_X} \log \, \biggl\| \frac{\d P_{Y | X = x}}{\d P_{Y}}
+\biggr\|_{\infty} \\
+&amp;= \sup_{P_X} \log \, \biggl\| \frac{\d P_{XY}}{\d P_X P_Y}
+\biggr\|_{\infty} \\
+&amp;= \sup_{P_X} \D_\infty\bigl(P_{XY} \| P_X P_Y\bigr) = \sup_{P_X}
+\I_\infty(X ; Y).
+\end{aligned}
+</span></p>
+<p>And with judicious use of Jensen’s inequality the mutual information
+can be bounded above by <span class="math display">
+\begin{aligned}
+\I_\alpha(X;Y)
+&amp;=
+\frac1{\alpha-1} \log \, \int \left(\frac{\d P_{Y | X}}{\d
+P_{Y}}\right)^{\alpha-1} \d P_{Y|X} \d P_X \\
+&amp;\le
+\frac1{\alpha-1} \log \, \int \left(\frac{\d P_{Y | X = x}}{\d P_{Y | X
+= x&#39;}}\right)^{\alpha-1} \d P_{Y|X} \d P_X(x) \d P_X(x&#39;) \\
+&amp;\le \sup_{x, x&#39;} \D_\alpha(P_{Y | X = x} \| P_{Y | X = x&#39;})
+\end{aligned}
+</span></p>
+<p>so at <span class="math inline">\alpha=\infty</span> the supremum of
+<span class="math inline">D_\infty(P_{Y | X = x} \| P_{Y | X =
+x&#39;})</span> is exactly the channel capacity and this is bounded by
+<span class="math inline">\varepsilon</span> if and only if the system
+is <span class="math inline">\varepsilon</span>-private.</p>
+</details>
+<p>Worth noting is that <span
+class="math inline">\varepsilon</span>-privacy restricts the channel
+capacity for all other <span class="math inline">\alpha</span> <span
+class="math display">
+\sup_{P_X} \I_\alpha(X ; Y) \le \sup_{P_X} \I_\infty(X ; Y).
+</span></p>
+<p>This needs to be generalized a bit to allow functions to depend on
+multiple rows. Say <span class="math inline">Y</span> is a function of
+the whole dataset <span class="math inline">D</span> then we should
+limit the channel capacity for each <span class="math inline">X_i</span>
+individually for all possible datasets</p>
+<p><span class="math display">
+\sup_{P_{D}} \I_\alpha(X_i ; Y) \le \varepsilon.
+</span></p>
+<p>Such a function can then be said to be <span
+class="math inline">\varepsilon</span>-private at level <span
+class="math inline">\alpha</span> (it is <span
+class="math inline">\varepsilon</span> private precisely when it is
+<span class="math inline">\varepsilon</span>-private at all levels).</p>
+<p>This definition is slightly different from the normal channel
+capacity, where only the distribution of one of the variables is
+changed, but this definition avoids the pitfall of only checking the
+output looks random if we don’t know the rest of the dataset. The
+difference between two random rows in the dataset might look random but
+nevertheless transmits the exact value of one row to anyone who already
+knows the other. The definition above protects the information
+regardless of what other knowledge someone may already have.</p>
+<p>Instead of taking the supremum over all distributions for the whole
+dataset it would also have been possible to view the channel capacity as
+a conditional mutual information, where one row is random and the others
+are kept fixed. This is not done for a couple of reasons.</p>
+<ul>
+<li>Using a supremum over all distributions for the whole dataset makes
+it easier to prove properties.</li>
+<li>In the course of various proofs a useful definition for conditional
+mutual information is encountered, which does not yield a higher channel
+capacity.</li>
+<li>It is more useful to know a property holds for all possible
+distributions of datasets.</li>
+<li>This definition gives full control over the distribution of the
+entire dataset, which gives a more natural way to e.g. restrict the
+variance of some values in the dataset. Such a restriction is in fact
+quite common in information theory where an unrestricted channel would
+be able to drown out pretty much all noise by raising the signal volume
+arbitrarily high. The usual approach in differential privacy requires
+processing the data with a function that limits the signal volume, which
+is a bit awkward.</li>
+</ul>
+<h3 id="what-is-alpha-the-different-levels-of-channel-capacity">What is
+<span class="math inline">\alpha</span>? The Different Levels of Channel
+Capacity</h3>
+<p>To give an idea what the effect of this new parameter <span
+class="math inline">\alpha</span> is this section will give some
+examples, in particular for the two extremes <span
+class="math inline">\alpha=1</span> and <span
+class="math inline">\alpha=\infty</span>.</p>
+<p>Looking at this in a Bayesian perspective, if at first <span
+class="math inline">X</span> was believed to have the prior distribution
+<span class="math inline">P_X</span> then after getting the output this
+belief should be updated to be <span class="math inline">P_{X|Y}</span>.
+If a system is <span class="math inline">\varepsilon</span>-private then
+the information gain (measured by the divergence from <span
+class="math inline">P_X</span> to <span
+class="math inline">P_{X|Y}</span>) is limited by <span
+class="math display">
+\D_\infty\bigl(P_{X | Y} \| P_{X}\bigr) \le \I_\infty(X ; Y) \le
+C_\infty = \varepsilon
+</span></p>
+<p>with probability 1. Compare this to the channel capacity as used by
+Shannon which only limits the divergence <em>on average</em></p>
+<p><span class="math display">
+\E_X\bigl[ \D_{1}(P_{X|Y} \| P_X) \bigr] = \I_1(X ; Y) \le C_1
+</span></p>
+<p>while other choices of <span class="math inline">\alpha</span>
+guarantee that</p>
+<p><span class="math display">
+\log \, \Bigl\| e^{\D_\alpha(P_{X|Y} \| P_X)} \Bigr\|_{\alpha-1} =
+\I_\alpha(X ; Y) \le C_\alpha.
+</span></p>
+<p>For <span class="math inline">\alpha&lt;\infty</span> it is not
+possible to say with 100% certainty that the output of a query won’t
+leak information. However if the channel capacity is low then the
+probability to leak a significant amount of information must also be low
+otherwise the average amount of information leaked would exceed the
+channel capacity. More precisely the probability that <span
+class="math inline">D_\alpha(P_{X|Y} \| P_X)</span> exceeds <span
+class="math inline">R</span> is at most<a href="#fn2"
+class="footnote-ref" id="fnref2" role="doc-noteref"><sup>2</sup></a></p>
+<p><span class="math display">
+P(\D_\alpha(P_{X|Y} \| P_X) \ge R)
+\le \frac{e^{(\alpha-1)\varepsilon} - 1}{e^{(\alpha-1)R} - 1}
+</span></p>
+<p>in the special case <span class="math inline">\alpha=1</span> the
+right hand side becomes <span class="math inline">\varepsilon /
+R</span>. In general a higher <span class="math inline">\alpha</span>
+increases how quickly this probability must go to 0. In particular <span
+class="math inline">\varepsilon</span>-privacy is quite restrictive, it
+forbids <span class="math inline">D_\alpha(P_{X|Y} \| P_X)</span> from
+<em>ever</em> being higher than the channel capacity, limiting the
+leakage of information even in the worst possible case (when the output
+<span class="math inline">Y</span> causes the biggest leak of
+information possible).</p>
+<p>This makes <span class="math inline">\varepsilon</span>-privacy so
+restrictive that among other things it does not allow gaussian noise
+because, while <em>exceedingly</em> unlikely, it is in theory possible
+for gaussian noise to produce a value say <span
+class="math inline">100</span> standard deviations from the mean which
+would allow one to determine with a decent level of certainty whether
+the mean was a tenth of a standard deviation higher or lower. This is of
+great annoyance to anyone wanting to use <span
+class="math inline">\varepsilon</span>-privacy since gaussian noise has
+some very desirable properties <a href="#fn3" class="footnote-ref"
+id="fnref3" role="doc-noteref"><sup>3</sup></a>.</p>
+<p>In summary <span class="math inline">\alpha</span> interpolates
+between a measure of privacy that limits the average information gain at
+<span class="math inline">\alpha=1</span>, and one that limits the
+information gain even in the worst case at <span
+class="math inline">\alpha=\infty</span>, with higher <span
+class="math inline">\alpha</span> placing stronger emphasis on the worst
+case. However placing stronger restrictions on a system is not without
+its cost.</p>
+<p>It is also important to keep in mind a particular system doesn’t have
+a singular channel capacity but rather a channel capacity for all
+possible <span class="math inline">\alpha</span>, some of which are more
+important than others. In particular the capacity at <span
+class="math inline">\alpha=1</span> has some important consequences.</p>
+<h3 id="noisy-channel-theorem">Noisy Channel Theorem</h3>
+<p>Shannon’s definition for the channel capacity (<span
+class="math inline">\alpha=1</span>) has one distinct advantage, which
+is that it not only gives an upper limit for the amount of ‘information’
+that can pass through a channel but in his famous noisy channel theorem
+Shannon also showed that this limit can be achieved.</p>
+<p>A brief summary of this theorem is as follows. It is possible to
+define a typical set of messages and outputs, consisting of blocks of
+<span class="math inline">n</span> sent and received signals, and encode
+a set of <span class="math inline">e^{nR}</span> messages such that with
+arbitrarily high probability, each message and its resulting output are
+in the typical set and no other possible messages are in the typical set
+with the same output. This makes it possible to send information at a
+rate of <span class="math inline">R</span> nats per signal by mapping
+<span class="math inline">e^{nR}</span> codewords to the possible
+messages and decoding the resulting output by picking the codeword
+corresponding to the only possible message with that output in the
+typical set. <a href="#fn4" class="footnote-ref" id="fnref4"
+role="doc-noteref"><sup>4</sup></a></p>
+<details>
+<summary>
+Extremely Abridged Proof
+</summary>
+<p>Given a tuple <span class="math inline">(X^{(n)}, Y^{(n)})</span> of
+<span class="math inline">n</span> independent draws from <span
+class="math inline">P(X,Y)</span> then by the strong law of large
+numbers</p>
+<p><span class="math display">
+\frac1n \log \left(\frac{P(X^{(n)}, Y^{(n)})}{P(X^{(n)})
+P(Y^{(n)})}\right) = \frac1n \sum_i \log \left( \frac{P(X_i,
+Y_i)}{P(X_i) P(Y_i)} \right) \to \E \left[ \log \left(\frac{P(X,
+Y)}{P(X) P(Y)}\right) \right] = \I(X;Y)
+</span></p>
+<p>almost surely, so for any <span class="math inline">\delta</span> we
+can pick an <span class="math inline">n</span> large enough that</p>
+<p><span class="math display">
+e^{nI(X;Y) - \delta} \le \frac{P(X^{(n)}, Y^{(n)})}{P(X^{(n)})
+P(Y^{(n)})} \le e^{nI(X;Y) + \delta}
+</span></p>
+<p>with probability at least <span class="math inline">1 -
+\delta</span>. The set of tuples for which this holds is called the
+typical set and is denoted <span
+class="math inline">A^n_\delta</span>.</p>
+<p>For a random subset <span class="math inline">M</span> consisting of
+<span class="math inline">e^{nR}</span> independent samples of <span
+class="math inline">X^{(n)}</span> and any fixed <span
+class="math inline">Y^{(n)}</span> the average number of <span
+class="math inline">X^{(n)}</span> in <span class="math inline">M</span>
+such that <span class="math inline">(X^{(n)}, Y^{(n)})</span> is in
+<span class="math inline">A_\delta^{(n)}</span> is</p>
+<p><span class="math display">
+\sum_{\mathclap{\substack{X^{(n)} \\ (X^{(n)}, Y^{(n)}) \in
+A_\delta^{(n)} }}} |M| P\bigl( X^{(n)} )
+\le e^{nR} \sum_{\mathclap{\substack{X^{(n)} \\ (X^{(n)}, Y^{(n)}) \in
+A_\delta^{(n)} }}} e^{-n\I(X;Y)+\delta} \frac{P(X^{(n)},
+Y^{(n)})}{P(Y^{(n)})}
+\le e^{n(R-\I(X;Y))+\delta}.
+</span></p>
+If <span class="math inline">R &lt; I(X;Y)</span> this can be made
+arbitrarily small by increasing <span class="math inline">n</span>. If
+at least one such <span class="math inline">X^{(n)} \in M</span> exists
+then the chance of there being another is bounded by the same expression
+because the <span class="math inline">|M|</span> messages are chosen
+independently from on another. <span class="math inline">\square</span>
+</details>
+<p>A consequence of this theorem is that the channel capacity at level
+<span class="math inline">\alpha=1</span> effectively dictates at what
+rate it is possible to leak (sensitive) information out of the system.
+In fact given no further restriction on what queries are allowed this
+can be done for all rows in the dataset simultaneously (so from an
+information theoretical point of view it might be a good idea to limit
+the global channel capacity as well, not just the row-wise
+capacity).</p>
+<p>The best we can expect from an <span
+class="math inline">\varepsilon</span>-private query at <span
+class="math inline">\alpha&gt;1</span> is that it does not have a
+channel capacity higher than <span
+class="math inline">\varepsilon</span> at <span
+class="math inline">\alpha=1</span>. This means that of the two ways to
+relax the requirement that a system is <span
+class="math inline">\varepsilon</span>-private at level <span
+class="math inline">\alpha</span>, raising <span
+class="math inline">\varepsilon</span> allows <em>more</em> information
+to leak, while restricting the channel capacity at a lower <span
+class="math inline">\alpha</span> does not allow information to leak at
+a higher rate <em>on average</em> but does allow more outliers in the
+rate at which information leaks.</p>
+<h2 id="hacking-varepsilon-privacy">Hacking <span
+class="math inline">\varepsilon</span>-privacy</h2>
+<p>To figure out how this all can be used to protect privacy let us see
+what limitations we encounter when we try to do the reverse and get more
+information out of a dataset than we’re supposed to. Along the way we
+encounter restrictions that all boil down to somewhat intuitive
+statements about how information behaves.</p>
+<h3 id="data-processing-inequality">Data Processing Inequality</h3>
+<p>While it might seem promising to use post-processing to enhance the
+output of a query into something more informative, alas the information
+that can pass through a channel doesn’t suddenly change if something is
+done to it’s output</p>
+<blockquote>
+<p><strong>Data Processing Inequality</strong></p>
+<p>No matter what kind of processing is used the information does not
+increase. In differential privacy this is also known as robustness to
+postprocessing. The exact statement is that for any (stochastic)
+function <span class="math inline">g</span> of <span
+class="math inline">Y</span> the mutual information between <span
+class="math inline">X</span> and <span class="math inline">g(Y)</span>
+cannot be greater than between <span class="math inline">X</span> and
+<span class="math inline">Y</span>. <span class="math display">
+\I_\alpha(X; g(Y)) \le \I_\alpha(X; Y) \le C_\alpha.
+</span></p>
+</blockquote>
+<p>This simple fact, also known as the data processing inequality, has
+big consequences because it forbids certain end results, even when we
+don’t know how such an end result could be reached.</p>
+<p>The data processing inequality also works the other way around (since
+the definition for mutual information is symmetric), no matter what
+private information has been processed to calculate the values in the
+dataset this information is protected in the same way.</p>
+<h3 id="protection-against-b-outcomes">Protection against B…
+Outcomes</h3>
+<p>The full effect of the data processing inequality becomes apparent if
+we try to circumvent the protection and just try to make a system that
+tries to treat some people worse than others. Let’s say that we have a
+group of people <span class="math inline">A</span> that we want to make
+some set of ‘bad’ outcomes <span class="math inline">B</span> more
+likely for, since membership of <span class="math inline">A</span> and
+membership of <span class="math inline">B</span> are both binary
+variables the data processing inequality allows us to reduce this to the
+problem of sending 1 bit over a channel.</p>
+<p>In differential privacy the very definition gives an immediate way to
+limit <span class="math inline">P_{Y|X}</span> but this does not
+generalize well to lower <span class="math inline">\alpha</span><a
+href="#fn5" class="footnote-ref" id="fnref5"
+role="doc-noteref"><sup>5</sup></a>. To show how restricting the channel
+capacity restricts the possible outcomes it is best to look at an
+illustrative example. The example chosen here is the binary symmetric
+channel for which the channel capacity is well known (due to Shannon)
+and this turns out to generalise nicely into a result that exemplifies
+the protection against bad outcomes.</p>
+<p>In a binary symmetric channel members of <span
+class="math inline">A</span> get an outcome in <span
+class="math inline">B</span> with probability <span
+class="math inline">1-p</span> and other people get an outcome in <span
+class="math inline">B</span> with probability <span
+class="math inline">p</span>. If such a system is <span
+class="math inline">\varepsilon</span>-private at level <span
+class="math inline">\alpha</span> then picking <span
+class="math inline">{ P_X = (\tfrac12, \tfrac12) }</span> and
+calculating the mutual information results in the following</p>
+<p><span class="math display">
+\log(2) - \H_\alpha(p) \le \varepsilon
+</span></p>
+<p>were <span class="math inline">{ \H_\alpha(p) =-\frac1{\alpha-1}\log(
+p^\alpha + (1-p)^\alpha ) }</span> is the binary Rényi entropy. At <span
+class="math inline">\alpha=1</span> this turns into the regular Shannon
+entropy and the above turns into a well known formula for the channel
+capacity of a binary symmetric channel. At <span
+class="math inline">p=\frac12</span> the channel capacity reaches its
+minimum of <span class="math inline">0</span> and a small deviation from
+<span class="math inline">p=\frac12</span> causes the channel capacity
+to rise (with higher <span class="math inline">\alpha</span> the channel
+capacity rises more quickly). This forces the probability <span
+class="math inline">p</span> to be close to <span
+class="math inline">\frac12</span> as <span
+class="math inline">\varepsilon</span> gets smaller, meaning that
+membership of <span class="math inline">A</span> is only allowed to have
+a weak effect on any outcome based on an <span
+class="math inline">\varepsilon</span>-private system.</p>
+<details>
+<summary>
+Sufficient vs Necessary
+</summary>
+<p>This equation is a necessary condition for a system to be <span
+class="math inline">\varepsilon</span>-private at level <span
+class="math inline">\alpha</span> but no its own it is not sufficient,
+systems that satisfy the equation may fail to be <span
+class="math inline">\varepsilon</span>-private. For <span
+class="math inline">\alpha=1</span> the left hand side does agree
+exactly with the channel capacity, but for higher <span
+class="math inline">\alpha</span> the left hand side is slightly less
+than the channel capacity. The exact channel capacity is somewhat tricky
+to calculate, but a simple sufficient condition can be found by looking
+at the maximum divergence between the probability of <span
+class="math inline">B</span> given <span class="math inline">A</span>
+and given <span class="math inline">\neg A</span>, this yields</p>
+<p><span class="math display">
+\frac1{\alpha-1} \log \biggl( \frac{p^\alpha}{(1-p)^{\alpha-1}} +
+\frac{(1-p)^\alpha}{p^{\alpha-1}}\biggr) \le \varepsilon
+</span></p>
+<p>if <span class="math inline">X</span> and <span
+class="math inline">Y</span> are the binary variables denoting
+membership of <span class="math inline">A</span> and <span
+class="math inline">B</span> respectively then this is precisely the
+diameter of the channel <span class="math inline">\sup_{x,x&#39;}
+\D_\alpha(P_{Y|X=x} \| P_{Y | X=x&#39;})</span> while <span
+class="math inline">\log(2) - \H_\alpha(p)</span> is the radius of the
+channel. Careful readers may remember that these are exactly the two
+bounds discussed in the section on <a href="#sibson">Sibson’s
+definition</a>. Not coincidentally the ratio between the radius and the
+diameter approaches 2 in the small <span
+class="math inline">\varepsilon</span> high <span
+class="math inline">\alpha</span> limit.</p>
+</details>
+<p>
+<p>Note however that this protection can only prevent people from being
+singled out, it cannot prevent someone from doing bad things with the
+data and does not protect larger groups of people. Besides, mathematics
+does not care if <span class="math inline">B</span> stands for ‘bad’ or
+‘beneficial’ so it would be equally accurate to term this the
+‘protection against beneficial outcomes’ (though that name has never
+caught on for some reason). Strengthening this protection would prevent
+<em>any</em> outcome, bad or otherwise.</p>
+<p>Given a choice to participate this protection does ensure that
+participating will not lead to a hugely different outcome for that
+person, but if the data is used in an irresponsible or discriminatory
+way the outcome may still hurt the people who’s data was included in the
+dataset<a href="#fn6" class="footnote-ref" id="fnref6"
+role="doc-noteref"><sup>6</sup></a>. Even if someone’s individual choice
+does not matter it may in some cases still be better for people to
+decline in the hopes that other people are wise enough to make the same
+choice (much like voting). Differential privacy is not a magic bullet
+that makes algorithms behave responsibly, responsibility still lies with
+the people using the algorithms.</p>
+<h3 id="group-privacy-and-composability">Group Privacy and
+Composability</h3>
+<p>Another approach to try and get more information out of the dataset
+is to combine the information of multiple queries and/or multiple rows.
+While this does work a bit the effect is limited. Which is to be
+expected from an information theoretical point of view, intuitively the
+information that can flow from <span class="math inline">n</span> rows
+is the sum of the amount of information per row, and the amount of
+information of <span class="math inline">n</span> queries (about one
+row) is the total sum of the information per query (about that row). So
+unfortunately for any would-be hackers the combined information can
+never be more than the sum of its parts. The following makes this
+explicit.</p>
+<p>In differential privacy terminology these two properties are called
+group privacy when it comes to combining multiple inputs with one output
+and composability when it comes to combining multiple outputs with the
+same input. These properties make it possible to combine queries without
+needing to completely recalculate the channel capacity or to reason how
+quickly the privacy deteriorates when looking at greater groups of
+people (as noted before privacy <em>should</em> deteriorate for larger
+groups or there would be no useful queries). Unfortunately the added
+flexibility of having multiple levels of privacy makes these properties
+a bit messier than their Shannon / differential privacy
+counterparts.</p>
+<blockquote>
+<p><strong>Group privacy</strong></p>
+<p>If <span class="math inline">Y</span> is <span
+class="math inline">\varepsilon</span>-private at level <span
+class="math inline">\alpha</span> for each row then it is <span
+class="math inline">n \varepsilon</span>-private for a group of <span
+class="math inline">n</span> rows at level <span
+class="math inline">1+\frac{\alpha-1}{n}</span>.</p>
+<p>More generally if <span class="math inline">Y</span> is <span
+class="math inline">\varepsilon_i</span>-private at level <span
+class="math inline">\alpha_i</span> for row <span
+class="math inline">X_i</span> then <span class="math inline">Y</span>
+is <span class="math inline">\sum_i \varepsilon_i</span>-private at
+level <span class="math inline">\alpha</span> (where <span
+class="math inline">\frac1{\alpha-1} = \sum_i \frac1{\alpha_i -
+1}</span>).<a href="#fn7" class="footnote-ref" id="fnref7"
+role="doc-noteref"><sup>7</sup></a> For a group of <span
+class="math inline">n</span> rows <span
+class="math inline">X^{(n)}</span>. In general <span
+class="math inline">\alpha</span> will get closer to 1 as the group size
+increases (this is not necessarily a bad thing since it means we’re more
+likely to get useful information out of a big group), if we’re already
+at <span class="math inline">\alpha=1</span> the level doesn’t drop any
+lower.</p>
+</blockquote>
+<blockquote>
+<p><strong>Composability</strong></p>
+<p>Analogously if <span class="math inline">n</span> queries are
+conditionally independent given the dataset <span
+class="math inline">D</span> and each is <span
+class="math inline">\varepsilon</span>-private at level <span
+class="math inline">\alpha</span> then the combined query is <span
+class="math inline">n \varepsilon</span>-private at level <span
+class="math inline">1+\frac{\alpha-1}{n}</span>.</p>
+<p>More generally if <span class="math inline">Y_i</span> is <span
+class="math inline">\varepsilon_i</span>-private at level <span
+class="math inline">\alpha_i</span> for row <span
+class="math inline">X</span> then <span
+class="math inline">Y^{(n)}</span> is <span class="math inline">\sum_i
+\varepsilon_i</span>-private at level <span
+class="math inline">\alpha</span> (again where <span
+class="math inline">\frac1{\alpha-1} = \sum_i \frac1{\alpha_i -
+1}</span>)) for row <span class="math inline">X</span>. This theorem
+holds row-wise, so if the queries use disjoint sets of rows then the
+combined query is <span class="math inline">\max_i
+\varepsilon_i</span>-private at level <span class="math inline">\min_i
+\alpha_i</span>.</p>
+</blockquote>
+<p>Note that phrasing privacy in terms of information that flows from
+the rows to the output makes it easier to talk about the effect a query
+has on a particular individual in the dataset, and makes it a lot more
+natural to prove these statements in a way that tells us the exposure
+<em>per row</em> rather than requiring different theorems depending on
+whether the queries do or do not look at the same rows.</p>
+<p>Now except for <span class="math inline">\alpha=1</span> and <span
+class="math inline">\alpha=\infty</span> the <span
+class="math inline">n\varepsilon</span>-privacy for the combined
+input/output holds at a different level than the original because of the
+interactions between the random variables (if we had input/output pairs
+that were fully independent from each other the level wouldn’t change).
+In the <span class="math inline">\alpha=\infty</span> case these
+interactions do not matter much because the channel capacity assumes the
+worst case anyway, and for <span class="math inline">\alpha=1</span>
+we’re in some sense at the ‘lowest’ level already so the level does not
+drop any lower.</p>
+<details>
+<summary>
+Derivation
+</summary>
+<p>Proving these two properties requires some setup. The most
+straightforward derivation uses the following definition of conditional
+mutual information</p>
+<p><span class="math display">
+\I_\alpha(X ; Y | Z)
+= \frac1{\alpha-1}\log \E\left[ \left( \frac{\d P_{XY|Z}}{\d P_{X|Z}
+P_{Y|Z}} \right)^{\alpha-1} \right].
+</span></p>
+<p>Firstly using a telescoping product and Hölder’s theorem we get the
+following chain rule for all <span class="math inline">\frac1{\alpha-1}
+= \sum_i \frac1{\alpha_i - 1}</span>.</p>
+<p><span class="math display">
+\begin{aligned}
+\I_\alpha(X^{(n)} ; Y )
+&amp;= \log \left\| \frac{\d P_{Y | X^{(n)}}}{\d P_Y}
+\right\|_{\alpha-1}\\
+&amp;= \log \left\| \prod_i \frac{\d P_{Y | X^{(i)}}}{\d P_{Y |
+X^{(i-1)}}} \right\|_{\alpha-1}\\
+&amp;\le \sum_i \log \left\| \frac{\d P_{Y | X^{(i)}}}{\d P_{Y |
+X^{(i-1)}}} \right\|_{\alpha_i -1}
+=   \sum_i \I_{\alpha_i} (X_i ; Y | X^{(i-1)} )
+\end{aligned}
+</span></p>
+<p>Here <span class="math inline">X^{(i)}</span> is <span
+class="math inline">i</span>-tuple containing the first <span
+class="math inline">i</span> values. For brevity the measure in the
+subscript of the norms is omitted, here it is always the joint
+probability.</p>
+<p>Secondly the conditional channel capacity (when conditional mutual
+information is defined as below) is at most the unconditional channel
+capacity. This is because they are equal when conditioned on a dirac
+delta measure.</p>
+<p><span class="math display">
+\begin{aligned}
+\sup_{P_{XZ}} \I_\alpha(X ; Y | Z)
+&amp;= \sup_{P_Z P_{X|Z}} \frac1{\alpha-1}\log \E\left[ \left( \frac{\d
+P_{XY|Z}}{\d P_{X|Z} P_{Y|Z}} \right)^{\alpha-1} \right]\\
+&amp;= \sup_{z, P_{X|Z}} \frac1{\alpha-1}\log \E\left[ \left( \frac{\d
+P_{XY|Z=z}}{\d P_{X|Z=z} P_{Y|Z=z}} \right)^{\alpha-1} \right] &amp;
+\textrm{ Average can&#39;t exceed the maximum } \\
+&amp;= \sup_{z, P_{X|Z}} \frac1{\alpha-1}\log \E\left[ \left( \frac{\d
+P_{XY}}{\d P_{X} P_{Y}} \right)^{\alpha-1} \right] &amp; \textrm{where }
+P_Z = \delta_z\\
+&amp;\le \sup_{P_{XZ}} \I_\alpha(X ; Y).
+\end{aligned}
+</span></p>
+<p>The group privacy property now follows quite easily</p>
+<p><span class="math display">
+\begin{aligned}
+\sup_{P_{X^{(n)}}} \I_\alpha(X^{(n)} ; Y)
+&amp;\le \sup_{P_{X^{(n)}}} \sum_i \I_{\alpha_i}(X_i ; Y |
+X^{(&lt;i)})\\
+&amp;\le \sum_i \sup_{P_{X^{(n)}}} \I_{\alpha_i}(X_i ; Y | X^{(&lt;i)})
+\le \sum_i \sup_{P_{X^{(n)}}} \I_{\alpha_i}(X_i ; Y)
+= \sum_i \varepsilon_i
+\end{aligned}
+</span></p>
+<p>To proof for composability is a bit subtle, the simplest method is to
+assume each query is looking at a different the database and calculate
+the channel capacity using the supremum of the joint probability over
+all <span class="math inline">n</span> databases. Since this includes
+all distributions where the databases are equal this gives an upper
+limit for the channel capacity. Since the dependence of <span
+class="math inline">Y_i</span> on any other <span
+class="math inline">Y_j</span> only goes through <span
+class="math inline">P_{D_i}</span> the conditional mutual information
+can be turned into an unconditional one and the rest of the proof
+follows analogously to the above</p>
+<p>So let <span class="math inline">P_{\tilde{Y}_i | D_i} = P_{Y_i |
+D}</span> and <span class="math inline">P_{\tilde{Y}^{(n)} | D^{(n)}} =
+\prod_i P_{\tilde{Y}_i | D_i}</span> then</p>
+<p><span class="math display">
+\begin{aligned}
+\sup_{P_{D}} \I_\alpha(X(D) ; Y^{(n)})
+&amp;\le \sum_i \sup_{P_{D}} \I_{\alpha_i}(X(D) ; Y_i | Y^{(&lt;i)})\\
+&amp;\le \sum_i \sup_{P_{D^{(n)}}} \I_{\alpha_i}(X(D_i) ; \tilde{Y}_i |
+\tilde{Y}^{(&lt;i)})
+\le \sum_i \sup_{P_{D_i}} \I_{\alpha_i}(X(D_i) ; \tilde{Y}_i)
+\le \sum_i \varepsilon_i.
+\end{aligned}
+</span></p>
+</details>
+<h3 id="to-fix-a-broken-wifi">To Fix a Broken Wifi</h3>
+<p>If we want to leak data at the highest rate possible it makes sense
+to use Shannon’s theorem to get the maximum out of the noisy channels
+available to us. A slight complication is that it’s somewhat hard to
+tell what the maximum capacity is for an arbitrary query. For most
+classes of <span class="math inline">\varepsilon</span>-private queries
+the maximum capacity that can be achieved at level <span
+class="math inline">\alpha=1</span> is proportional to <span
+class="math inline">\varepsilon^2</span> (the first order derivative
+vanishes since <span class="math inline">\varepsilon=0</span> is an
+extremum). However in theory at least we could achieve a capacity of
+<span class="math inline">\varepsilon</span>. To avoid the problem let’s
+just assume we can make a channel that is <span
+class="math inline">\varepsilon</span>-private at all levels and has a
+channel capacity of <span class="math inline">C</span> at <span
+class="math inline">\alpha=1</span> (this implies <span
+class="math inline">C \le \varepsilon</span>)</p>
+<p>Now the first part is that we won’t simply plug the data from the
+dataset through the channel, instead we use Shannon’s theorem to turn
+our channel into one that can send <span class="math inline">nR</span>
+nats of data (with <span class="math inline">R &lt; C</span>) in blocks
+of size <span class="math inline">n</span>. This is possible because
+Shannon’s Theorem assures the existence of a so called error correction
+code that allows us to send useful information despite the noise. These
+error correction codes are also what is used to make keep wifi useful in
+noisy environments, or to get satellites to send information with a low
+power antenna through the atmosphere of the earth. A situation as in
+differential privacy where each signal is far less than a single bit is
+likely a bit extreme, but there has been plenty of research into the
+subject ever since Shannon showed such error correction codes must
+exist.</p>
+<p>Using the data processing inequality we know that the channel
+capacity doesn’t increase if we do some pre-processing so we can now
+take <span class="math inline">nR</span> nats of data from any row in
+the database and send it using <span class="math inline">n</span>
+queries. The data processing inequality ensures these queries are still
+<span class="math inline">\varepsilon</span>-private. Because of
+composability, it is also possible to pick <span
+class="math inline">R</span> nats of data from <span
+class="math inline">n</span> rows and send it using one query, if the
+rate is high enough to make this useful. Alternatively we can send <span
+class="math inline">nR</span> nats of data from all rows at the same
+time using <span class="math inline">n</span> queries.</p>
+<p>The fact that an attack on 1 row scales to an attack on all rows is
+something that should be somewhat concerning to people interested in
+keeping the data private, but it is easily prevented by placing some
+global limits on the channel capacity for queries (it would be enough to
+limit the channel capacity at <span
+class="math inline">\alpha=1</span>), or by limiting the number of
+independent queries by calculating the full set of results once and
+running the queries against that dataset instead.</p>
+<h3 id="hacking-varepsilon-delta-privacy">Hacking <span
+class="math inline">(\varepsilon, \delta)</span>-privacy</h3>
+<p>If we wanted to hack a protected dataset we could make our lives a
+bit easier if we were allowed to use the less restrictive <span
+class="math inline">(\varepsilon, \delta)</span>-privacy where the
+privacy condition is relaxed to</p>
+<p><span class="math display">
+P(f(D) \in E) \le e^\varepsilon P(f(D&#39;) \in E) + \delta.
+</span></p>
+<p>While this definition is similar to <span
+class="math inline">\varepsilon</span>-privacy it loses the connection
+to information theory and most of the theorems about channel capacity no
+longer apply.</p>
+<p>The concept of <span class="math inline">(\varepsilon,
+\delta)</span>-privacy was previously summarised as being <span
+class="math inline">\varepsilon</span>-private with probability <span
+class="math inline">1-\delta</span>. Which is one way of phrasing it. If
+our query function <span class="math inline">f</span> is equal to an
+<span class="math inline">\varepsilon</span>-private function <span
+class="math inline">g</span> with probability <span
+class="math inline">1 - \delta</span> and some other function <span
+class="math inline">h</span> with probability <span
+class="math inline">\delta</span> then this function is indeed <span
+class="math inline">(\varepsilon, \delta)</span>-private</p>
+<p><span class="math display">
+\begin{aligned}
+P(f(D) \in E)
+&amp;= (1-\delta)P(g(D) \in E) + \delta P(h(D) \in E)\\
+&amp;\le (1-\delta) e^\varepsilon P(g(D&#39;) \in E) + \delta P(h(D) \in
+E)\\
+&amp;\le e^\varepsilon P(f(D&#39;) \in E) + \delta.
+\end{aligned}
+</span></p>
+<p>Of course <span class="math inline">h</span> can be anything,
+including a hack that leaks the whole database. In information
+theoretical terms the best that can be said is that the rate of
+information is actually still limited, though it is mostly limited by
+the amount of information available. To make this secure the number of
+tries required (<span class="math inline">1/\delta</span> on average)
+should be prohibitively large.</p>
+<h2 id="epilogue">Epilogue</h2>
+<p>In conclusion, differential privacy can be seen as a way to directly
+prevent the leakage of private information. Information theory makes
+this precise in terms of the (relative) Rényi entropy and can be used to
+show that most of the nicer properties of <span
+class="math inline">\varepsilon</span>-privacy are direct consequences
+of intuitive features of information. Among other things this gives
+meaning to the parameter <span class="math inline">\varepsilon</span>
+(as the amount of nats that a query is allowed to leak per row), and
+makes it easier to reason about the trade-offs between protecting
+information and using it.</p>
+<p>As shown in this article this gives a framework to protect privacy by
+limiting the amount of information that any one query can leak per
+individual. Since information does not increase by processing something
+this provides a robust protection. Because this is true regardless of
+<em>how</em> the information is processed it also prevents someone from
+being treated (much) differently as a result of such a query, as doing
+so would also constitute a leak of information. And finally since
+combining information does not cause the amount of information to exceed
+the sum of its parts it is simple to reason about the effect of multiple
+independent queries or how much information is leaked about groups of
+individuals. Conversely such a system allows for aggregated statistics
+to still give useful amounts of information by aggregating the tiny bits
+of information of many different rows.</p>
+<p>In an information theoretical perspective several ‘weak’ spots of
+differential privacy also become apparent. For example that on its own
+differential privacy does not really restrict the global information
+rate. Which is not necessarily a problem, but left unchecked does allow
+any attack on an individual row to scale to an attack on the whole
+dataset. If necessary this can be prevented by limiting the number of
+queries and the amount of information per query. More troubling is the
+use of <span class="math inline">(\varepsilon, \delta)</span>-privacy as
+an alternative to <span class="math inline">\varepsilon</span>-privacy,
+since this loses most of the protections that come from limiting the
+rate of information, by allowing the information rate to be unbounded
+with probability <span class="math inline">\delta</span>. It should also
+be kept in mind that differential privacy only protects privacy. And
+that since it allows beneficial research to be done it stands to reason
+that harmful uses are also still possible. On its own privacy is not
+enough for responsible AI.</p>
+<p>The measure of information used by <span
+class="math inline">\varepsilon</span>-privacy turns out to be
+particularly sensitive to outliers, even for events that have no
+realistic chance of occurring. This prevents the use of systems even if
+from an information theoretical point of view they are incapable of
+transmitting useful amounts of information. This can be understood best
+by rephrasing <span class="math inline">\varepsilon</span>-privacy in
+terms of the Rényi channel capacity where <span
+class="math inline">\varepsilon</span>-privacy restricts the channel
+capacity at <span class="math inline">\alpha=\infty</span>, while the
+amount of information that can be transmitted is determined by the
+channel capacity at <span class="math inline">\alpha=1</span> (because
+of Shannon’s noisy channel theorem). To understand the benefit of
+restricting the channel capacity all the way at <span
+class="math inline">\alpha=\infty</span> as opposed to restricting it at
+<span class="math inline">\alpha=1</span> requires understanding the
+difference between the Shannon entropy and the Rényi entropy at <span
+class="math inline">\alpha=\infty</span> (also called the
+max-entropy).</p>
+<p>As an example of what can be done using the more relaxed definition
+of privacy, the related concept of Rényi differential privacy <span
+class="citation" data-cites="Mironov_2017">(<a href="#ref-Mironov_2017"
+role="doc-biblioref">Mironov 2017</a>)</span> has been used to implement
+a differentially private stochastic gradient descent on a dataset <span
+class="citation" data-cites="FU_2022">(<a href="#ref-FU_2022"
+role="doc-biblioref">Fu, Chen, and Ling 2022</a>)</span>. They use an
+adaptation of <span class="math inline">\varepsilon</span>-privacy
+called <span class="math inline">(\varepsilon, \alpha)</span>-RDP, which
+among other things implies the channel capacity at level <span
+class="math inline">\alpha</span> is at most <span
+class="math inline">\varepsilon</span>. This is then weakened into <span
+class="math inline">(\varepsilon, \delta)</span>-privacy. However as
+shown in this article that actually weakens the privacy guarantee
+significantly. It would be better to keep the guarantee as is, which
+gives a version of gradient descent with limited channel capacity at
+level <span class="math inline">\alpha</span> and all the privacy
+protecting properties that entails. It is also possible to give a better
+bound on the channel capacity, by generalizing the Shannon–Hartley
+theorem for the Rényi divergence.</p>
+<p>Since information theory is such a powerful tool when it comes to
+protecting information, it may be worth looking into the other possible
+definitions for the mutual information and channel capacity, and their
+properties. As an example the definitions used in this article would
+consider a channel that transmits a single bit without noise to have
+infinite channel capacity at <span
+class="math inline">\alpha=\infty</span>, while according to other
+definitions the rate is 1 bit. Which definition has the most desirable
+properties when it comes to <em>restricting</em> information has not
+been investigated yet. The one given in this article is functional, easy
+to use in proofs, but does make it hard to calculate the channel
+capacity exactly (an easier to calculate upper bound exists, which is
+equivalent to the <span
+class="math inline">(\varepsilon,\alpha)</span>-RDRP defined by <span
+class="citation" data-cites="Mironov_2017">Mironov (<a
+href="#ref-Mironov_2017" role="doc-biblioref">2017</a>)</span>).</p>
+<p>Moving away from <span class="math inline">\varepsilon</span>-privacy
+and <span class="math inline">(\varepsilon,\delta)</span>-privacy and
+analysing the flows of information instead will give more power and
+flexibility to the theory and gives more meaning to the parameters
+involved. Even complex algorithms like stochastic gradient descent can
+have their channel capacity restricted <span class="citation"
+data-cites="FU_2022">(<a href="#ref-FU_2022" role="doc-biblioref">Fu,
+Chen, and Ling 2022</a>)</span> showing that with this approach even
+advanced statistical analysis is still possible. For example <a
+href="https://github.com/opendp/smartnoise-sdk">Smartnoise</a> uses this
+technique to generate synthetic data, though it must be said their
+choice of defaults for the parameters seem a bit off. As of January 2023
+their readme shows a default of <span
+class="math inline">\epsilon=1</span> and <span
+class="math inline">\delta=0.01</span> for a dataset that contains data
+like income and race. Other restrictions are in place but leaking such
+information at a rate of approx. <span class="math inline">1.44</span>
+bits per query, or with unbounded rate with a probability of <span
+class="math inline">1\%</span> clearly does not give the best example
+for how to treat the highest category of sensitive data (at least
+according to Dutch law).</p>
+<h2 id="bibliography">Bibliography</h2>
+<div style="display:none">
+<p>Invisible stuff: <span class="citation" data-cites="DPTextbook">Dwork
+and Roth (<a href="#ref-DPTextbook"
+role="doc-biblioref">2014</a>)</span></p>
+</div>
+<div id="refs" class="references csl-bib-body hanging-indent"
+role="doc-bibliography">
+<div id="ref-DPTextbook" class="csl-entry" role="doc-biblioentry">
+Dwork, Cynthia, and Aaron Roth. 2014. <span>“<a
+href="https://doi.org/10.1561/0400000042">The Algorithmic Foundations of
+Differential Privacy</a>.”</span> <em>Foundations and Trends® in
+Theoretical Computer Science</em> 9 (3-4): 211–407, preprint <a
+href="https://www.cis.upenn.edu/~aaroth/Papers/privacybook.pdf"
+class="uri">https://www.cis.upenn.edu/~aaroth/Papers/privacybook.pdf</a>.
+</div>
+<div id="ref-van_Erven_2014" class="csl-entry" role="doc-biblioentry">
+Erven, Tim van, and Peter Harremoës. 2014. <span>“<a
+href="https://doi.org/10.1109/tit.2014.2320500">R<span>é</span>nyi
+Divergence and Kullback-Leibler Divergence</a>.”</span>
+<em><span>IEEE</span> Transactions on Information Theory</em> 60 (7):
+3797–3820, preprint <a href="https://arxiv.org/abs/1206.2459"
+class="uri">https://arxiv.org/abs/1206.2459</a>.
+</div>
+<div id="ref-FU_2022" class="csl-entry" role="doc-biblioentry">
+Fu, Jie, Zhili Chen, and XinPeng Ling. 2022. <span>“<a
+href="https://doi.org/10.48550/ARXIV.2211.07218">SA-DPSGD:
+Differentially Private Stochastic Gradient Descent Based on Simulated
+Annealing</a>.”</span> arXiv.
+</div>
+<div id="ref-Mironov_2017" class="csl-entry" role="doc-biblioentry">
+Mironov, Ilya. 2017. <span>“<a
+href="https://doi.org/10.1109/csf.2017.11">R<span>é</span>nyi
+Differential Privacy</a>.”</span> In <em>2017 <span>IEEE</span> 30th
+Computer Security Foundations Symposium (<span>CSF</span>)</em>.
+<span>IEEE</span>, preprint <a href="https://arxiv.org/abs/1702.07476"
+class="uri">https://arxiv.org/abs/1702.07476</a>.
+</div>
+<div id="ref-Arvind_2006" class="csl-entry" role="doc-biblioentry">
+Narayanan, Arvind, and Vitaly Shmatikov. 2006. <span>“<a
+href="https://doi.org/10.48550/ARXIV.CS/0610105">How to Break Anonymity
+of the Netflix Prize Dataset</a>.”</span> arXiv.
+</div>
+<div id="ref-shannon1948mathematical" class="csl-entry"
+role="doc-biblioentry">
+Shannon, C. E. 1948. <span>“<a
+href="https://doi.org/10.1002/j.1538-7305.1948.tb01338.x">A Mathematical
+Theory of Communication</a>.”</span> <em>The Bell System Technical
+Journal</em> 27 (3): 379–423.
+</div>
+<div id="ref-sweeney2015only" class="csl-entry" role="doc-biblioentry">
+Sweeney, Latanya. 2015. <span>“<a
+href="https://techscience.org/a/2015092903/">Only You, Your Doctor, and
+Many Others May Know</a>.”</span> <em>Technology Science</em>, no. 9.
+</div>
+<div id="ref-Sergio_2015" class="csl-entry" role="doc-biblioentry">
+Verdú, Sergio. 2015. <span>“<a
+href="https://doi.org/10.1109/ITA.2015.7308959"><span
+class="math inline">\alpha</span>-Mutual Information</a>.”</span> In
+<em>2015 Information Theory and Applications Workshop (ITA)</em>, 1–6.
+</div>
+</div>
+<section id="footnotes" class="footnotes footnotes-end-of-document"
+role="doc-endnotes">
+<hr />
+<ol>
+<li id="fn1"><p>In the following there will be some shenanigans going as
+to what happens for probability 0 subsets, especially since the value of
+a conditional probability is not well defined in such cases. Luckily
+this issue is mostly ignored in articles over differential privacy so it
+shall be ignored here as well.<a href="#fnref1" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn2"><p>Because of Markov’s inequality <span
+class="math inline">{ P(\D_\alpha(P_{X|Y} \| P_X) \ge R) \le \frac{\E_Y
+[ e^{(\alpha-1)\D_\alpha(P_{X|Y} \| P_X)} - 1]}{e^{(\alpha-1)R} - 1}
+}</span>.<a href="#fnref2" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn3"><p>Gaussian noise is easy to generalize to higher
+dimensions, and when a value is normally distributed it remains so with
+the addition of gaussian noise.<a href="#fnref3" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn4"><p>It is conventional to do all of this with powers of 2
+instead of <span class="math inline">e</span>, which would give a
+channel capacity in bits, but differential privacy articles always seem
+to use <span class="math inline">e</span>, hence why the rate is in
+nats.<a href="#fnref4" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn5"><p>For instance <span class="citation"
+data-cites="van_Erven_2014">Erven and Harremoës (<a
+href="#ref-van_Erven_2014" role="doc-biblioref">2014</a>)</span> show
+that <span class="math inline">{ P_{XY}(A \times B) \le
+(e^{\I_\alpha(X;Y)} P_X(A) P_Y(B))^\frac{\alpha}{\alpha-1} }</span>,
+which mirrors the typical statement of the protection against bad
+outcomes more closely but completely fails to restrict anything at <span
+class="math inline">\alpha=1</span> and has an annoying dependence on
+<span class="math inline">P_X</span> (it holds for all choices of <span
+class="math inline">P_X</span> which makes it difficult to interpret),
+it is possible to get a more powerful and simpler result via another
+route.<a href="#fnref5" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn6"><p>Of course because of the privacy protection the outcome
+must also hurt the people who’s data <em>was not</em> included in the
+dataset.<a href="#fnref6" class="footnote-back"
+role="doc-backlink">↩︎</a></p></li>
+<li id="fn7"><p>The <span class="math inline">\frac1{\alpha-1} = \sum_i
+\frac1{\alpha_i - 1}</span> condition follows from the Hölder inequality
+and the fact that the mutual information is more or less an <span
+class="math inline">\alpha-1</span>-norm.<a href="#fnref7"
+class="footnote-back" role="doc-backlink">↩︎</a></p></li>
+</ol>
+</section>
