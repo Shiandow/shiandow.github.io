@@ -17,6 +17,16 @@
   </script>
 </head>
 <body>
-  {{content}}
+{% if page.header %}
+<header>
+  {% include {{page.header}} %}
+</header>
+{% endif %}
+{{content}}
+{% if page.footer %}
+<footer>
+  {% include {{page.footer}} %}
+</footer>
+{% endif %}
 </body>
 </html>

@@ -20,14 +20,15 @@ a {
 
 /* Article Header */
 header {
+    padding: 0.5em;
     border-bottom: 1px solid;
     text-align: center;
 }
 
 /* Article Footer */
 footer {
+    padding: 0.5em;
     border-top: 1px solid;
-    font-size: 0.9em;
     text-align: center;
 }
 

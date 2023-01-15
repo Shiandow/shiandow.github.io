@@ -10,11 +10,12 @@ defaults:
     path: ""
   values:
     layout: default
-    header: header.html
+    header: main-header.html
+    footer: false
 - scope:
     path: ""
     type: posts
   values:
-    header: false
-    footer: post-navigation.html
+    header: post-header.html
+    footer: false # post-footer.md Should be included manually to get footnotes to render properly
     layout: post
