@@ -1,12 +1,11 @@
 ---
-title: Home
+title: Posts
 layout: default
 ---
 
-# Latest Posts
+{% for post in site.posts %}
+## [{{ post.title }}]({{post.url}}) ({{ post.date | date: "%Y-%m-%d" }})
 
-{% for post in site.posts limit:10 %}
-- [{{ post.title }}]({{ post.url }}) ({{ post.date | date: "%Y-%m-%d" }})
+{{post.excerpt}}
+
 {% endfor %}
-
-[More.](/posts)
