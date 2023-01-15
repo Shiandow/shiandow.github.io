@@ -7,24 +7,30 @@
   <link rel="stylesheet" href="/assets/katex/katex.min.css"/>
   <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="/feed.xml">
   <script defer src="/assets/katex/katex.min.js"></script>
+  {% case page.katex %}
+  {% when "auto" %}
   <script defer src="/assets/katex/contrib/auto-render.min.js"></script>
   <script>
-    document.addEventListener("DOMContentLoaded", function() {
-        renderMathInElement(document.body, {
-          delimiters : [
-            {left: "$$", right: "$$",   display: true},
-            {left: "$",  right: "$",    display: false},
-            {left: "\\begin{equation}", right: "\\end{equation}", display: true},
-            {left: "\\begin{align}",    right: "\\end{align}",    display: true},
-            {left: "\\begin{alignat}",  right: "\\end{alignat}",  display: true},
-            {left: "\\begin{gather}",   right: "\\end{gather}",   display: true},
-            {left: "\\begin{CD}",       right: "\\end{CD}",       display: true},
-            {left: "\\(", right: "\\)", display: false},
-            {left: "\\[", right: "\\]", display: true},
-          ]
-        });
+    document.addEventListener("DOMContentLoaded", function() { renderMathInElement(document.body, { /* Options */ }); });
+  </script>
+  {% when "pandoc" %}
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      var mathElements = document.getElementsByClassName("math");
+      var macros = [];
+      for (var i = 0; i < mathElements.length; i++) {
+        var texText = mathElements[i].firstChild;
+        if (mathElements[i].tagName == "SPAN") {
+          katex.render(texText.data, mathElements[i], {
+            displayMode: mathElements[i].classList.contains('display'),
+            throwOnError: false,
+            macros: macros,
+            fleqn: false
+          });
+        }}
     });
   </script>
+  {% endcase %}
 </head>
 <body>
 {% if page.header %}

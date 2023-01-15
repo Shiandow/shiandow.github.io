@@ -12,6 +12,7 @@ defaults:
     layout: default
     header: main-header.html
     footer: false
+    katex: auto
 - scope:
     path: ""
     type: posts
