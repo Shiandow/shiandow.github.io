@@ -24,6 +24,6 @@ TODO
 
 Hosted on Github Pages using Jekyll.
 
-This Blog uses [$\KaTeX$](https://katex.org/)
+This Blog uses [\\( \KaTeX \\)](https://katex.org/)
 
 Favicon generated with: https://favicon.io/favicon-generator/
