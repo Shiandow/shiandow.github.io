@@ -9,7 +9,6 @@ html {
     margin: auto;
 }
 
-
 /* Personal Taste */
 body {
     text-align: justify; 
@@ -19,6 +18,24 @@ a {
     color: inherit;
 }
 
+/* Header Styling */
+h1 {
+    font-size: 2rem;
+    font-weight: bold;
+}
+h2 {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+h3 {
+    font-size: 1rem;
+    font-weight: bold;
+}
+h4 {
+    font-size: 1.5rem;
+    font-style: italic;
+}
+
 /* Article Header */
 header {
     padding: 0.5em;
@@ -26,11 +43,8 @@ header {
     text-align: center;
 }
 
-/* Article Footer */
-footer {
-    padding: 0.5em;
-    border-top: 1px solid;
-    text-align: center;
+#pragmathics {
+    font-family: Consolas, monospace;
 }
 
 /* Site navigation */
@@ -40,6 +54,13 @@ nav {
 }
 nav > a {
     flex-grow: 1
+}
+
+/* Article Footer */
+footer {
+    padding: 0.5em;
+    border-top: 1px solid;
+    text-align: center;
 }
 
 /* Post Navigation Footer */
