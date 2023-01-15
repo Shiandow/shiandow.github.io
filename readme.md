@@ -6,6 +6,11 @@ permalink: /about/
 
 ## About
 
+This blog is a place to post various articles which don't really fit anywhere else, but are nevertheless worth making public.
+
+The author has a MSc in both Mathematics and Physics, and currently works as software/data scientists/engineer. 
+
+These articles will vary from somewhat technical to very technical and will span across various subjects from mathematics, computer science, and possibly physics. 
 
 ## Latest Posts
 
