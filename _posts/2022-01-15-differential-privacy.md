@@ -1,3 +1,9 @@
+---
+title: Differential Privacy and Information Theory
+subtitle: How to Secure Data with a Broken Wifi Connection
+date: 2022-01-15
+---
+
 ## Introduction
 
 The goal of this article is to provide a link between differential
