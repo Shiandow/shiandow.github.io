@@ -7,13 +7,13 @@
   <link rel="stylesheet" href="/assets/katex/katex.min.css"/>
   <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="/feed.xml">
   <script defer src="/assets/katex/katex.min.js"></script>
-  {% case page.katex %}
-  {% when "auto" %}
+  {%- case page.katex %}
+  {%- when "auto" %}
   <script defer src="/assets/katex/contrib/auto-render.min.js"></script>
   <script>
     document.addEventListener("DOMContentLoaded", function() { renderMathInElement(document.body, { /* Options */ }); });
   </script>
-  {% when "pandoc" %}
+  {%- when "pandoc" %}
   <script>
     document.addEventListener("DOMContentLoaded", function () {
       var mathElements = document.getElementsByClassName("math");
@@ -30,7 +30,10 @@
         }}
     });
   </script>
-  {% endcase %}
+  {%- endcase %}
+  {%- if page.easteregg %}
+  <script defer src="/assets/scripts/easteregg.js"></script>
+  {%- endif %}
 </head>
 <body>
 {% if page.header %}
