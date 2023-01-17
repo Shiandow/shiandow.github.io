@@ -1,14 +1,11 @@
-var n = 3*Math.floor(Math.random()*1000) + 1;
+var n = 127;
 
 function Caesar(text, rot, inverse) {
     result = "";
     rot = rot - 1;
-    rot = rot ** 3;
-    rot = rot.toString();
-    if (text.length < rot.toString().length)
-        return null;
-
-    rot  = "0".repeat(text.length - rot.toString().length) + rot;
+    rot = rot ** 2;
+    rot = rot.toString().repeat(Math.ceil(text.length / 6));
+    rot = "0".repeat(Math.max(0, text.length - rot.toString().length)) + rot;
     mask = 31;
     for (var i=0; i<text.length; i++) {
         mask = (mask*7) % 95;

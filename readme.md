@@ -11,11 +11,11 @@ This blog was written by <span class="the_author">the author</span> over the cou
 
 <span class="the_author">The author</span> has a MSc in both Mathematics and Physics, and currently works as software/data scientists/engineer in the Netherlands.
 
-These articles will tend to involve at least some mathematics, but wherever possible the gist of the article will be kept accessible to people without a mathematical background (just try not to run at the first sign of an integral sign $\int$).
+These articles will tend to involve at least some mathematics, but wherever possible the gist of the article will be kept accessible to people without a mathematical background.
 
 ## Latest Posts
 
-{% for post in site.posts limit:10 %}
+{% for post in site.posts limit:3 %}
 - [{{ post.title }}]({{ post.url }}) ({{ post.date | date: "%Y-%m-%d" }})  
 {% endfor %}
 
