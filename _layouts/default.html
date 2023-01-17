@@ -11,7 +11,13 @@
   {%- when "auto" %}
   <script defer src="/assets/katex/contrib/auto-render.min.js"></script>
   <script>
-    document.addEventListener("DOMContentLoaded", function() { renderMathInElement(document.body, { /* Options */ }); });
+    document.addEventListener("DOMContentLoaded", function() { renderMathInElement(document.body, { 
+      delimiters: [
+        {left: "$$", right: "$$", display: true},
+        {left: "$",  right:  "$", display: false},
+        {left: "\\(", right: "\\)", display: false},
+        {left: "\\[", right: "\\]", display: true}
+      ]})});
   </script>
   {%- when "pandoc" %}
   <script>
