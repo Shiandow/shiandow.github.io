@@ -60,6 +60,10 @@ header {
     font-family: Consolas, monospace;
 }
 
+.subtitle { 
+    font-variant: small-caps;
+}
+
 /* Site navigation */
 nav {
     display: flex;
