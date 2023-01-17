@@ -1,4 +1,4 @@
-var n = 10 + Math.random()*1000;
+var n = 3*Math.floor(Math.random()*1000) + 1;
 
 function Caesar(text, rot, inverse) {
     result = "";
@@ -26,11 +26,11 @@ function deobfuscate() {
         "#pragmathics": ">ok0-SiMt^u3",
         ".the_author":  "en^?E\\iG,Yw.;GhE+T",
         "a.the_email":  "&n^?<Gv=qcz/2dgn-SiBx#u/)",
-        "a.the_linkedin": "Jhg]0UmI#V!$!ma><Kw"
+        "a.the_linkedin": "Jhg]0UmI#V!$!ma><Kv"
     };
-    let href = {
-        the_email: "mailto:{0}",
-        the_linkedin: "https://www.linkedin.com/in/{0}"
+    let href_prefix = {
+        "a.the_email": "mailto:",
+        "a.the_linkedin": "https://www.linkedin.com/in/"
     };
 
     if (n & 1) { n = 3*n + 1} else { n = n >> 1;};
@@ -41,7 +41,7 @@ function deobfuscate() {
         if (deobfuscated != null) 
             elem.innerHTML = deobfuscated;
         if (deobfuscated != null && (key in href))
-            elem.attributes["href"].value = href[key].format(deobfuscated);
+            elem.attributes["href"].value = href_prefix[key] + deobfuscated;
     }
 
     if (Caesar("_ng4", n) == "Done")

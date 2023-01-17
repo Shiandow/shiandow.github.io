@@ -7,13 +7,11 @@ easteregg: true
 
 ## About
 
-This blog is a place for <span class="the_author">the author</span> to put various articles which were the result of an investigation into one, or frequently multiple, areas of interest (in particular: mathematics, computer science, data engineering, physics). 
+This blog was written by <span class="the_author">the author</span> over the course of various investigations into one, or frequently multiple, areas of interest (in particular: mathematics, computer science, data engineering, physics). Articles will probably vary quite a bit in size and complexity.
 
 <span class="the_author">The author</span> has a MSc in both Mathematics and Physics, and currently works as software/data scientists/engineer in the Netherlands.
 
-These articles will tend to involve at least some mathematics, but wherever possible the gist of the article will be kept accessible to people without a mathematical background.[^snakes]
-
-[^snakes]: Just try not to run at the first sign of an integral sign $\int$.
+These articles will tend to involve at least some mathematics, but wherever possible the gist of the article will be kept accessible to people without a mathematical background (just try not to run at the first sign of an integral sign $\int$).
 
 ## Latest Posts
 
@@ -27,10 +25,12 @@ These articles will tend to involve at least some mathematics, but wherever poss
 
 Name
 : <span class="the_author">The author</span> 
+
 Email
-: <a class="the_email">obfuscated@obfuscated.oo</span> 
+: <a class="the_email">obfuscated@obfuscated.oo</a> 
+
 LinkedIn
-: <a class="the_linkedin">/out/there</span> 
+: <a class="the_linkedin">/out/there</a> 
 
 ## Attributions
 
