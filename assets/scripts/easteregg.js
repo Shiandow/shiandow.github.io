@@ -41,7 +41,7 @@ function deobfuscate() {
         if (deobfuscated != null) 
             elem.innerHTML = deobfuscated;
         if (deobfuscated != null && (key in href_prefix))
-            elem.attributes["href"].value = href_prefix[key] + deobfuscated;
+            elem.setAttribute("href", href_prefix[key] + deobfuscated);
     }
 
     if (Caesar("_ng4", n) == "Done")
