@@ -40,7 +40,7 @@ function deobfuscate() {
         let deobfuscated = Caesar(obfs[key], n);
         if (deobfuscated != null) 
             elem.innerHTML = deobfuscated;
-        if (deobfuscated != null && (key in href))
+        if (deobfuscated != null && (key in href_prefix))
             elem.attributes["href"].value = href_prefix[key] + deobfuscated;
     }
 
