@@ -4,7 +4,7 @@ layout: default
 ---
 
 {% for post in site.posts %}
-## [{{ post.title }}]({{post.url}}) ({{ post.date | date: "%Y-%m-%d" }})
+## [{{ post.title }}]({{post.url}}) <aside class="subtitle left">{{ post.date | date: "%Y-%m-%d" }}<aside>
 
 {{post.excerpt}}
 

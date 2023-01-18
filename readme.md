@@ -19,7 +19,7 @@ These articles will tend to involve at least some mathematics, but wherever poss
 - [{{ post.title }}]({{ post.url }}) ({{ post.date | date: "%Y-%m-%d" }})  
 {% endfor %}
 
-[More.](/posts)
+[More.](/)
 
 ## Contact Info
 
