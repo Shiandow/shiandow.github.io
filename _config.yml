@@ -13,6 +13,7 @@ defaults:
     header: main-header.html
     footer: false
     katex: auto
+    lang: en
 - scope:
     path: ""
     type: posts
