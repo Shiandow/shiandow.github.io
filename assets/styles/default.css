@@ -51,7 +51,7 @@ h4 {
 
 h1 .subtitle { 
     font-weight: normal;
-    font-style: small-caps;
+    font-variant: small-caps;
     font-size: 1.5rem;
 }
 h2 .subtitle { 
@@ -99,13 +99,6 @@ header {
 } 
 @media(max-width: 1199px) {
     aside {
-        float: right;
-        clear: right;
-        width: 100%;
-    }
-    aside.left { 
-        float: left;
-        clear: left;
         width: 100%;
     }
 }
