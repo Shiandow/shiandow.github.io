@@ -97,16 +97,17 @@ header {
         width: calc(50vw - 50% - 1em);
     }
 } 
-/* else */ 
-aside {
-    float: right;
-    clear: right;
-    width: 100%;
-}
-aside.left { 
-    float: left;
-    clear: left;
-    width: 100%;
+@media(max-width: 1199px) {
+    aside {
+        float: right;
+        clear: right;
+        width: 100%;
+    }
+    aside.left { 
+        float: left;
+        clear: left;
+        width: 100%;
+    }
 }
 
 /* Site navigation */
