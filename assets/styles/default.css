@@ -57,6 +57,15 @@ blockquote {
     }
 }
 
+/* Table of Contents */
+#TOC { display: none; }
+#TOC-toggle { text-decoration: underline; }
+body[toc] #TOC { 
+    display: block; 
+    border-bottom: 1px solid;
+}
+body[toc] #TOC-toggle { opacity: 1; }
+
 /* Header Styling */
 h1 {
     font-size: 2rem;
@@ -110,13 +119,11 @@ header > nav {
 header > nav > * {
     flex-grow: 1;
 }
-
-/* Navigation links */
-nav a {
+header > nav a {
     font-variant: small-caps;
     opacity: 0.5;
 }
-nav a.current, nav a:hover {
+header > nav a.current, header > nav a:hover {
     opacity: 1;
 }
 
