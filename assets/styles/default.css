@@ -31,6 +31,32 @@ blockquote {
     padding: 0 0.5em;
 }
 
+/* Side notes */
+/* See also: https://scripter.co/sidenotes-using-only-css/ */
+@media(min-width: 1400px) {
+    aside { 
+        margin-right: calc(50% - 50vw + 1em);
+        margin-bottom: 1em;
+        text-align: left;
+        float: right;
+        clear: right;
+        width: calc(50vw - 50% - 2em);
+    }
+    aside.left { 
+        margin-left: calc(50% - 50vw + 1em);
+        margin-bottom: 1em;
+        text-align: right;
+        float: left;
+        clear: left;
+        width: calc(50vw - 50% - 2em);
+    }
+} 
+@media(max-width: 1399px) {
+    aside {
+        width: 100%;
+    }
+}
+
 /* Header Styling */
 h1 {
     font-size: 2rem;
@@ -77,42 +103,20 @@ header {
     font-family: Consolas, monospace;
 }
 
-/* Side notes */
-/* See also: https://scripter.co/sidenotes-using-only-css/ */
-@media(min-width: 1200px) {
-    aside { 
-        margin-right: calc(50% - 50vw);
-        margin-bottom: 1em;
-        text-align: left;
-        float: right;
-        clear: right;
-        width: calc(50vw - 50% - 1em);
-    }
-    aside.left { 
-        margin-left: calc(50% - 50vw);
-        margin-bottom: 1em;
-        text-align: right;
-        float: left;
-        clear: left;
-        width: calc(50vw - 50% - 1em);
-    }
-} 
-@media(max-width: 1199px) {
-    aside {
-        width: 100%;
-    }
+/* Site navigation */
+header > nav {
+    display: flex;
+}
+header > nav > * {
+    flex-grow: 1;
 }
 
-/* Site navigation */
-nav {
-    display: flex;
+/* Navigation links */
+nav a {
     font-variant: small-caps;
-}
-nav > a {
-    flex-grow: 1;
     opacity: 0.5;
 }
-nav > a.current, nav > a:hover {
+nav a.current, nav a:hover {
     opacity: 1;
 }
 
