@@ -1,7 +1,7 @@
 <nav>
-    {%- if content contains "#TOC" -%}
-    <a id="#TOC-toggle" onclick="document.body.toggleAttribute('toc')">TOC</a>
-    {%- endif -%}
+    {%- if content contains "#TOC" %}
+    <a id="TOC-toggle" onclick="document.body.toggleAttribute('hide-toc')">TOC</a>
+    {%- endif %}
     <a href="/about/" {% if page.url == "/about/" %}class="current"{% endif %}>About</a>
     <a href="/"       {% if page.url == "/"       %}class="current"{% endif %}>Posts</a>
     <a href="/feed.xml">RSS</a>
