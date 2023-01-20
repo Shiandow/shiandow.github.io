@@ -1,5 +1,5 @@
 <nav>
-    {%- if content contains "#TOC" %}
+    {%- if content contains 'id="TOC"' %}
     <a id="TOC-toggle" onclick="document.body.toggleAttribute('hide-toc')">TOC</a>
     {%- endif %}
     <a href="/about/" {% if page.url == "/about/" %}class="current"{% endif %}>About</a>
