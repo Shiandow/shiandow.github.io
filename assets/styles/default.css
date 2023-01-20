@@ -34,7 +34,7 @@ blockquote {
 /* Side notes */
 /* See also: https://scripter.co/sidenotes-using-only-css/ */
 @media(min-width: 1400px) {
-    aside { 
+    aside, #TOC[detached] { 
         margin-right: calc(50% - 50vw + 1em);
         margin-bottom: 1em;
         text-align: left;
@@ -42,7 +42,7 @@ blockquote {
         clear: right;
         width: calc(50vw - 50% - 2em);
     }
-    aside.left { 
+    aside.left, #TOC[detached][left] { 
         margin-left: calc(50% - 50vw + 1em);
         margin-bottom: 1em;
         text-align: right;
@@ -65,7 +65,17 @@ blockquote {
     text-decoration: underline;
 }
 body[hide-toc] #TOC { display: none; }
-body:not([hide-toc]) #TOC-toggle { opacity: 1; }
+
+#TOC[draggable], #TOC-toggle[draggable] {
+    cursor: grab;
+}
+
+#TOC[detached], #TOC[detached][left] {
+    top: 0;
+    position: sticky;
+    text-align: left;
+    border-bottom: none;
+}
 
 /* Header Styling */
 h1 {
@@ -120,12 +130,16 @@ header > nav {
 header > nav > * {
     flex-grow: 1;
 }
-header > nav a {
-    font-variant: small-caps;
+header > nav a, #TOC[detached] a {
     opacity: 0.5;
 }
-header > nav a.current, header > nav a:hover {
+header > nav a.current, #TOC[detached] a.current,
+header > nav a:hover,   #TOC[detached] a:hover,
+body:not([hide-toc]) #TOC-toggle {
     opacity: 1;
+}
+nav a {
+    font-variant: small-caps;
 }
 
 /* Article Footer */

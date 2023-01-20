@@ -1,9 +1,9 @@
 <nav>
-    {%- if content contains 'id="TOC"' %}
-    <a id="TOC-toggle" onclick="document.body.toggleAttribute('hide-toc')">TOC</a>
-    {%- endif %}
-    <a href="/about/" {% if page.url == "/about/" %}class="current"{% endif %}>About</a>
-    <a href="/"       {% if page.url == "/"       %}class="current"{% endif %}>Posts</a>
-    <a href="/feed.xml">RSS</a>
-    <a href="https://github.com/Shiandow/shiandow.github.io/">Source</a>
+  {%- if content contains 'id="TOC"' %}
+  <a id="TOC-toggle">TOC</a>
+  {%- endif %}
+  <a href="/about/" {% if page.url == "/about/" %}class="current"{% endif %}>About</a>
+  <a href="/"       {% if page.url == "/"       %}class="current"{% endif %}>Posts</a>
+  <a href="/feed.xml">RSS</a>
+  <a href="https://github.com/Shiandow/shiandow.github.io/">Source</a>
 </nav>
