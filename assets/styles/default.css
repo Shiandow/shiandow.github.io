@@ -95,10 +95,10 @@ h2 .subtitle {
     font-style: italic;
 }
 
-h1 a, h2 a, h3 a, h4 a {
+h1 a, h2 a, h3 a, h4 a, #TOC a {
     text-decoration: none;
 }
-h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover {
+h1 a:hover, h2 a:hover, h3 a:hover, h4 a:hover, #TOC a:hover {
     text-decoration: underline;
 }
 

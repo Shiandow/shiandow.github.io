@@ -41,17 +41,17 @@
   <script defer src="/assets/scripts/easteregg.js"></script>
   {%- endif %}
 </head>
-<body>
-{% if page.header %}
+<body {%- if page.hide_toc %} hide-toc="" {%- endif %}>
+{%- if page.header %}
 <header>
-  {% include {{page.header}} %}
+  {%- include {{page.header}} %}
 </header>
-{% endif %}
+{%- endif %}
 {{content}}
-{% if page.footer %}
+{%- if page.footer %}
 <footer>
-  {% include {{page.footer}} %}
+  {%- include {{page.footer}} %}
 </footer>
-{% endif %}
+{%- endif %}
 </body>
 </html>

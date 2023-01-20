@@ -14,6 +14,65 @@ excerpt: |
     supposed to.
 katex: pandoc
 ---
+<nav id="#TOC">
+<ul>
+<li><a href="#introduction" id="toc-introduction">Introduction</a></li>
+<li><a href="#differential-privacy"
+id="toc-differential-privacy">Differential privacy</a></li>
+<li><a href="#shannon-and-information-theory"
+id="toc-shannon-and-information-theory">Shannon and Information
+Theory</a></li>
+<li><a href="#definitions" id="toc-definitions">Definitions</a>
+<ul>
+<li><a href="#varepsilon-privacy" id="toc-varepsilon-privacy"><span
+class="math inline">\varepsilon</span>-privacy</a></li>
+<li><a href="#varepsilon-delta-privacy"
+id="toc-varepsilon-delta-privacy"><span
+class="math inline">(\varepsilon, \delta)</span>-privacy</a></li>
+<li><a href="#relative-entropy-divergence"
+id="toc-relative-entropy-divergence">Relative Entropy /
+Divergence</a></li>
+<li><a href="#mutual-information" id="toc-mutual-information">Mutual
+information</a></li>
+<li><a href="#channel-capacity" id="toc-channel-capacity">Channel
+Capacity</a></li>
+</ul></li>
+<li><a href="#the-information-theory-of-privacy"
+id="toc-the-information-theory-of-privacy">The Information Theory of
+Privacy</a>
+<ul>
+<li><a href="#connecting-differential-privacy-to-shannon"
+id="toc-connecting-differential-privacy-to-shannon">Connecting
+Differential Privacy to Shannon</a></li>
+<li><a href="#what-is-alpha-the-different-levels-of-channel-capacity"
+id="toc-what-is-alpha-the-different-levels-of-channel-capacity">What is
+<span class="math inline">\alpha</span>? The Different Levels of Channel
+Capacity</a></li>
+<li><a href="#noisy-channel-theorem"
+id="toc-noisy-channel-theorem">Noisy Channel Theorem</a></li>
+</ul></li>
+<li><a href="#hacking-varepsilon-privacy"
+id="toc-hacking-varepsilon-privacy">Hacking <span
+class="math inline">\varepsilon</span>-privacy</a>
+<ul>
+<li><a href="#data-processing-inequality"
+id="toc-data-processing-inequality">Data Processing Inequality</a></li>
+<li><a href="#protection-against-b-outcomes"
+id="toc-protection-against-b-outcomes">Protection against B…
+Outcomes</a></li>
+<li><a href="#group-privacy-and-composability"
+id="toc-group-privacy-and-composability">Group Privacy and
+Composability</a></li>
+<li><a href="#to-fix-a-broken-wifi" id="toc-to-fix-a-broken-wifi">To Fix
+a Broken Wifi</a></li>
+<li><a href="#hacking-varepsilon-delta-privacy"
+id="toc-hacking-varepsilon-delta-privacy">Hacking <span
+class="math inline">(\varepsilon, \delta)</span>-privacy</a></li>
+</ul></li>
+<li><a href="#epilogue" id="toc-epilogue">Epilogue</a></li>
+<li><a href="#bibliography" id="toc-bibliography">Bibliography</a></li>
+</ul>
+</nav>
 <h2 id="introduction">Introduction</h2>
 <p>The goal of this article is to provide a link between differential
 privacy and information theory. It will start with a short overview of
@@ -985,8 +1044,8 @@ X^{(&lt;i)})\\
 = \sum_i \varepsilon_i
 \end{aligned}
 </span></p>
-<p>To proof for composability is a bit subtle, the simplest method is to
-assume each query is looking at a different the database and calculate
+<p>The proof for composability is a bit subtle, the simplest method is
+to assume each query is looking at a different database and calculate
 the channel capacity using the supremum of the joint probability over
 all <span class="math inline">n</span> databases. Since this includes
 all distributions where the databases are equal this gives an upper
@@ -1193,7 +1252,7 @@ been investigated yet. The one given in this article is functional, easy
 to use in proofs, but does make it hard to calculate the channel
 capacity exactly (an easier to calculate upper bound exists, which is
 equivalent to the <span
-class="math inline">(\varepsilon,\alpha)</span>-RDRP defined by <span
+class="math inline">(\varepsilon,\alpha)</span>-RDP defined by <span
 class="citation" data-cites="Mironov_2017">Mironov (<a
 href="#ref-Mironov_2017" role="doc-biblioref">2017</a>)</span>).</p>
 <p>Moving away from <span class="math inline">\varepsilon</span>-privacy
@@ -1283,9 +1342,9 @@ class="math inline">\alpha</span>-Mutual Information</a>.”</span> In
 role="doc-endnotes">
 <hr />
 <ol>
-<li id="fn1"><p>In the following there will be some shenanigans going as
-to what happens for probability 0 subsets, especially since the value of
-a conditional probability is not well defined in such cases. Luckily
+<li id="fn1"><p>In the following there will be some shenanigans going on
+as to what happens for probability 0 subsets, especially since the value
+of a conditional probability is not well defined in such cases. Luckily
 this issue is mostly ignored in articles over differential privacy so it
 shall be ignored here as well.<a href="#fnref1" class="footnote-back"
 role="doc-backlink">↩︎</a></p></li>
@@ -1308,7 +1367,7 @@ role="doc-backlink">↩︎</a></p></li>
 data-cites="van_Erven_2014">Erven and Harremoës (<a
 href="#ref-van_Erven_2014" role="doc-biblioref">2014</a>)</span> show
 that <span class="math inline">{ P_{XY}(A \times B) \le
-(e^{\I_\alpha(X;Y)} P_X(A) P_Y(B))^\frac{\alpha}{\alpha-1} }</span>,
+(e^{\I_\alpha(X;Y)} P_X(A) P_Y(B))^\frac{\alpha-1}{\alpha} }</span>,
 which mirrors the typical statement of the protection against bad
 outcomes more closely but completely fails to restrict anything at <span
 class="math inline">\alpha=1</span> and has an annoying dependence on
