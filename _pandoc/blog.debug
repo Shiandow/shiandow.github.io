@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html data-acxscriptallow="true" data-fbscriptallow="true" lang="en"><head>
+  <title>#pragmathics - Differential Privacy and Information
+Theory</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <link rel="stylesheet" href="https://pragmathics.nl/assets/styles/default.css">
+  <link rel="stylesheet" href="https://pragmathics.nl/assets/katex/katex.min.css">
+  <link rel="alternate" type="application/rss+xml" title="#pragmathics" href="https://pragmathics.nl/feed.xml">
+  <script defer="" src="https://pragmathics.nl/assets/katex/katex.min.js"></script>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+      var mathElements = document.getElementsByClassName("math");
+      var macros = [];
+      for (var i = 0; i < mathElements.length; i++) {
+        var texText = mathElements[i].firstChild;
+        if (mathElements[i].tagName == "SPAN") {
+          katex.render(texText.data, mathElements[i], {
+            displayMode: mathElements[i].classList.contains('display'),
+            throwOnError: false,
+            macros: macros,
+            fleqn: false
+          });
+        }}
+    });
+  </script>
+</head>
+<body>
+<header>
+  <h1>$title$</h1>
+<nav>
+    $if(toc)$
+    <a id="TOC-toggle" onclick="document.body.toggleAttribute('hide-toc')">TOC</a>
+    $endif$
+    <a href="/about/">About</a>
+    <a href="/">Posts</a>
+    <a href="/feed.xml">RSS</a>
+    <a href="https://github.com/Shiandow/shiandow.github.io/">Source</a>
+</nav>
+</header>
+${ blog.markdown() }
+</html>
