@@ -1,6 +1,6 @@
 ---
 title: Hello World
-date: 2022-01-15
+date: 2023-01-15
 ---
 
 This is the first of various [^some] articles that will be posted on this Blog.
