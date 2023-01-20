@@ -7,12 +7,12 @@
   <link rel="stylesheet" href="/assets/katex/katex.min.css"/>
   <link rel="alternate" type="application/rss+xml" title="{{ site.title }}" href="/feed.xml">
   <script defer src="/assets/katex/katex.min.js"></script>
+  {%- if page.toc %}
+  <script defer src="/assets/scripts/toc.js"></script>
+  {%- endif %}
   {%- case page.katex %}
   {%- when "auto" %}
   <script defer src="/assets/katex/contrib/auto-render.min.js"></script>
-  {%- if content contains 'id="TOC"' %}
-  <script defer src="/assets/scripts/toc.js"></script>
-  {%- endif %}
   <script>
     document.addEventListener("DOMContentLoaded", function() { renderMathInElement(document.body, { 
       delimiters: [

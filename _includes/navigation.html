@@ -1,5 +1,5 @@
 <nav>
-  {%- if content contains 'id="TOC"' %}
+  {%- if page.toc %}
   <a id="TOC-toggle">TOC</a>
   {%- endif %}
   <a href="/about/" {% if page.url == "/about/" %}class="current"{% endif %}>About</a>
