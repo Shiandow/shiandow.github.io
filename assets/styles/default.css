@@ -9,6 +9,16 @@ html {
     margin: auto;
 }
 
+/* Highlighting */
+mark, #footnotes :target, #refs :target {
+    background-color: #eee;
+}
+
+/* Code */
+pre, #pragmathics {
+    font-family: Consolas, Lucida Console, monospace;
+}
+
 /* Personal Taste */
 body {
     text-align: justify; 
@@ -19,11 +29,14 @@ a {
 }
 
 /* Environments */
-details {
-    border-left: 1px solid;
-    padding: 0 0.5em;
-    margin: 0 0.5em;
+.dinkus, details[open]:after {
+    content: "* * *";
+    font-size: 1.5em;
+    letter-spacing: 0.5em;
+    text-align: center;
+    display: block;
 }
+details { margin: 0 1em; }
 
 blockquote {
     border: 1px solid;
@@ -64,12 +77,12 @@ blockquote {
 #TOC-toggle { 
     text-decoration: underline;
 }
-body[hide-toc] #TOC { display: none; }
-
+body[hide-toc] #TOC { 
+    display: none; 
+}
 #TOC[draggable], #TOC-toggle[draggable] {
     cursor: grab;
 }
-
 #TOC[detached], #TOC[detached][left] {
     top: 0;
     position: sticky;
@@ -119,11 +132,10 @@ header {
     text-align: center;
 }
 
-#pragmathics {
-    font-family: Consolas, monospace;
-}
-
 /* Site navigation */
+nav a {
+    font-variant: small-caps;
+}
 header > nav {
     display: flex;
 }
@@ -137,9 +149,6 @@ header > nav a.current, #TOC[detached] a.current,
 header > nav a:hover,   #TOC[detached] a:hover,
 body:not([hide-toc]) #TOC-toggle {
     opacity: 1;
-}
-nav a {
-    font-variant: small-caps;
 }
 
 /* Article Footer */
@@ -163,5 +172,5 @@ footer {
 
 /* Pandoc Bibliography */
 .csl-entry{
-    display: list-item
+    display: list-item;
 }

@@ -3,6 +3,7 @@ baseurl: /
 host: pragmathics.nl
 url: https://pragmathics.nl
 markdown: kramdown
+permalink: /:categories/:year/:month/:day/:title/ # Equivalent to permalink: pretty
 kramdown:
   math_engine: katex
 
