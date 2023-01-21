@@ -12,7 +12,7 @@ layout: null
         <title>{{ post.title}}</title>
         <description>{{ post.excerpt }}</description>
         <pubDate>{{ post.date | date_to_rfc822 }}</pubDate>
-        <link>{{ site.url }}{{ site.baseurl }}{{ post.url }}</link>
+        <link>{{ post.url | absolute_url }}</link>
       </item>
     {% endfor %}
   </channel>

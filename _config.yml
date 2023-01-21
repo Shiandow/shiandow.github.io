@@ -1,6 +1,7 @@
 title: "#pragmathics"
 baseurl: /
 host: pragmathics.nl
+url: https://pragmathics.nl
 markdown: kramdown
 kramdown:
   math_engine: katex
