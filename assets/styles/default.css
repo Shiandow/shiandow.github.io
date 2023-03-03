@@ -88,6 +88,8 @@ body[hide-toc] #TOC {
     position: sticky;
     text-align: left;
     border-bottom: none;
+    max-height: 100vh;
+    overflow: auto;
 }
 
 /* Header Styling */
