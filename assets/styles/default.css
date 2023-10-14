@@ -40,7 +40,11 @@ html {
     color: #1a1a1a;
     background-color: #fdfdfd;
 }
-body {
+header, footer {
+    max-width: 50em;
+    margin: auto;
+}
+article {
     max-width: 40em;
     margin: auto;
 }
