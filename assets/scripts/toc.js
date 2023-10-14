@@ -67,11 +67,11 @@ document.addEventListener("DOMContentLoaded", function () {
   tocToggle.addEventListener("click", toggleToc);
   tocToggle.addEventListener("dragstart", dragToc);
   tocToggle.draggable = true
+  tocToggle.href = "";
   
   let toc = document.getElementById('TOC');
   toc.addEventListener("dragstart", dragToc);
   toc.draggable = true;
-  toc.href = "";
 
   // Don't move if dragged onto itself
   toc.addEventListener("drop", function(event) { event.stopPropagation() });
