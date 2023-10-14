@@ -1,10 +1,46 @@
+/* Fonts */
+@font-face {
+  font-family: 'EB Garamond';
+  font-style: italic;
+  font-weight: 400;
+  font-display: fallback;
+  size-adjust: 120%;
+  src: url(/assets/fonts/garamond/EBGaramond-Italic.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'EB Garamond';
+  font-style: italic;
+  font-weight: 700;
+  font-display: fallback;
+  size-adjust: 120%;
+  src: url(/assets/fonts/garamond/EBGaramond-BoldItalic.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'EB Garamond';
+  font-style: normal;
+  font-weight: 400;
+  font-display: fallback;
+  size-adjust: 120%;
+  src: url(/assets/fonts/garamond/EBGaramond-Regular.woff2) format('woff2');
+}
+@font-face {
+  font-family: 'EB Garamond';
+  font-style: normal;
+  font-weight: 700;
+  font-display: fallback;
+  size-adjust: 120%;
+  src: url(/assets/fonts/garamond/EBGaramond-Bold.woff2) format('woff2');
+}
+
 /* Basics */
 html {
-    line-height: 1.5;
-    font-family: Georgia, serif;
+    line-height: 1.6;
+    font-family: 'EB Garamond', Georgia, serif;
     font-size: 20px;
     color: #1a1a1a;
     background-color: #fdfdfd;
+}
+body {
     max-width: 40em;
     margin: auto;
 }
