@@ -3,6 +3,7 @@ layout: default
 title: About
 permalink: /about/
 easteregg: true
+footer: last-processed.html
 ---
 
 ## About
@@ -40,6 +41,4 @@ This Blog uses [\\( \KaTeX \\)](https://katex.org/).
 
 Favicon generated with: <https://favicon.io/favicon-generator/>
 
-<footer markdown="1">
-Last processed on {{ site.time | date: "%Y-%m-%d %H:%M:%S %Z"}}
-</footer>
+Font is [EB Garamond](https://github.com/octaviopardo/EBGaramond12).
