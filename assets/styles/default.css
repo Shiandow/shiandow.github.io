@@ -117,7 +117,7 @@ blockquote {
 #TOC-toggle { 
     text-decoration: underline;
 }
-body[hide-toc] #TOC { 
+body[hide-toc] #TOC:not(:target) { 
     display: none; 
 }
 #TOC[draggable], #TOC-toggle[draggable] {

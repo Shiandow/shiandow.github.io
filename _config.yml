@@ -14,12 +14,12 @@ defaults:
     layout: default
     header: main-header.html
     footer: false
+    hide_toc: true
     katex: auto
     lang: en
 - scope:
     path: ""
     type: posts
   values:
-    hide_toc: true
     header: post-header.html
     footer: post-footer.html
