@@ -29,7 +29,7 @@ defaults:
   values:
     permalink: /klad/:categories/:title/
     header: post-header.html
-    footer: post-footer.html
+    footer: last-processed.html
 
 collections:
   klad:
