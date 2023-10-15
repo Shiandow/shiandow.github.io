@@ -64,10 +64,10 @@ function setCurrentToc() {
 
 document.addEventListener("DOMContentLoaded", function () {
   let tocToggle = document.getElementById('TOC-toggle');
+  tocToggle.removeAttribute("href");
   tocToggle.addEventListener("click", toggleToc);
   tocToggle.addEventListener("dragstart", dragToc);
   tocToggle.draggable = true
-  tocToggle.href = "";
   
   let toc = document.getElementById('TOC');
   toc.addEventListener("dragstart", dragToc);
