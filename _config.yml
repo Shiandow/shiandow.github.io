@@ -23,3 +23,14 @@ defaults:
   values:
     header: post-header.html
     footer: post-footer.html
+- scope:
+    path: ""
+    type: klad
+  values:
+    permalink: /klad/:categories/:title/
+    header: post-header.html
+    footer: post-footer.html
+
+collections:
+  klad:
+    output: true
