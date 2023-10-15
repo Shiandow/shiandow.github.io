@@ -1,6 +1,7 @@
 ---
 title: Klad
 layout: default
+permalink: /klad/
 ---
 
 {% for draft in site.klad %}
