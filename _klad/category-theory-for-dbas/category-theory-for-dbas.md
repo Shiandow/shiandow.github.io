@@ -48,12 +48,12 @@ And then finally the third problem
 </marker>
 </defs>
 <g style="filter: url(#sketch); font-family: 'Comic Sans MS', 'Comic Sans',cursive;">
-<circle cx="25" cy="40" r="25" fill="none" stroke="black"/>
-<circle cx="70" cy="40" r="25" fill="none" stroke="black"/>
+<circle cx="25" cy="40" r="23" fill="none" stroke="black"/>
+<circle cx="70" cy="40" r="23" fill="none" stroke="black"/>
 <text x="45" y="10" style="font-size: 5px;" text-anchor="middle">
 Potential Audience
 </text>
-<line x1=45 y1=12 x2=47.5 y2=35 marker-end="url(#arrow)" stroke="black" />
+<line x1="45" y1="12" x2="47.5" y2="35" marker-end="url(#arrow)" stroke="black" />
 <text x="25" y="40" style="font-size: 5px;" text-anchor="middle">
 <tspan x="25">Familiar</tspan>
 <tspan x="25" dy="1.2em">with databases</tspan>
