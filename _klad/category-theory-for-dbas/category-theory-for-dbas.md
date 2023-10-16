@@ -70,4 +70,4 @@ Potential Audience
 Figure 1. A Venn diagram representing the third problem.
 </figure>
 
-If you are still reading this then I invite you to read the posts in these series as they come online. The first couple of these will necessarily focus on increasing the potential audience by reviewing the mathematical notions that relational databases were built on (e.g. relations) and by showing some useful applications as bait to interest more people in mathematics (or databases).
+Anyone still reading this is cordially invited to read the other posts in these series as they come online. The first couple of these will necessarily focus on increasing the potential audience by reviewing the mathematical notions that relational databases were built on (e.g. relations) and by showing some useful applications as bait to interest more people in mathematics (or databases).
