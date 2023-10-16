@@ -197,10 +197,12 @@ parameter to the definition of entropy which when set to 1 results in
 the definitions used by Shannon, but also allows other values which
 result in a similar but slightly different notion of entropy. This
 generalisation makes it possible to interpolate between Shannon’s
-definitions and the ones used in differential privacy, which has been
-done before <span class="citation" data-cites="Mironov_2017">(<a
-href="#ref-Mironov_2017" role="doc-biblioref">Mironov 2017</a>)</span>.
-This article will go a step further and show that the information
+definitions and the ones used in differential privacy. The use of Rényi
+entropy in the context of differential privacy is not new <span
+class="citation" data-cites="Mironov_2017 Cuff_2016">(<a
+href="#ref-Mironov_2017" role="doc-biblioref">Mironov 2017</a>; <a
+href="#ref-Cuff_2016" role="doc-biblioref">Cuff and Yu 2016</a>)</span>,
+but this article will go a step further and show that the information
 capacity of a channel as defined by Shannon and the privacy of a system
 as defined in differential privacy are specific cases of a more general
 Rényi channel capacity (which will be defined in the following
@@ -699,10 +701,14 @@ Extremely Abridged Proof
 class="math inline">P(X,Y)</span> then by the strong law of large
 numbers</p>
 <p><span class="math display">
+\begin{aligned}
 \frac1n \log \left(\frac{P(X^{(n)}, Y^{(n)})}{P(X^{(n)})
-P(Y^{(n)})}\right) = \frac1n \sum_i \log \left( \frac{P(X_i,
-Y_i)}{P(X_i) P(Y_i)} \right) \to \E \left[ \log \left(\frac{P(X,
-Y)}{P(X) P(Y)}\right) \right] = \I(X;Y)
+P(Y^{(n)})}\right)
+&amp;= \frac1n \sum_i \log \left( \frac{P(X_i, Y_i)}{P(X_i) P(Y_i)}
+\right) \\
+&amp;\to \E \left[ \log \left(\frac{P(X, Y)}{P(X) P(Y)}\right) \right]
+= \I(X;Y)
+\end{aligned}
 </span></p>
 <p>almost surely, so for any <span class="math inline">\delta</span> we
 can pick an <span class="math inline">n</span> large enough that</p>
@@ -722,9 +728,9 @@ class="math inline">X^{(n)}</span> in <span class="math inline">M</span>
 such that <span class="math inline">(X^{(n)}, Y^{(n)})</span> is in
 <span class="math inline">A_\delta^{(n)}</span> is</p>
 <p><span class="math display">
-\sum_{\mathclap{\substack{X^{(n)} \\ (X^{(n)}, Y^{(n)}) \in
-A_\delta^{(n)} }}} |M| P\bigl( X^{(n)} )
-\le e^{nR} \sum_{\mathclap{\substack{X^{(n)} \\ (X^{(n)}, Y^{(n)}) \in
+\sum_{{\substack{X^{(n)} \\ (X^{(n)}, Y^{(n)}) \in A_\delta^{(n)} }}}
+|M| P\bigl( X^{(n)} )
+\le e^{nR} \sum_{{\substack{X^{(n)} \\ (X^{(n)}, Y^{(n)}) \in
 A_\delta^{(n)} }}} e^{-n\I(X;Y)+\delta} \frac{P(X^{(n)},
 Y^{(n)})}{P(Y^{(n)})}
 \le e^{n(R-\I(X;Y))+\delta}.
@@ -846,7 +852,7 @@ Sufficient vs Necessary
 </summary>
 <p>This equation is a necessary condition for a system to be <span
 class="math inline">\varepsilon</span>-private at level <span
-class="math inline">\alpha</span> but no its own it is not sufficient,
+class="math inline">\alpha</span> but on its own it is not sufficient,
 systems that satisfy the equation may fail to be <span
 class="math inline">\varepsilon</span>-private. For <span
 class="math inline">\alpha=1</span> the left hand side does agree
@@ -884,10 +890,10 @@ does not care if <span class="math inline">B</span> stands for ‘bad’ or
 ‘protection against beneficial outcomes’ (though that name has never
 caught on for some reason). Strengthening this protection would prevent
 <em>any</em> outcome, bad or otherwise.</p>
-<p>Given a choice to participate this protection does ensure that
+<p>Given a choice to participate, this protection does ensure that
 participating will not lead to a hugely different outcome for that
 person, but if the data is used in an irresponsible or discriminatory
-way the outcome may still hurt the people who’s data was included in the
+way the outcome may still hurt the people whose data was included in the
 dataset<a href="#fn6" class="footnote-ref" id="fnref6"
 role="doc-noteref"><sup>6</sup></a>. Even if someone’s individual choice
 does not matter it may in some cases still be better for people to
@@ -1016,20 +1022,18 @@ class="math inline">i</span>-tuple containing the first <span
 class="math inline">i</span> values. For brevity the measure in the
 subscript of the norms is omitted, here it is always the joint
 probability.</p>
-<p>Secondly the conditional channel capacity (when conditional mutual
-information is defined as below) is at most the unconditional channel
-capacity. This is because they are equal when conditioned on a dirac
-delta measure.</p>
+<p>Secondly the conditional channel capacity is at most the
+unconditional channel capacity. This follows quite quickly by using a
+dirac delta measure for <span class="math inline">P_Z</span>,</p>
 <p><span class="math display">
 \begin{aligned}
 \sup_{P_{XZ}} \I_\alpha(X ; Y | Z)
 &amp;= \sup_{P_Z P_{X|Z}} \frac1{\alpha-1}\log \E\left[ \left( \frac{\d
 P_{XY|Z}}{\d P_{X|Z} P_{Y|Z}} \right)^{\alpha-1} \right]\\
+&amp;\le \sup_{z, P_{X|Z}} \frac1{\alpha-1}\log \E\left[ \left( \frac{\d
+P_{XY|Z=z}}{\d P_{X|Z=z} P_{Y|Z=z}} \right)^{\alpha-1} \right] \\
 &amp;= \sup_{z, P_{X|Z}} \frac1{\alpha-1}\log \E\left[ \left( \frac{\d
-P_{XY|Z=z}}{\d P_{X|Z=z} P_{Y|Z=z}} \right)^{\alpha-1} \right] &amp;
-\textrm{ Average can&#39;t exceed the maximum } \\
-&amp;= \sup_{z, P_{X|Z}} \frac1{\alpha-1}\log \E\left[ \left( \frac{\d
-P_{XY}}{\d P_{X} P_{Y}} \right)^{\alpha-1} \right] &amp; \textrm{where }
+P_{XY}}{\d P_{X} P_{Y}} \right)^{\alpha-1} \right] \quad \textrm{where }
 P_Z = \delta_z\\
 &amp;\le \sup_{P_{XZ}} \I_\alpha(X ; Y).
 \end{aligned}
@@ -1040,8 +1044,9 @@ P_Z = \delta_z\\
 \sup_{P_{X^{(n)}}} \I_\alpha(X^{(n)} ; Y)
 &amp;\le \sup_{P_{X^{(n)}}} \sum_i \I_{\alpha_i}(X_i ; Y |
 X^{(&lt;i)})\\
-&amp;\le \sum_i \sup_{P_{X^{(n)}}} \I_{\alpha_i}(X_i ; Y | X^{(&lt;i)})
-\le \sum_i \sup_{P_{X^{(n)}}} \I_{\alpha_i}(X_i ; Y)
+&amp;\le \sum_i \sup_{P_{X^{(n)}}} \I_{\alpha_i}(X_i ; Y |
+X^{(&lt;i)})\\
+&amp;\le \sum_i \sup_{P_{X^{(n)}}} \I_{\alpha_i}(X_i ; Y)
 = \sum_i \varepsilon_i
 \end{aligned}
 </span></p>
@@ -1064,8 +1069,8 @@ D}</span> and <span class="math inline">P_{\tilde{Y}^{(n)} | D^{(n)}} =
 \sup_{P_{D}} \I_\alpha(X(D) ; Y^{(n)})
 &amp;\le \sum_i \sup_{P_{D}} \I_{\alpha_i}(X(D) ; Y_i | Y^{(&lt;i)})\\
 &amp;\le \sum_i \sup_{P_{D^{(n)}}} \I_{\alpha_i}(X(D_i) ; \tilde{Y}_i |
-\tilde{Y}^{(&lt;i)})
-\le \sum_i \sup_{P_{D_i}} \I_{\alpha_i}(X(D_i) ; \tilde{Y}_i)
+\tilde{Y}^{(&lt;i)})\\
+&amp;\le \sum_i \sup_{P_{D_i}} \I_{\alpha_i}(X(D_i) ; \tilde{Y}_i)
 \le \sum_i \varepsilon_i.
 \end{aligned}
 </span></p>
@@ -1285,6 +1290,15 @@ role="doc-biblioref">2014</a>)</span></p>
 </div>
 <div id="refs" class="references csl-bib-body hanging-indent"
 role="doc-bibliography">
+<div id="ref-Cuff_2016" class="csl-entry" role="doc-biblioentry">
+Cuff, Paul, and Lanqing Yu. 2016. <span>“<a
+href="https://doi.org/10.1145/2976749.2978308">Differential Privacy as a
+Mutual Information Constraint</a>.”</span> In <em>Proceedings of the
+2016 <span>ACM</span> <span>SIGSAC</span> Conference on Computer and
+Communications Security</em>. <span>ACM</span>, prerint <a
+href="https://arxiv.org/abs/1608.03677"
+class="uri">https://arxiv.org/abs/1608.03677</a>.
+</div>
 <div id="ref-DPTextbook" class="csl-entry" role="doc-biblioentry">
 Dwork, Cynthia, and Aaron Roth. 2014. <span>“<a
 href="https://doi.org/10.1561/0400000042">The Algorithmic Foundations of
@@ -1378,7 +1392,7 @@ it is possible to get a more powerful and simpler result via another
 route.<a href="#fnref5" class="footnote-back"
 role="doc-backlink">↩︎</a></p></li>
 <li id="fn6"><p>Of course because of the privacy protection the outcome
-must also hurt the people who’s data <em>was not</em> included in the
+must also hurt the people whose data <em>was not</em> included in the
 dataset.<a href="#fnref6" class="footnote-back"
 role="doc-backlink">↩︎</a></p></li>
 <li id="fn7"><p>The <span class="math inline">\frac1{\alpha-1} = \sum_i

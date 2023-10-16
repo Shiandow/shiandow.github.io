@@ -76,12 +76,19 @@ a {
     text-align: center;
     display: block;
 }
-details { margin: 0 1em; }
+details, figure { 
+    margin: 0 2rem; 
+}
 
 blockquote {
     border: 1px solid;
-    margin: 0.5em;
-    padding: 0 0.5em;
+    margin: 1rem;
+    padding: 0 1rem;
+}
+
+figure {
+    font-size: 0.8rem;
+    text-align: center;
 }
 
 /* Side notes */
