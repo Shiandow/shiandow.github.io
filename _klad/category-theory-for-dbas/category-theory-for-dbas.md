@@ -1,13 +1,13 @@
 ---
-title: On the Origin of Databases
-subtitle: Category Theory for DBAs - Part 1, Why?
+title: Those Who Don't Know History…
+subtitle: Category Theory for DBAs — Part 1, Why?
 ---
 
 Mathematics and information technology have had a symbiotic relationship from the very start. Many useful tools and concepts were born as a result of this relationship. There have been various such occasions starting in 1843 all the way through 1970, ending at the design of the first 'modern' databases. 
 
-- The first programmer was the mathematician Ada Lovelace who wrote a program to calculate the Bernouilli numbers. 
-- The concept of 'bits' was invented by Shannon, who single handedly wrote the book on the mathematical theory of communication. 
-- Relational databases use the relational algebra based on the work of Edgar F Codd, [A relational model of data for large shared data banks](https://dl.acm.org/doi/10.1145/362384.362685).
+- (1843) The first programmer was the mathematician Ada Lovelace who wrote a program to calculate the Bernouilli numbers. 
+- (1948) The concept of 'bits' was invented by Shannon, who single handedly wrote the book on [the mathematical theory of communication](https://ieeexplore.ieee.org/document/6773024). 
+- (1970) Relational databases use the relational algebra based on the work of Edgar F. Codd, [A relational model of data for large shared data banks](https://dl.acm.org/doi/10.1145/362384.362685).
 
 However in recent years the mathematical foundations of databases have started to be forgotten a bit. Meanwhile mathematics has gone its own way and databases still only support the bare minimum of relational algebra. And while the popularity of NoSQL suggests a consensus that databases have stagnated and that a more modern approach is needed, any attempt that fails to properly recognise what relational databases *are*, risks reinventing relational databases before getting to the real problem.
 
@@ -70,4 +70,4 @@ Potential Audience
 Figure 1. A Venn diagram representing the third problem.
 </figure>
 
-If you are still reading this then I invite you to read the posts in these series as they come online. The first couple of these will necessarily focus on increasing the potential audience by reviewing the mathematical notions that relational databases were built on (e.g. relations) and by showing some useful applications as bait to interest more people in mathematics.
+If you are still reading this then I invite you to read the posts in these series as they come online. The first couple of these will necessarily focus on increasing the potential audience by reviewing the mathematical notions that relational databases were built on (e.g. relations) and by showing some useful applications as bait to interest more people in mathematics (or databases).
