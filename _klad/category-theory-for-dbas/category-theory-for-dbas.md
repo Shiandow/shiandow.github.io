@@ -1,13 +1,21 @@
 ---
-title: Those Who Don't Know History…
-subtitle: Category Theory for DBAs — Part 1, Why?
+title: Those Who Don't Know History...
+subtitle: Category Theory for DBAs -- Part 1, Why?
 ---
 
 Mathematics and information technology have had a symbiotic relationship from the very start. Many useful tools and concepts were born as a result of this relationship. There have been various such occasions starting in 1843 which lay the foundation for programming, the internet and the first 'modern' databases. 
 
-- (1843) The first programmer was the mathematician Ada Lovelace who wrote a program to calculate the Bernouilli numbers. 
-- (1948) The concept of 'bits' was invented by Shannon, who single-handedly wrote the book on [the mathematical theory of communication](https://ieeexplore.ieee.org/document/6773024). 
-- (1970) Relational databases use the relational algebra based on the work of Edgar F. Codd, [A relational model of data for large shared data banks](https://dl.acm.org/doi/10.1145/362384.362685).
+<ol markdown="1">
+<li value="(1843)" markdown="1"> 
+The first programmer was the mathematician Ada Lovelace who wrote a program to calculate the Bernouilli numbers. 
+</li>
+<li value="(1948)" markdown="1">
+The concept of 'bits' was invented by Shannon, who single-handedly wrote the book on [the mathematical theory of communication](https://ieeexplore.ieee.org/document/6773024). 
+</li>
+<li value="(1970)" markdown="1"> 
+Relational databases use the relational algebra based on the work of Edgar F. Codd, [A relational model of data for large shared data banks](https://dl.acm.org/doi/10.1145/362384.362685). 
+</li>
+</ol>
 
 However in recent years the mathematical foundations of (relational) databases have started to be forgotten a bit. Meanwhile mathematics has gone its own way and databases still only support the bare minimum of relational algebra. And while the popularity of NoSQL suggests a consensus that databases have stagnated and that a more modern approach is needed, any attempt that fails to properly recognise what relational databases *are*, risks reinventing relational databases before getting to the real problem.
 

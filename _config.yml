@@ -27,7 +27,6 @@ defaults:
     path: ""
     type: klad
   values:
-    contenteditable: true
     permalink: /klad/:categories/:title/
     header: post-header.html
     footer: last-processed.html
