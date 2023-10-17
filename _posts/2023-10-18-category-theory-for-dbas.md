@@ -3,17 +3,17 @@ title: Those Who Don't Know History&hellip;
 subtitle: Category Theory for DBAs &mdash; Part 1, Why?
 ---
 
-Mathematics and information technology have had a symbiotic relationship from the very start. Many useful tools and concepts were born as a result of this relationship. There have been various such occasions starting in 1843 which lay the foundation for programming, the internet and the first 'modern' databases. 
+Mathematics and information technology have had a symbiotic relationship from the very start. Many useful tools and concepts were born as a result of this relationship. This cross-pollination started before the first computer and lay the foundation for programming, the internet and the first 'modern' databases. 
 
-- (1843) The first programmer was the mathematician Ada Lovelace who wrote a program to calculate the Bernouilli numbers. 
+- (1843) The first programmer, mathematician Ada Lovelace, wrote a program to calculate the Bernouilli numbers. 
 - (1948) The concept of 'bits' was invented by Shannon, who single-handedly wrote the book on [the mathematical theory of communication](https://ieeexplore.ieee.org/document/6773024). 
-- (1970) Relational databases use the relational algebra based on the work of Edgar F. Codd, [A relational model of data for large shared data banks](https://dl.acm.org/doi/10.1145/362384.362685). 
+- (1970) Edgar F. Codd publishes [A relational model of data for large shared data banks](https://dl.acm.org/doi/10.1145/362384.362685), laying the foundations for relational databases.
 
 However in recent years the mathematical foundations of (relational) databases have started to be forgotten a bit. Meanwhile mathematics has gone its own way and databases still only support the bare minimum of relational algebra. And while the popularity of NoSQL suggests a consensus that it's time for a more modern approach, any attempt that fails to properly recognise what relational databases *are*, risks reinventing relational databases before getting to the real problem.
 
-Take for example the graph databases, an attempt to modernise database by basing them on graph theory (invented by Euler in 1735). Not only are relations and graphs similar in many way the obvious generalisation from graphs to hypergraphs (analogous to moving from binary to $n$-ary relations) results in the exact same model as the relational databases described by Edgar F. Codd (except for the `NULL`s, another concept that seems to keep getting reinvented).
+Take for example graph databases, an attempt to modernise database by basing them on graph theory (invented by Euler in 1735). Not only are relations and graphs similar in many ways, the obvious generalisation from graphs to hypergraphs (analogous to moving from binary to $n$-ary relations) results in much the same model as the relational databases described by Edgar F. Codd (though the equivalence requires the use of `NULL`s, another concept that seems to keep getting reinvented).
 
-While such efforts do bring some much needed fresh air they would be more effective if the effort was not spent reinventing the parts that are already there. And while Codd's work in the 1970s was important, very little of the more modern mathematics has seen much use in databases since. This suggests several areas of improvement.
+While such efforts do bring some much needed fresh air, they would be more effective if the effort was not spent reinventing the parts that are already there. And while Codd's work in the 1970s was important, very little of the mathematics developed since then has seen much use in databases. This suggests several areas of improvement.
 
 Firstly awareness of the mathematical notions behind databases needs to be improved. In order to avoid reinventing concepts simply because they are not part of 'ordinary' SQL, or simply forgotten. Even if those concepts have been known to mathematicians for centuries. 
 
