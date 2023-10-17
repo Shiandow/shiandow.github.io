@@ -1,14 +1,22 @@
 ---
 title: Putting the Relational back in Relational Databases
+subtitle: Category Theory for DBAs &em; Part 2, How?
 ---
+## Introduction
 
 The concept of relations lies at the heart of relational databases. Despite this, awareness of what relations are and what properties they have is not widespread amongst people using databases. This article seeks to give a quick overview of what mathematical relations are and how these concepts are used in relational databases. Later articles will use this as a basis to apply even more advanced mathematical concepts to databases.
 
 The use of relations to describe databases can be traced back to the paper by Edgar F Codd [A relational model of data for large shared data banks](https://dl.acm.org/doi/10.1145/362384.362685). This paper introduces various important concepts such as joins and primary keys. To understand them properly first requires some introduction to the concept of relations. 
 
-A relation is nothing more or less than some operation that relates one thing to another. There are various well known examples, such as equality '$=$', inequality '$\ne$', order '$\le$'. Once a relation has a name it is possible to make statements about this relation such as '$1<2$' or '$0=1$' which may or may not be true. Typically this notation uses some symbol in between the two things that are related, but there are exceptions such as functions (which relate their input to their output).
+While databases use relations between more than 2 things (so called $n$-ary relations) it is better to try to understand *binary* relations first. For one you can split any relation into a couple of binary ones. And secondly reasoning about $n$-ary relations gets inhumanly hard very quickly if $n$ rises above 2.
 
-Concretely a relation can be modelled as a set of pairs. If a relation $R$ contains the pair $(x,y)$ then $R$ relates $x$ to $y$ which is usually written $x R y$. This way of modelling relations model is the easiest to translate to a table in a database. Note that this model uses a *set* of pairs, which is the reason many set operations such as `UNION` or `INTERSECT` and `MINUS` exist in SQL. The main difference between tables and sets is that tables may contain the same row multiple times. Since set operations return a set not a table they each have the (sometimes useful) side effect that the result won't contain any duplicates.
+## Relations
+
+A relation is nothing more or less than something that relates one thing to another. There are various well known examples, such as equality '$=$', inequality '$\ne$', order '$\le$'. Once a relation has a name it is possible to make statements about this relation such as '$1<2$' or '$0=1$' (statements may turn out to be false). Typically this notation uses some symbol in between the two things that are related, but there are exceptions such as functions (which relate their input to their output).
+
+Concretely a relation can be modelled as a set of pairs. If a relation $R$ contains the pair $(x,y)$ then $R$ relates $x$ to $y$ which is usually written $x R y$. This way of modelling relations is the easiest to translate to a table in a database. 
+
+Note that this model uses a *set* of pairs, which is the reason many set operations such as `UNION` or `INTERSECT` and `MINUS` exist in SQL. The main difference between tables and sets is that tables may contain the same row multiple times. Since set operations return a set not a table they have the (sometimes useful) side effect that the result won't contain any duplicates.
 
 <figure>
 <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -69,6 +77,9 @@ This concept can be generalized quite a bit, in fact it is enough to only requir
 
 > $x \le x$  
 > if $x \le y$ and $y \le z$ then $x \le z$
+
+This is called a pre-order. Its main feature is the fact that it's transitive (meaning that if $x \le y$ and $y \le z$ then $x \le z$ as well). This is a lot more flexible than a general order, because two things don't even need to be comparable, and it is possible that $x \le y$ and $y \le x$ even if $x \ne y$. 
+
 
 <figure>
 <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -134,8 +145,6 @@ This concept can be generalized quite a bit, in fact it is enough to only requir
 </svg>
 Figure 2. A pre-order on set of 7 points, containing the relation in figure 1 as a subset.
 </figure>
-
-This is called a pre-order. Its main feature is the fact that it's transitive (meaning that if $x \le y$ and $y \le z$ then $x \le z$ as well). This is a lot more flexible than a general order, because two things don't even need to be comparable, and it is possible that $x \le y$ and $y \le x$ even if $x \ne y$. 
 
 Among other things it is not necessary for two things to even be comparable. It seems like this would be too general to make much sense, but as it turns out it shows up quite a bit, for example when dealing with time periods. It is easy to say that June 7th 2011 occurred before the year 2022 but should we try to compare week 35 2023 (from August 28 to September 2) with September 2023, then we run into a problem. Sure one of them *started* earlier, but the other *ended* earlier, so which was earlier? 
 
@@ -276,3 +285,7 @@ In practice a relation $R$ is usually *known* to have certain properties, but on
 The most common example of this is when a relation is known to be transitive, but only some of the pairs are known, the rest being implicit. The problem then becomes trying to find the smallest transitive relation that fits all known pairs. While some databases do support the required recursive join this is a feature that remains ill supported in SQL (even though it makes perfect sense from a relational point of view). 
 
 Another example has to do with an equivalence relation which is only partially known. The usual solution to this problem is to use clustering. What clustering is and how to go beyond equivalence relations will be the subject for the next article in this series.
+
+## Back to Databases
+
+TODO (higher arity)

@@ -1,7 +1,12 @@
 ---
 title: Clustering Data and Galois Connections
+subtitle: Category Theory for DBAs &em; Part 3, Who?
 ---
-## Introduction
+## Galois
+
+TODO
+
+## Clustering
 
 A common problem when dealing with data is deciding when 2 things are in fact the same. This 
 happens particularly when you've got multiple sources of data about the same objects. If you're lucky
