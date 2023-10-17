@@ -28,6 +28,10 @@ There is, however, one small problem which will need to be tackled first.
     <feTurbulence type="turbulence" baseFrequency="0.01" numOctaves="3" result="noise" />
     <feDisplacementMap in="SourceGraphic" in2="noise" scale="10" xChannelSelector="R" yChannelSelector="G"/>
 </filter>
+<filter id="sketchy">
+    <feTurbulence type="turbulence" baseFrequency="0.03" numOctaves="3" result="noise" />
+    <feDisplacementMap in="SourceGraphic" in2="noise" scale="2" xChannelSelector="R" yChannelSelector="G"/>
+</filter>
 <filter id="blackboard">
     <feFlood flood-color="rgb(255,240,255)" result="background" />
     <feBlend mode="normal" in="SourceGraphic" in2="background" />
@@ -52,17 +56,19 @@ There is, however, one small problem which will need to be tackled first.
 <circle cx="25" cy="40" r="23" fill="none" stroke="black"/>
 <circle cx="70" cy="40" r="23" fill="none" stroke="black"/>
 <line x1="45" y1="12" x2="47.5" y2="35" marker-end="url(#arrow)" stroke="black" />
-<text x="45" y="10" style="font-size: 5px;" text-anchor="middle">
+</g>
+<g style="filter: url(#sketchy); font-family: 'Comic Sans MS', 'Comic Sans',cursive;">
+<text x="47" y="10" style="font-size: 5px;" text-anchor="middle">
 Potential Audience
 </text>
-<text x="25" y="40" style="font-size: 5px;" text-anchor="middle">
-<tspan x="25">Reads articles</tspan>
-<tspan x="25" dy="1.2em">about databases</tspan>
+<text x="27" y="40" style="font-size: 5px;" text-anchor="middle">
+<tspan x="27">Reads articles</tspan>
+<tspan x="27" dy="1.2em">about databases</tspan>
 </text>
-<text x="70" y="35" style="font-size: 5px;" text-anchor="middle">
-<tspan x="70">Reads articles</tspan>
-<tspan x="70" dy="1.2em">containing</tspan>
-<tspan x="70" dy="1.2em">Mathematics</tspan>
+<text x="72" y="35" style="font-size: 5px;" text-anchor="middle">
+<tspan x="72">Reads articles</tspan>
+<tspan x="72" dy="1.2em">containing</tspan>
+<tspan x="72" dy="1.2em">Mathematics</tspan>
 </text>
 </g>
 </svg>
