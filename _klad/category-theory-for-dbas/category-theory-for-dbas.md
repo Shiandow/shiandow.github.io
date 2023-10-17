@@ -17,17 +17,17 @@ Relational databases use the relational algebra based on the work of Edgar F. Co
 </li>
 </ol>
 
-However in recent years the mathematical foundations of (relational) databases have started to be forgotten a bit. Meanwhile mathematics has gone its own way and databases still only support the bare minimum of relational algebra. And while the popularity of NoSQL suggests a consensus that databases have stagnated and that a more modern approach is needed, any attempt that fails to properly recognise what relational databases *are*, risks reinventing relational databases before getting to the real problem.
+However in recent years the mathematical foundations of (relational) databases have started to be forgotten a bit. Meanwhile mathematics has gone its own way and databases still only support the bare minimum of relational algebra. And while the popularity of NoSQL suggests a consensus that it's time for a more modern approach, any attempt that fails to properly recognise what relational databases *are*, risks reinventing relational databases before getting to the real problem.
 
-One such attempt to modernise databases are the graph databases, based on graph theory (invented by Euler in 1735). Amusingly people seem to recognise that a hypergraph database would be even more powerful but haven't yet realised that this is exactly the notion of a relational database (assuming said database has `NULL`s, another concept that seems to keep getting reinvented).
+Take for example the graph databases, an attempt to modernise database by basing them on graph theory (invented by Euler in 1735). Not only are relations and graphs similar in many way the obvious generalisation from graphs to hypergraphs (analogous to moving from binary to $n$-ary relations) results in the exact same model as the relational databases described by Edgar F. Codd (except for the `NULL`s, another concept that seems to keep getting reinvented).
 
-Such efforts do bring some much needed fresh air, but would be more effective if the effort was not spent reinventing the parts that are already there. And while Codd's work in the 1970s was important, very little of the more modern mathematics has seen much use in databases. This means there are several areas of improvement.
+While such efforts do bring some much needed fresh air they would be more effective if the effort was not spent reinventing the parts that are already there. And while Codd's work in the 1970s was important, very little of the more modern mathematics has seen much use in databases since. This suggests several areas of improvement.
 
-Firstly awareness of the mathematical notions behind databases need to be improved, to avoid reinventing concepts that have been known for centuries to mathematicians just because they are not part of 'ordinary' SQL, or simply forgotten. 
+Firstly awareness of the mathematical notions behind databases needs to be improved. In order to avoid reinventing concepts simply because they are not part of 'ordinary' SQL, or simply forgotten. Even if those concepts have been known to mathematicians for centuries. 
 
 Secondly it is time to bring the state of mathematics used in databases to at least somewhere in the later half of the 20th century. As important as the relational algebra of Codd was, it didn't exactly represent the cutting edge of mathematics at the time. Of the cutting edge mathematics of that time the field of category theory in particular has since found many uses in other areas (including information technology) so it is time to bring it to the world of databases as well.
 
-There is, however, one problem which will need to be tackled first. 
+There is, however, one small problem which will need to be tackled first. 
 
 <figure>
 <svg viewBox="0 0 100 75" xmlns="http://www.w3.org/2000/svg">
