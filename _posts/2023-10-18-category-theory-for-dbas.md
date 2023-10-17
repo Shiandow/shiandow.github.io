@@ -1,6 +1,7 @@
 ---
 title: Those Who Don't Know History&hellip;
 subtitle: Category Theory for DBAs &mdash; Part 1, Why?
+category: category-theory-for-dbas
 ---
 
 Mathematics and information technology have had a symbiotic relationship from the very start. Many useful tools and concepts were born as a result of this relationship. This cross-pollination started before the first computer and lay the foundation for programming, the internet and the first 'modern' databases. 
