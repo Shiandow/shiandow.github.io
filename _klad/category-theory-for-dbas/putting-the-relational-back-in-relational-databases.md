@@ -2,8 +2,6 @@
 title: Putting the Relational back in Relational Databases
 subtitle: Category Theory for DBAs &em; Part 2, How?
 ---
-## Introduction
-
 The concept of relations lies at the heart of relational databases. Despite this, awareness of what relations are and what properties they have is not widespread amongst people using databases. This article seeks to give a quick overview of what mathematical relations are and how these concepts are used in relational databases. Later articles will use this as a basis to apply even more advanced mathematical concepts to databases.
 
 The use of relations to describe databases can be traced back to the paper by Edgar F Codd [A relational model of data for large shared data banks](https://dl.acm.org/doi/10.1145/362384.362685). This paper introduces various important concepts such as joins and primary keys. To understand them properly first requires some introduction to the concept of relations. 
