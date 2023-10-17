@@ -13,13 +13,13 @@ However in recent years the mathematical foundations of databases have started t
 
 One such attempt to modernise databases are the graph databases, based on graph theory (invented by Euler in 1735). Amusingly people seem to recognise that a hypergraph database would be even more powerful but haven't yet realised that this is exactly the notion of a relational database (assuming said database has `NULL`s, another concept that seems to keep getting reinvented).
 
-Such efforts do bring some much needed fresh air, but would be more effective if the effort was not spent reinventing the parts that are already there. And while Codd's work in the 1970s was important, very little of the more modern mathematics has seen much use in databases. This means there are several problems to be solved.
+Such efforts do bring some much needed fresh air, but would be more effective if the effort was not spent reinventing the parts that are already there. And while Codd's work in the 1970s was important, very little of the more modern mathematics has seen much use in databases. This means there are several areas of improvement.
 
 Firstly awareness of the mathematical notions behind databases need to be improved, to avoid reinventing concepts that have been known for centuries to mathematicians just because they are not part of 'ordinary' SQL, or simply forgotten. 
 
 Secondly it is time to bring the state of mathematics used in databases to at least somewhere in the later half of the 20th century. As important as the relational algebra of Codd was, it didn't exactly represent the cutting edge of mathematics at the time. Of the cutting edge mathematics of that time the field of category theory in particular has since found many uses in other areas (including information technology) so it is time to bring it to the world of databases as well.
 
-And then finally the third problem
+First however, it is necessary to tackle the following problem
 
 <figure>
 <svg viewBox="0 0 100 75" xmlns="http://www.w3.org/2000/svg">
@@ -67,7 +67,7 @@ Potential Audience
 </g>
 </svg>
 
-Figure 1. A Venn diagram representing the third problem.
+Figure 1. A Venn diagram representing the problem.
 </figure>
 
-Anyone still reading this is cordially invited to read the other posts in these series as they come online. The first couple of these will necessarily focus on increasing the potential audience by reviewing the mathematical notions that relational databases were built on (e.g. relations) and by showing some useful applications as bait to interest more people in mathematics (or databases).
+The healthy cross-pollination between mathematics and databases can not happen without people interested in both. Therefore anyone still reading this is cordially invited to read the other posts in these series as they come online. The first couple of these will necessarily focus on increasing the potential audience by reviewing the mathematical notions that relational databases were built on (e.g. relations) and by showing some useful applications as bait to interest more people in mathematics (or databases).
