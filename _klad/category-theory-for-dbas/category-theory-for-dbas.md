@@ -1,15 +1,15 @@
 ---
 title: Those Who Don't Know History…
-subtitle: Category Theory for DBAs — Part 0, Why?
+subtitle: Category Theory for DBAs — Part 1, Why?
 ---
 
-Mathematics and information technology have had a symbiotic relationship from the very start. Many useful tools and concepts were born as a result of this relationship. There have been various such occasions starting in 1843 all the way through 1970, ending at the design of the first 'modern' databases. 
+Mathematics and information technology have had a symbiotic relationship from the very start. Many useful tools and concepts were born as a result of this relationship. There have been various such occasions starting in 1843 which lay the foundation for programming, the internet and the first 'modern' databases. 
 
 - (1843) The first programmer was the mathematician Ada Lovelace who wrote a program to calculate the Bernouilli numbers. 
 - (1948) The concept of 'bits' was invented by Shannon, who single-handedly wrote the book on [the mathematical theory of communication](https://ieeexplore.ieee.org/document/6773024). 
 - (1970) Relational databases use the relational algebra based on the work of Edgar F. Codd, [A relational model of data for large shared data banks](https://dl.acm.org/doi/10.1145/362384.362685).
 
-However in recent years the mathematical foundations of databases have started to be forgotten a bit. Meanwhile mathematics has gone its own way and databases still only support the bare minimum of relational algebra. And while the popularity of NoSQL suggests a consensus that databases have stagnated and that a more modern approach is needed, any attempt that fails to properly recognise what relational databases *are*, risks reinventing relational databases before getting to the real problem.
+However in recent years the mathematical foundations of (relational) databases have started to be forgotten a bit. Meanwhile mathematics has gone its own way and databases still only support the bare minimum of relational algebra. And while the popularity of NoSQL suggests a consensus that databases have stagnated and that a more modern approach is needed, any attempt that fails to properly recognise what relational databases *are*, risks reinventing relational databases before getting to the real problem.
 
 One such attempt to modernise databases are the graph databases, based on graph theory (invented by Euler in 1735). Amusingly people seem to recognise that a hypergraph database would be even more powerful but haven't yet realised that this is exactly the notion of a relational database (assuming said database has `NULL`s, another concept that seems to keep getting reinvented).
 
@@ -19,7 +19,7 @@ Firstly awareness of the mathematical notions behind databases need to be improv
 
 Secondly it is time to bring the state of mathematics used in databases to at least somewhere in the later half of the 20th century. As important as the relational algebra of Codd was, it didn't exactly represent the cutting edge of mathematics at the time. Of the cutting edge mathematics of that time the field of category theory in particular has since found many uses in other areas (including information technology) so it is time to bring it to the world of databases as well.
 
-First however, it is necessary to tackle the following problem
+There is, however, one problem which will need to be tackled first. 
 
 <figure>
 <svg viewBox="0 0 100 75" xmlns="http://www.w3.org/2000/svg">
@@ -67,7 +67,7 @@ Potential Audience
 </g>
 </svg>
 
-Figure 1. A Venn diagram representing the problem.
+Figure 1. The problem.
 </figure>
 
 The healthy cross-pollination between mathematics and databases can not happen without people interested in both. Therefore anyone still reading this is cordially invited to read the other posts in these series as they come online. The first couple of these will necessarily focus on increasing the potential audience by reviewing the mathematical notions that relational databases were built on (e.g. relations) and by showing some useful applications as bait to interest more people in mathematics (or databases).
@@ -75,7 +75,7 @@ The healthy cross-pollination between mathematics and databases can not happen w
 <ol type="I">
   {% for post in site.categories.basic %}
     {% if post.url %}
-    <li values="{{ forloop.index0 }}"><a href="{{ post.url }}">{{ post.title }}</a></li>
+    <li values="{{ forloop.index }}"><a href="{{ post.url }}">{{ post.title }}</a></li>
     {% endif %}
   {% endfor %}
 </ol>
