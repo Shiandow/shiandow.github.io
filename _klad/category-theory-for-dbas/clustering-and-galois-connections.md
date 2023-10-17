@@ -1,6 +1,6 @@
 ---
 title: Clustering Data and Galois Connections
-subtitle: Category Theory for DBAs &em; Part 3, Who?
+subtitle: Category Theory for DBAs &mdash; Part 3, Who?
 ---
 TODO  Galois
 
