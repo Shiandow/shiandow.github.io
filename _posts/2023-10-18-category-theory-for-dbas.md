@@ -6,7 +6,7 @@ tag: category-theory-for-dbas
 
 Mathematics and information technology have had a symbiotic relationship from the very start. Many useful tools and concepts were born as a result of this relationship. This cross-pollination started before the first computer and lay the foundation for programming, the internet and the first 'modern' databases. 
 
-- (1843) The first programmer, mathematician Ada Lovelace, wrote a program to calculate the Bernouilli numbers. 
+- (1843) The first programmer, mathematician Ada Lovelace, wrote a program to calculate the Bernoulli numbers. 
 - (1948) The concept of 'bits' was invented by Shannon, who single-handedly wrote the book on [the mathematical theory of communication](https://ieeexplore.ieee.org/document/6773024). 
 - (1970) Edgar F. Codd publishes [A relational model of data for large shared data banks](https://dl.acm.org/doi/10.1145/362384.362685), laying the foundations for relational databases.
 
