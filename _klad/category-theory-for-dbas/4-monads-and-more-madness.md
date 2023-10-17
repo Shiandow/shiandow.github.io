@@ -1,7 +1,7 @@
 ---
 title: Monads and More Madness
 subtitle: Category Theory for DBAs&mdash;Part X, What?
-category: category-theory-for-dbas
+tag: category-theory-for-dbas
 ---
 
 ## Adjoint Functors

@@ -1,7 +1,7 @@
 ---
 title: Those Who Don't Know History&hellip;
 subtitle: Category Theory for DBAs &mdash; Part 1, Why?
-category: category-theory-for-dbas
+tag: category-theory-for-dbas
 ---
 
 Mathematics and information technology have had a symbiotic relationship from the very start. Many useful tools and concepts were born as a result of this relationship. This cross-pollination started before the first computer and lay the foundation for programming, the internet and the first 'modern' databases. 
@@ -80,9 +80,11 @@ Figure 1. The problem.
 The healthy cross-pollination between mathematics and databases can not happen without people interested in both. Therefore anyone still reading this is cordially invited to read the other posts in these series as they come online. The first couple of these will necessarily focus on increasing the potential audience by reviewing the mathematical notions that relational databases were built on (e.g. relations) and by showing some useful applications as bait to interest more people in mathematics (or databases).
 
 <ol type="I">
-  {% for post in site.categories.basic %}
-    {% if post.url %}
-    <li values="{{ forloop.index }}"><a href="{{ post.url }}">{{ post.title }}</a></li>
-    {% endif %}
-  {% endfor %}
+  {%- assign index = 0 %}
+  {%- for post in site.categories.basic %}
+    {%- if post.url and post.tags contains "category-theory-for-dbas" %}
+    <li values="{{ index }}"><a href="{{ post.url }}">{{ post.title }}</a></li>
+    {%- increment index %}
+    {%- endif %}
+  {%- endfor %}
 </ol>
