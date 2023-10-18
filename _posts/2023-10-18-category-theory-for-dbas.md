@@ -84,7 +84,7 @@ The healthy cross-pollination between mathematics and databases can not happen w
   {%- for post in site.posts %}
     {%- if post.url and post.tags contains "category-theory-for-dbas" %}
     <li values="{{ index }}"><a href="{{ post.url }}">{{ post.title }}</a></li>
-    {%- increment index %}
+    {%- assign index = index | plus: 1 %}
     {%- endif %}
   {%- endfor %}
 </ol>
