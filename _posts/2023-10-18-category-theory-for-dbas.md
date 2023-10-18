@@ -79,5 +79,5 @@ Figure 1. The problem.
 
 The healthy cross-pollination between mathematics and databases can not happen without people interested in both. Therefore anyone still reading this is cordially invited to read the other posts in these series as they come online. The first couple of these will necessarily focus on increasing the potential audience by reviewing the mathematical notions that relational databases were built on (e.g. relations) and by showing some useful applications as bait to interest more people in mathematics (or databases).
 
-More posts in this series:
+Posts in this series:
 {% include see-also.html tag="category-theory-for-dbas" %}

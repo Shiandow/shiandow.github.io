@@ -207,7 +207,7 @@ in short, every object is equivalent to itself, equivalence is symmetric (it has
 
 In databases these show up whenever an entity has multiple different identifiers (usually across different systems). In such a scenario a common problem is to figure out how to turn equivalence into equality. More on that later.
 
-A less obvious example would be the relation of being 'related' or 'connected'. We could for instance consider two land masses to be connected if they are connected by land, in that case the Germany, Spain and France are all connected but the Netherlands and the UK are not.
+A less obvious example would be the relation of being 'related' or 'connected'. For instance let's say two land masses are called 'connected' if they are connected by land, in that case the Germany, Spain and France are all connected but the Netherlands and the UK are not.
 
 An equivalence relation can be turned into equality by looking at equivalence classes, each class represents a set of entities that are all equivalent to each other. For things that are connected these are also called 'connected components'. A common notation for these is to denote the equivalence class of $x$ as $[x]$.
 
@@ -286,4 +286,22 @@ Another example has to do with an equivalence relation which is only partially k
 
 ## Back to Databases
 
-TODO (higher arity)
+Hopefully this article has given a bit of insight into the properties a relation may have and how these do or don't correspond ot things you can do in a database.
+
+However as stated in the beginning of the article this is just the binary relations. Converting those back to a database you'd end up with a database containing tables with only 2 columns (to the delight of advocates for RDF triples[^trip]), in practice this is not what databases look like. Does this mean that knowledge of binary relations is not useful? Well obviously not, in fact most tables are secretly a collection of binary relations.
+
+Take for instance a product table, it will contain various properties of each product such as its size, colour, possibly price etc. However usually it will also contain a product ID. Usually this is just a meaningless number that does nothing but identify the row. However if it is meaningless it should serve some purpose, otherwise why include it?
+
+This product ID (or primary keys in general) is added to the table to turn it from an $n$-ary ($n$=number of columns) relation into $n$ binary relations. By design the product ID will uniquely refer to a single row which means each column of the table can be turned into a function from the product ID to the value in that column for that row. 
+
+Now why do this instead of simply making a 2 column table for each property? That is because a well designed database doesn't just turn each column of the product table into a function of the product ID, it also does the opposite. If each product has a unique row in the product table then each property of a product, which must be some kind of function from the product to some range of values, can be turned into a column of the product table by simply putting the output of the function at the row for the corresponding product. By allowing a column to have empty values it also becomes possible to include properties which are only defined for *some* products.
+
+In this way the product ID becomes a representative for the product itself since properties of the product are turned into functions of the product ID.
+
+This trick is so pervasive in databases that any example where it doesn't work is almost automatically considered a data quality issue. This includes cases like having multiple sets of IDs for the same objects, tables without any kind of primary key. Although sometimes an ID is spread across multiple columns, but doing so doesn't change much, it is trivial to convert such a table to one with a singular ID column.
+
+Is anything lost by turning all $n$-ary relations into $n-1$ functions? Well yes, for one there are binary relations that aren't functions, and while turning those into pairs of functions has some utility it is not the best way to view those relations. It is entirely possible some properties of trinary or $n$-ary relations are hidden by turning them into triples or $n$-tuples of functions, but mathematics doesn't seem ready to deal with those kinds of properties yet.  
+
+So for all intents and purposes relational databases are just tables of functions bound together by using the primary key as the spine, and maybe a few link tables with some binary relations. Understanding binary relations is the best way to understand databases.
+
+[^trip]: Don't let the name 'triple' confuse you, one of the three values is just the table name.

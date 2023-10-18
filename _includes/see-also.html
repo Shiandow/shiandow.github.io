@@ -3,12 +3,12 @@
     {%- unless post.url and post.tags contains include.tag %}
         {% continue %}
     {% endunless %}
-    <li><a href="{{ post.url }}">
+    <li>
         {%- if post.url == page.url -%}
-        <mark>{{ post.title }}</mark>
-        {%- else -%}
         {{ post.title }}
+        {%- else -%}
+        <a href="{{ post.url }}">{{ post.title }}</a>
         {%- endif -%}
-    </a></li>
+    </li>
 {%- endfor %}
 </ol>
