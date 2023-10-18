@@ -5,9 +5,9 @@ tag: category-theory-for-dbas
 ---
 The concept of relations lies at the heart of relational databases. Despite this, awareness of what relations are and what properties they have is not widespread amongst people using databases. This article seeks to give a quick overview of what mathematical relations are and how these concepts are used in relational databases. Later articles will use this as a basis to apply even more advanced mathematical concepts to databases.
 
-The use of relations to describe databases can be traced back to the paper by Edgar F Codd [A relational model of data for large shared data banks](https://dl.acm.org/doi/10.1145/362384.362685). This paper introduces various important concepts such as joins and primary keys. To understand them properly first requires some introduction to the concept of relations. 
+The use of relations to describe databases can be traced back to the paper by Edgar F. Codd [A relational model of data for large shared data banks](https://dl.acm.org/doi/10.1145/362384.362685). This paper introduces various important concepts such as joins and primary keys. To understand them properly requires some introduction to the concept of relations. 
 
-While databases use relations between more than 2 things (so called $n$-ary relations) it is better to try to understand *binary* relations first. For one you can split any relation into a couple of binary ones. And secondly reasoning about $n$-ary relations gets inhumanly hard very quickly if $n$ rises above 2.
+While databases use relations between more than 2 things (so called $n$-ary relations) it is better to try to understand *binary* relations first. For one you can split any relation into a couple of binary ones, and secondly reasoning about $n$-ary relations gets inhumanly hard very quickly if $n$ rises above 2.
 
 ## Relations
 
@@ -15,7 +15,7 @@ A relation is nothing more or less than something that relates one thing to anot
 
 Concretely a relation can be modelled as a set of pairs. If a relation $R$ contains the pair $(x,y)$ then $R$ relates $x$ to $y$ which is usually written $x R y$. This way of modelling relations is the easiest to translate to a table in a database. 
 
-Note that this model uses a *set* of pairs, which is the reason many set operations such as `UNION` or `INTERSECT` and `MINUS` exist in SQL. The main difference between tables and sets is that tables may contain the same row multiple times. Since set operations return a set not a table they have the (sometimes useful) side effect that the result won't contain any duplicates.
+Note that this model uses a *set* of pairs, which is the reason many set operations such as `UNION` or `INTERSECT` and `MINUS` exist in SQL. The main difference between tables and sets is that tables may contain the same row multiple times. Since set operations return a set not a table they have the (sometimes useful) side effect that the result won't contain any row more than once.
 
 <figure>
 <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -74,11 +74,10 @@ Let's start with something somewhat familiar. Ordinal relations. These show up w
 
 This concept can be generalized quite a bit, in fact it is enough to only require the following for all $x,y,z$
 
-> $x \le x$  
-> if $x \le y$ and $y \le z$ then $x \le z$
+> - $x \le x$  
+> - if $x \le y$ and $y \le z$ then $x \le z$
 
 This is called a pre-order. Its main feature is the fact that it's transitive (meaning that if $x \le y$ and $y \le z$ then $x \le z$ as well). This is a lot more flexible than a general order, because two things don't even need to be comparable, and it is possible that $x \le y$ and $y \le x$ even if $x \ne y$. 
-
 
 <figure>
 <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -145,17 +144,17 @@ This is called a pre-order. Its main feature is the fact that it's transitive (m
 Figure 2. A pre-order on set of 7 points, containing the relation in figure 1 as a subset.
 </figure>
 
-Among other things it is not necessary for two things to even be comparable. It seems like this would be too general to make much sense, but as it turns out it shows up quite a bit, for example when dealing with time periods. It is easy to say that June 7th 2011 occurred before the year 2022 but should we try to compare week 35 2023 (from August 28 to September 2) with September 2023, then we run into a problem. Sure one of them *started* earlier, but the other *ended* earlier, so which was earlier? 
+Among other things it is not necessary for two things to even be comparable. It seems like this would be too general to make much sense, but as it turns out it shows up quite a bit, for example when dealing with time periods. It is easy to say that June 7th 2011 occurred before the year 2022 but comparing week 35 2023 (from August 28 to September 2) with September 2023 is not immediately obvious. Sure one of them *started* earlier, but the other *ended* earlier, so which was earlier? 
 
 This generality also lends it to hierarchical or 'part of' relations. For example Utrecht is a part of the Netherlands is a part of Europe, but France is not a part of Australia nor is Australia a part of France. It's easy to check that this way regions form a hierarchy defined by the 'part of' relation and this relation is a pre-order.
 
-It is also not the case that $x \le y$ and $y \le x$ can't both be true, even if $x \ne y$. In fact returning to the example of sorting strings, if we ignore case then "apple", "Apple" and "APPLE" could occur in any order. Of course we can always use some kind of tie break, but it makes more sense to just say "apple $\le$ APPLE" and "APPLE $\le$ apple", since they're both valid ways to sort those strings. [^strict]
+It is also not the case that $x \le y$ and $y \le x$ can't both be true, even if $x \ne y$. In fact returning to the example of sorting strings, if sorting is case insensitive then "apple", "Apple" and "APPLE" could occur in any order. Of course it is possible to add some kind of tie break, but sometimes it's nice to be able to just say "apple $\le$ APPLE" and "APPLE $\le$ apple", since they're both valid ways to sort those strings. [^strict] In fact this is wat SQL Server does (and how it compares strings for 'equality', this will become relevant later).
 
 [^strict]:Such a property is not possible to state with a strict inequality (where $x \not\lt x$) hence why this section introduced pre-orders first.
 
-When we add the requirement that $x \le y$ and $y \le x$ implies that $x = y$ then we get what's called a partial order. Upon adding the condition that everything is comparable to everything else this becomes a total order. 
+There are some more specific types of order, with more powerful properties. By adding the requirement that $x \le y$ and $y \le x$ implies that $x = y$ a pre-order turns into what's called a partial order. Upon adding the condition that everything is comparable to everything else this becomes a total order. 
 
-However partial-orders aren't necessarily more convenient than pre-orders. The pairs $(x,y)$ such that $x \le y$ and $y \le x$ are interesting in their own right, because they represent something that is *like* equality, without being equal. This concept is called an equivalence relation.
+However partial orders or total orders aren't necessarily more convenient than pre-orders. The pairs $(x,y)$ such that $x \le y$ and $y \le x$ are interesting in their own right, because they represent something that is *like* equality, without being equal (this is how SQL Server uses collation, sorting order, to check strings for equality/equivalence). This concept is called an equivalence relation.
 
 ## Equivalence Relations
 
@@ -163,9 +162,9 @@ Equivalence relations show up whenever things are equal or equivalent. They're r
 
 Using the symbol '$\sim$' the rules for an equivalence relation are that for all $x$,$y$,$z$:
 
-> $x \sim x$  
-> if $x \sim y$ then $y \sim x$  
-> if $x \sim y$ and $y \sim z$ then $x \sim z$
+> - $x \sim x$  
+> - if $x \sim y$ then $y \sim x$  
+> - if $x \sim y$ and $y \sim z$ then $x \sim z$
 
 <figure>
 <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -257,7 +256,7 @@ Functions are a special type of relation where the left hand side is guaranteed 
 Figure 4. A function from a set of 4 points to a set of 3 points. The domain (set of inputs) and codomain (set of outputs) are delimited by dashed lines.
 </figure>
 
-The relevant database concept is a table with a primary key, which is precisely the constraint we need to turn the relation into a function, namely that a value is guaranteed to be unique across the whole table (if the table has multiple columns the corresponding function is a multivalued function). 
+The relevant database concept is a table with a primary key, which is precisely the constraint needed to turn a relation into a function, namely that a value is guaranteed to be unique across the whole table (if the table has multiple columns the corresponding function is a multivalued function). 
 
 The nice thing about functions is that they can be composed, if there are two functions $f$ and $g$ where the outputs of $f$ are contained in the inputs of $g$ then they can be combined into a new relation $g \circ f$ which maps $x$ to $g(f(x))$. This new relation is also a function. 
 

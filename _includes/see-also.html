@@ -1,0 +1,13 @@
+<ol>
+{%- for post in site.posts %}
+    {%- if post.url and post.tags contains include.tag %}
+    <li><a href="{{ post.url }}">
+        {%- if post.url == page.url -%}
+        <mark>{{ post.title }}</mark>
+        {%- else -%}
+        {{ post.title }}
+        {%- endif -%]}
+    </a></li>
+    {%- endif %}
+{%- endfor %}
+</ol>
