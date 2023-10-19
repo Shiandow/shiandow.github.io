@@ -11,7 +11,7 @@ While databases use relations between more than 2 things (so called $n$-ary rela
 
 ## Relations
 
-A relation is nothing more or less than something that relates one thing to another. There are various well known examples, such as equality '$=$', inequality '$\ne$', order '$\le$'. Once a relation has a name it is possible to make statements about this relation such as '$1<2$' or '$0=1$' (statements may turn out to be false). Typically this notation uses some symbol in between the two things that are related, but there are exceptions such as functions (which relate their input to their output).
+A relation is nothing more or less than something that relates one thing to another. There are various well known examples, such as equality '$=$', inequality '$\ne$', order '&le;'. Once a relation has a name it is possible to make statements about this relation such as '$1<2$' or '$0=1$' (statements may turn out to be false). Typically this notation uses some symbol in between the two things that are related, but there are exceptions such as functions (which relate their input to their output).
 
 Concretely a relation can be modelled as a set of pairs. If a relation $R$ contains the pair $(x,y)$ then $R$ relates $x$ to $y$ which is usually written $x R y$. This way of modelling relations is the easiest to translate to a table in a database. 
 
@@ -70,14 +70,16 @@ While this is a very flexible model it doesn't result in much useful properties 
 
 ## Ordinal Relations
 
-Let's start with something somewhat familiar. Ordinal relations. These show up whenever one thing is greater than another. The most obvious are numbers like $3 \le \pi \le 22/7$ but this concept also shows up when sorting strings, with rules like "App $\le$ Apple $\le$ Bear". 
+Let's start with something somewhat familiar. Ordinal relations. These show up whenever one thing is greater than another. The obvious example are numbers like $3 \le \pi \le 22/7$ but this concept also extends to things like sorting strings, with rules like "App &le; Apple &le; Bear". 
 
-This concept can be generalized quite a bit, in fact it is enough to only require the following for all $x,y,z$
+Numbers have a more powerful ordering, all numbers are comparable and if two numbers are not equal then one of them is always bigger than the other. However some orderings break one or both of these rules. Returning to the example of sorting string, it is common to ignore the difference between upper- and lower-case so both "apple &le; APPLE" and "APPLE &le; apple" are acceptable orderings.
+
+To keep them apart mathematicians distinguish between total orders, partial orders and pre-orders. Pre-orders are by far the most general and only need to satisfy two rules for all $x,y$ and $z$.
 
 > - $x \le x$  
 > - if $x \le y$ and $y \le z$ then $x \le z$
 
-This is called a pre-order. Its main feature is the fact that it's transitive (meaning that if $x \le y$ and $y \le z$ then $x \le z$ as well). This is a lot more flexible than a general order, because two things don't even need to be comparable, and it is possible that $x \le y$ and $y \le x$ even if $x \ne y$. 
+The main feature of a pre-order is the fact that it's transitive (meaning that if $x \le y$ and $y \le z$ then $x \le z$ as well). There is nothing forcing that all $x$ and $y$ are comparable (meaning that neither $x \le y$ nor $x \le y$). And it is possible that both $x \le y$ and $y \le x$ even if $x \ne y$. 
 
 <figure>
 <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -141,30 +143,28 @@ This is called a pre-order. Its main feature is the fact that it's transitive (m
          marker-end="url(#arrow)" stroke="black" fill="none"/>
 </g>
 </svg>
-Figure 2. A pre-order on set of 7 points, containing the relation in figure 1 as a subset.
+Figure 2. A pre-order on set of 7 points, containing the relation in figure 1 as a subset. Note that this requires quite a lot more arrows to draw, even though this is the *smallest* pre-order containing all arrows from figure 1.
 </figure>
 
-Among other things it is not necessary for two things to even be comparable. It seems like this would be too general to make much sense, but as it turns out it shows up quite a bit, for example when dealing with time periods. It is easy to say that June 7th 2011 occurred before the year 2022 but comparing week 35 2023 (from August 28 to September 2) with September 2023 is not immediately obvious. Sure one of them *started* earlier, but the other *ended* earlier, so which was earlier? 
+Partial orders have the additional rule that if $x \le y$ and $y \le x$ then $x = y$ (this is called anti-symmetry). Total orders are partial orders with the additional rule that for *all* pairs $x,y$ either $x \le y$ or $y \le x$. This makes partial and total orders more powerful, but not necessarily more useful.
 
-This generality also lends it to hierarchical or 'part of' relations. For example Utrecht is a part of the Netherlands is a part of Europe, but France is not a part of Australia nor is Australia a part of France. It's easy to check that this way regions form a hierarchy defined by the 'part of' relation and this relation is a pre-order.
+Not requiring all things to be comparable allows partial orders to model hierarchical or 'part of' relations. For example Utrecht is a part of the Netherlands is a part of Europe, but France is not a part of Australia nor is Australia a part of France. Note that this is partial order, not a pre-order (can you tell why?). A more abstract version would the 'subset of' relation, which not coincidentally was given the symbol $\subseteq$ quite similar to $\le$. 
 
-It is also not the case that $x \le y$ and $y \le x$ can't both be true, even if $x \ne y$. In fact returning to the example of sorting strings, if sorting is case insensitive then "apple", "Apple" and "APPLE" could occur in any order. Of course it is possible to add some kind of tie break, but sometimes it's nice to be able to just say "apple $\le$ APPLE" and "APPLE $\le$ apple", since they're both valid ways to sort those strings. [^strict] In fact this is wat SQL Server does (and how it compares strings for 'equality', this will become relevant later).
+Also consider what happens when comparing time periods. It is easy to say that June 7th 2011 occurred before the year 2022. However it is a lot harder to say whether week 35 2023 (from August 28 to September 2) happens before or after September 2023. Sure one of them *started* earlier, but the other *ended* earlier, so which was earlier?[^strict]
 
-[^strict]:Such a property is not possible to state with a strict inequality (where $x \not\lt x$) hence why this section introduced pre-orders first.
+[^strict]: Being later or earlier is an example of something that might be easier to model as a strict order, where the rule that $x \le x$ for all $x$ is replaced by the rule that $x \not< x$ for all $x$. Strict orders are basically equivalent to partial orders, but make it harder to talk about pre-orders hence why those are introduced first.
 
-There are some more specific types of order, with more powerful properties. By adding the requirement that $x \le y$ and $y \le x$ implies that $x = y$ a pre-order turns into what's called a partial order. Upon adding the condition that everything is comparable to everything else this becomes a total order. 
-
-However partial orders or total orders aren't necessarily more convenient than pre-orders. The pairs $(x,y)$ such that $x \le y$ and $y \le x$ are interesting in their own right, because they represent something that is *like* equality, without being equal (this is how SQL Server uses collation, sorting order, to check strings for equality/equivalence). This concept is called an equivalence relation.
+As noted before sorting strings shows how $x \le y$ and $y \le x$ does not have to imply that $x=y$. In fact these pair are interesting in their own right, because they represent something that is *like* equality, without being equal. This is precisely how SQL Server uses collation, sorting order, to check strings for equality/equivalence. This concept is called an equivalence relation.
 
 ## Equivalence Relations
 
 Equivalence relations show up whenever things are equal or equivalent. They're related to pre-orders with the only additional requirement that they are symmetric (this means that equivalence relations are *technically* also pre-orders, but things are either equivalent or not-comparable so it makes little sense to view them that way). 
 
-Using the symbol '$\sim$' the rules for an equivalence relation are that for all $x$,$y$,$z$:
+Using the symbol '$\sim$' the rules for an equivalence relation are that for all $x$,$y$,$z$
 
 > - $x \sim x$  
 > - if $x \sim y$ then $y \sim x$  
-> - if $x \sim y$ and $y \sim z$ then $x \sim z$
+> - if $x \sim y$ and $y \sim z$ then $x \sim z$.
 
 <figure>
 <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -203,21 +203,23 @@ Using the symbol '$\sim$' the rules for an equivalence relation are that for all
 Figure 3. An equivalence relation on 7 points, the arrow from each point to itself has been omitted for clarity.
 </figure>
 
-in short, every object is equivalent to itself, equivalence is symmetric (it has no direction), equivalence is transitive (if x is equivalent to y which in turn is equivalent to z then x is also equivalent to z). It is easy to show that for any pre-order the set of pairs such that $x \le y$ and $y \le x$ forms an equivalence relation.
+In short, every object is equivalent to itself, equivalence is symmetric (it has no direction) and equivalence is transitive. It is easy to show that for any pre-order the set of pairs such that $x \le y$ and $y \le x$ forms an equivalence relation.
 
-In databases these show up whenever an entity has multiple different identifiers (usually across different systems). In such a scenario a common problem is to figure out how to turn equivalence into equality. More on that later.
+In databases these show up whenever an entity has multiple different identifiers (usually across different systems). These identifiers are all equivalent, but may not be equal. In such a scenario a common problem is to figure out how to turn equivalence into equality (more on that later).
 
-A less obvious example would be the relation of being 'related' or 'connected'. For instance let's say two land masses are called 'connected' if they are connected by land, in that case the Germany, Spain and France are all connected but the Netherlands and the UK are not.
+A less obvious example would be the relation of being 'related' or 'connected'. For instance let's say two land masses are called 'connected' if they are connected by land, in that case the Germany, Spain and France are all connected but the Netherlands and the UK are not.[^border]
 
-An equivalence relation can be turned into equality by looking at equivalence classes, each class represents a set of entities that are all equivalent to each other. For things that are connected these are also called 'connected components'. A common notation for these is to denote the equivalence class of $x$ as $[x]$.
+[^border]: This is different from sharing a land border, Germany and Spain share no land border but are connected by land through France. Being connected is what's called the 'transitive closure' of sharing a land border.
 
-Mathematicians also like to play around by doing things like declaring two numbers equivalent when they differ by an even amount. This yields two equivalence classes, 'even' and 'odd', and as it turns out you can still do arithmetic with these ('odd' + 'odd' = 'even', 'even' + 'odd' = 'odd' etc.). This doesn't only work for even numbers, you can also declare numbers equivalent if they differ by a multiple of 7 or 12 (also called clock arithmetic) or any other number. In all cases it is possible to do arithmetic on the equivalence classes such that $[x+y]=[x]+[y]$ and $[x] [y] = [xy]$. This is called modular arithmetic, and numbers differing by a multiple of $m$ are said to be equal 'modulo' $m$.  [^nines]
+An equivalence relation can be turned into equality by looking at equivalence classes, each class represents a set of entities that are all equivalent to each other. When the relation is whether things are connected then these equivalence classes are also called 'connected components'. A common notation for these is to denote the equivalence class of $x$ as $[x]$.
+
+Mathematicians also like to play around with these equivalence classed by doing things like declaring two numbers equivalent when they differ by an even amount. This yields two equivalence classes, 'even' and 'odd'. As it turns out you can still do arithmetic with these ('odd' + 'odd' = 'even', 'even' + 'odd' = 'odd' etc.). This doesn't only work for even numbers, you can also declare (whole) numbers equivalent if they differ by a multiple of 7 or 12 or any other whole number. In all cases it is possible to do arithmetic on the equivalence classes such that $[x+y]=[x]+[y]$ and $[x] [y] = [xy]$. This is called modular arithmetic, and numbers differing by a multiple of $m$ are said to be equal 'modulo' $m$.  [^nines]
 
 [^nines]: Since this gives a way to reduce a calculation with big numbers to one with smaller numbers it gives an easy way to check calculations. Calculating the result modulo 10 is easy, it's just doing the same calculation on the last digit. More interesting is calculating the result modulo 9, because a number is equal to the sum of its digits modulo 9, this follow from the fact that $[10]=[1]$ and therefore $[10^n]=[1^n]=[1]$ and therefore $[d_0 + d_1 10 + d_2 100 + ... + d_n 10^n] = [d_0 + d_1 + ... + d_n]$ modulo 9. This is called casting out nines since $[9] = [0]$ modulo 9, so you can remove any digits that add up to nine.
 
 ## Functions
 
-Functions are a special type of relation where the left hand side is guaranteed to be unique. Meaning that if a function $f$ has a pair $(x,y)$ then this is the only pair relating $x$ to some other value, there will never be *another* pair $(x,z)$ such that $z \ne y$. This is usually written $f(x) = y$. The infix notation $x f y$ is almost never used, though sometimes $f: x \mapsto y$ is used to denote a function.
+Functions are a special type of relation where the left hand side is guaranteed to be unique. Meaning that if a function $f$ has a pair $(x,y)$ then this is the only pair relating $x$ to some value, there will never be *another* pair $(x,z)$ with $z \ne y$. This is usually written $f(x) = y$. The infix notation $x f y$ is basically never used. Sometimes $f : x \mapsto y$ is used to describe a function (the symbol $\mapsto$ is read as 'maps to').
 
 <figure>
 <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -256,15 +258,15 @@ Functions are a special type of relation where the left hand side is guaranteed 
 Figure 4. A function from a set of 4 points to a set of 3 points. The domain (set of inputs) and codomain (set of outputs) are delimited by dashed lines.
 </figure>
 
-The relevant database concept is a table with a primary key, which is precisely the constraint needed to turn a relation into a function, namely that a value is guaranteed to be unique across the whole table (if the table has multiple columns the corresponding function is a multivalued function). 
+The relevant database concept is a table with a primary key, which is precisely the constraint needed to turn a relation into a function, namely that a value is guaranteed to only exist in one row (pair).
 
-The nice thing about functions is that they can be composed, if there are two functions $f$ and $g$ where the outputs of $f$ are contained in the inputs of $g$ then they can be combined into a new relation $g \circ f$ which maps $x$ to $g(f(x))$. This new relation is also a function. 
+The nice thing about functions is that they can compose nicely. If there are two functions $f$ and $g$ where the outputs of $f$ are contained in the inputs of $g$ then they can be combined into a new relation $g \circ f$ which maps $x$ to $g(f(x))$. This new relation is also a function. 
 
-To make this easier it is common to keep track of the possible inputs and outputs of each function. If $X$ is the set of inputs of a function and its outputs are in $Y$ then this is denoted $f: X \to Y$. This ensures that two functions $f: X \to Y$ and $g:Y \to Z$ always combine into a function $g \circ f: X \to Z$.
+To make function composition easier it is common to keep track of the possible inputs and outputs of each function. If $X$ is the set of inputs of a function and its outputs are in $Y$ then this is denoted $f: X \to Y$. This ensures that two functions $f: X \to Y$ and $g:Y \to Z$ always combine into a function $g \circ f: X \to Z$.
 
-This also relates to the notion of foreign keys, which ensure that a value exists in the primary key of some other table. This has the same effect as restricting the range of possible outputs of a function.
+This also relates to the notion of foreign keys, which ensure that a value exists in the primary key of some other table. This has the same effect as specifying the range of possible outputs of a function.
 
-Functions aren't the only type of relation that can be composed, in fact all types of relations can be composed, but doing so won't usually result in a relation of the same type. This more general operation is a well known concept in relational databases.
+However just because functions compose nicely doesn't mean they are the only type of relation that can be composed, in fact all types of relations can be composed, it's just that doing so doesn't usually result in a relation of the same type. This more general operation is in fact a well known concept in relational databases.
 
 ## Joins
 
@@ -272,17 +274,19 @@ Joins are the generalisation of function composition for general relations.
 
 For two relations $R$ and $S$ it is possible to identify all triples of values $x,y,z$ such that $x R y$ and $y S z$ and form a relation $S \circ R$ from the set of all pairs $(x,z)$. In relational databases this operation is usually called a join. There are also some variations like left and right joins, but those require the notion of a `NULL` value which is beyond the scope of this article.
 
-For two functions $f,g$ this operation is indeed the same as composition since in that case $f(x) = y$ and $g(y) = z$ and therefore $(g \circ f)(x) = z$. Among other things this means that joining a table on a primary key is essentially the same as applying a function.
+Joining a relation $R$ to a function $f$ result in a relation with a pair $(x, f(y))$ for each pair $(x,y)$ in $R$. If $R$ is also a function then this is precisely the function composition described earlier. It also means that joining a table on a primary key is essentially the same as applying a function.
 
-This concept is related to transitivity, a relation is transitive precisely when the composition $R \circ R$ is already contained within $R$
+This concept is also related to transitivity, a relation is transitive precisely when the composition $R \circ R$ is contained within $R$
 
 ## Closure
 
 In practice a relation $R$ is usually *known* to have certain properties, but only some of the pairs $x R y$ are known, not all. The goal then is to find the smallest relation that satisfies the desired properties and contains all known pairs.
 
-The most common example of this is when a relation is known to be transitive, but only some of the pairs are known, the rest being implicit. The problem then becomes trying to find the smallest transitive relation that fits all known pairs. While some databases do support the required recursive join this is a feature that remains ill supported in SQL (even though it makes perfect sense from a relational point of view). 
+The most common example of this is when a relation is known to be transitive, but only some of the pairs are known, the rest being implicit. The smallest transitive relation containing all known pairs is called the transitive closure.
 
-Another example has to do with an equivalence relation which is only partially known. The usual solution to this problem is to use clustering. What clustering is and how to go beyond equivalence relations will be the subject for the next article in this series.
+Since the number of pairs in a transitive relation can grow explosively, not keeping a full list is the normal thing to do. The problem then becomes trying to work with the transitive closure. While some databases do support the required recursive join this is a feature that remains ill supported in SQL (even though it makes perfect sense from a relational point of view). 
+
+Another example has to do with an equivalence relation which is only partially known. In many ways this is a special case of a transitive closure. What clustering is and how to go beyond equivalence relations will be the subject for the next article in this series.
 
 ## Back to Databases
 
