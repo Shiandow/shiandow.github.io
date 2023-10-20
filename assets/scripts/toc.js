@@ -74,7 +74,7 @@ document.addEventListener("DOMContentLoaded", function () {
   toc.draggable = true;
 
   // Lift TOC out of article contents
-  toc.parentNode.insertBefore(toc)
+  document.body.insertBefore(toc, toc.parentNode)
 
   // Don't move if dragged onto itself
   toc.addEventListener("drop", function(event) { event.stopPropagation() });
