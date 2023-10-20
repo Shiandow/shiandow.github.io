@@ -95,20 +95,20 @@ figure {
 /* See also: https://scripter.co/sidenotes-using-only-css/ */
 @media(min-width: 1400px) {
     aside, #TOC[detached] { 
-        margin-right: calc(50% - 50vw + 1em);
+        margin-right: calc(20em - 50vw + 1em);
         margin-bottom: 1em;
         text-align: left;
         float: right;
         clear: right;
-        width: calc(50vw - 50% - 2em);
+        width: calc(50vw - 20em - 2em);
     }
     aside.left, #TOC[detached][left] { 
-        margin-left: calc(50% - 50vw + 1em);
+        margin-left: calc(20em - 50vw + 1em);
         margin-bottom: 1em;
         text-align: right;
         float: left;
         clear: left;
-        width: calc(50vw - 50% - 2em);
+        width: calc(50vw - 20em - 2em);
     }
 } 
 @media(max-width: 1399px) {
