@@ -2,7 +2,11 @@
 title: Putting the Relational back in Relational Databases
 subtitle: Category Theory for DBAs &mdash; Part 2, How?
 tag: category-theory-for-dbas
+toc: true
 ---
+* TOC
+{:toc #TOC}
+
 The concept of relations lies at the heart of relational databases. Despite this, awareness of what relations are and what properties they have is not widespread amongst people using databases. This article seeks to give a quick overview of what mathematical relations are and how these concepts are used in relational databases. Later articles will use this as a basis to apply even more advanced mathematical concepts to databases.
 
 The use of relations to describe databases can be traced back to the paper by Edgar F. Codd [A relational model of data for large shared data banks](https://dl.acm.org/doi/10.1145/362384.362685). This paper introduces various important concepts such as joins and primary keys. To understand them properly requires some introduction to the concept of relations. 
@@ -72,14 +76,14 @@ While this is a very flexible model it doesn't result in much useful properties 
 
 Let's start with something somewhat familiar. Ordinal relations. These show up whenever one thing is greater than another. The obvious example are numbers like $3 \le \pi \le 22/7$ but this concept also extends to things like sorting strings, with rules like "App &le; Apple &le; Bear". 
 
-Numbers have a more powerful ordering, all numbers are comparable and if two numbers are not equal then one of them is always bigger than the other. However some orderings break one or both of these rules. Returning to the example of sorting string, it is common to ignore the difference between upper- and lower-case so both "apple &le; APPLE" and "APPLE &le; apple" are acceptable orderings.
+Numbers have a very powerful ordering. All numbers are comparable and if two numbers are not equal then one of them is always higher than the other. However some orderings break one or both of these rules. Returning to the example of sorting string, it is common to ignore the difference between upper- and lower-case in which case both "apple &le; APPLE" and "APPLE &le; apple" are acceptable orderings.
 
 To keep them apart mathematicians distinguish between total orders, partial orders and pre-orders. Pre-orders are by far the most general and only need to satisfy two rules for all $x,y$ and $z$.
 
 > - $x \le x$  
 > - if $x \le y$ and $y \le z$ then $x \le z$
 
-The main feature of a pre-order is the fact that it's transitive (meaning that if $x \le y$ and $y \le z$ then $x \le z$ as well). There is nothing forcing that all $x$ and $y$ are comparable (meaning that neither $x \le y$ nor $x \le y$). And it is possible that both $x \le y$ and $y \le x$ even if $x \ne y$. 
+The main feature of a pre-order is the fact that it is transitive (meaning that if $x \le y$ and $y \le z$ then $x \le z$ as well). There is nothing forcing that all $x$ and $y$ are comparable (meaning that neither $x \le y$ nor $x \le y$) and it is possible that both $x \le y$ and $y \le x$ even if $x \ne y$. 
 
 <figure>
 <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -146,7 +150,7 @@ The main feature of a pre-order is the fact that it's transitive (meaning that i
 Figure 2. A pre-order on set of 7 points, containing the relation in figure 1 as a subset. Note that this requires quite a lot more arrows to draw, even though this is the *smallest* pre-order containing all arrows from figure 1.
 </figure>
 
-Partial orders have the additional rule that if $x \le y$ and $y \le x$ then $x = y$ (this is called anti-symmetry). Total orders are partial orders with the additional rule that for *all* pairs $x,y$ either $x \le y$ or $y \le x$. This makes partial and total orders more powerful, but not necessarily more useful.
+Partial orders have the additional rule that if $x \le y$ and $y \le x$ then $x = y$ (this is called anti-symmetry). Total orders are partial orders with the additional rule that for *all* pairs $x,y$ either $x \le y$ or $y \le x$. This makes partial and total orders more powerful, but not necessarily more useful. In fact for finite sets there is basically only one kind of total order, which boils down to sorting the set.
 
 Not requiring all things to be comparable allows partial orders to model hierarchical or 'part of' relations. For example Utrecht is a part of the Netherlands is a part of Europe, but France is not a part of Australia nor is Australia a part of France. Note that this is partial order, not a pre-order (can you tell why?). A more abstract version would the 'subset of' relation, which not coincidentally was given the symbol $\subseteq$ quite similar to $\le$. 
 
@@ -154,7 +158,7 @@ Also consider what happens when comparing time periods. It is easy to say that J
 
 [^strict]: Being later or earlier is an example of something that might be easier to model as a strict order, where the rule that $x \le x$ for all $x$ is replaced by the rule that $x \not< x$ for all $x$. Strict orders are basically equivalent to partial orders, but make it harder to talk about pre-orders hence why those are introduced first.
 
-As noted before sorting strings shows how $x \le y$ and $y \le x$ does not have to imply that $x=y$. In fact these pair are interesting in their own right, because they represent something that is *like* equality, without being equal. This is precisely how SQL Server uses collation, sorting order, to check strings for equality/equivalence. This concept is called an equivalence relation.
+As noted sorting strings shows how $x \le y$ and $y \le x$ does not have to imply that $x=y$. In fact these pair are interesting in their own right, because they represent something that is *like* equality, without being equal. This is precisely how SQL Server uses collation, sorting order, to check strings for equivalence. The underlying concept is called an equivalence relation.
 
 ## Equivalence Relations
 
