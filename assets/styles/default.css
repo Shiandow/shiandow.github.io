@@ -94,32 +94,23 @@ figure {
 /* Side notes */
 /* See also: https://scripter.co/sidenotes-using-only-css/ */
 @media(min-width: 1400px) {
-    aside, #TOC[detached] { 
-        margin-right: calc(20em - 50vw + 1em);
+    aside { 
+        margin-right: calc(20rem - 50vw + 1rem); /* 20em = half the article width */
         margin-bottom: 1em;
         text-align: left;
         float: right;
         clear: right;
-        width: calc(50vw - 20em - 2em);
+        width: calc(50vw - 20rem - 2rem);
     }
-    aside.left, #TOC[detached][left] { 
-        margin-left: calc(20em - 50vw + 1em);
+    aside.left { 
+        margin-left: calc(20em - 50vw + 1rem);
         margin-bottom: 1em;
         text-align: right;
         float: left;
         clear: left;
-        width: calc(50vw - 20em - 2em);
+        width: calc(50vw - 20rem - 2rem);
     }
-    /* Detached TOC */
-    #TOC[detached], #TOC[detached][left] {
-        border-bottom: none;
-        top: 0;
-        position: sticky;
-        text-align: left;
-        max-height: 100vh;
-        overflow: auto;
-    }
-} 
+}
 @media(max-width: 1399px) {
     aside {
         width: 100%;
@@ -138,6 +129,26 @@ body[hide-toc] #TOC:not(:target) {
 }
 #TOC[draggable], #TOC-toggle[draggable] {
     cursor: grab;
+}
+/* Detached TOC */
+@media(min-width: 1400px) {
+    #TOC[detached], #TOC[detached][left] {
+        top: 0;
+        position: sticky;
+        border-bottom: none;
+        max-height: 100vh;
+        overflow: auto;
+    }
+    #TOC[detached] { 
+        float: right;
+        clear: right;
+        width: calc(50vw - 20rem - 2rem);
+    }
+    #TOC[detached][left] { 
+        float: left;
+        clear: left;
+        width: calc(50vw - 20rem - 2rem);
+    }
 }
 
 /* Header Styling */
