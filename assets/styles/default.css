@@ -103,7 +103,7 @@ figure {
         width: calc(50vw - 20rem - 2rem);
     }
     aside.left { 
-        margin-left: calc(20em - 50vw + 1rem);
+        margin-left: calc(20rem - 50vw + 1rem);
         margin-bottom: 1em;
         text-align: right;
         float: left;

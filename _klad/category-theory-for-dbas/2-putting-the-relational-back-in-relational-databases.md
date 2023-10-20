@@ -146,7 +146,7 @@ The main feature of a pre-order is the fact that it is transitive (meaning that 
          marker-end="url(#arrow)" stroke="black" fill="none"/>
 </g>
 </svg>
-Figure 2. A pre-order on set of 7 points, containing the relation in figure 1 as a subset. Note that this requires quite a lot more arrows to draw, even though this is the *smallest* pre-order containing all arrows from figure 1.
+Figure 2. A pre-order on set of 7 points, containing the relation in figure 1 as a subset. Note that this requires quite a lot more arrows to draw, even though this is the <em>smallest</em> pre-order containing all arrows from figure 1.
 </figure>
 
 Partial orders have the additional rule that if $x \le y$ and $y \le x$ then $x = y$ (this is called anti-symmetry). Total orders are partial orders with the additional rule that for *all* pairs $x,y$ either $x \le y$ or $y \le x$. This makes partial and total orders more powerful, but not necessarily more useful. In fact for finite sets there is basically only one kind of total order, which boils down to sorting the set.
