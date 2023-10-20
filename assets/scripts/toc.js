@@ -73,11 +73,20 @@ document.addEventListener("DOMContentLoaded", function () {
   toc.addEventListener("dragstart", dragToc);
   toc.draggable = true;
 
+  // Lift TOC out of article contents
+  toc.parentNode.insertBefore(toc)
+
   // Don't move if dragged onto itself
   toc.addEventListener("drop", function(event) { event.stopPropagation() });
 
-  document.body.addEventListener("dragover", dragOn);
-  document.body.addEventListener("drop", attachToc);
-  document.addEventListener("dragover", dragOff);
-  document.addEventListener("drop", detachToc);
+  // Detach when dropped on background
+  document.body.addEventListener("dragover", dragOff);
+  document.body.addEventListener("drop", detachToc);
+  
+  // Attach when dropped on content
+  const children = document.body.children;
+  for (let i = 0; i < children.length; i++) {
+    children[i].addEventListener("dragover", dragOn);
+    children[i].addEventListener("drop", attachToc);
+  }
 })

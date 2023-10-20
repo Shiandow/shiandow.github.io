@@ -4,8 +4,7 @@ subtitle: Category Theory for DBAs &mdash; Part 2, How?
 tag: category-theory-for-dbas
 toc: true
 ---
-* TOC
-{:toc #TOC}
+{% include toc.md %}
 
 The concept of relations lies at the heart of relational databases. Despite this, awareness of what relations are and what properties they have is not widespread amongst people using databases. This article seeks to give a quick overview of what mathematical relations are and how these concepts are used in relational databases. Later articles will use this as a basis to apply even more advanced mathematical concepts to databases.
 

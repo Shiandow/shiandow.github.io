@@ -40,7 +40,7 @@ html {
     color: #1a1a1a;
     background-color: #fdfdfd;
 }
-header, footer {
+header, footer, #TOC {
     max-width: 50em;
     margin: auto;
 }
@@ -131,10 +131,10 @@ body[hide-toc] #TOC:not(:target) {
     cursor: grab;
 }
 #TOC[detached], #TOC[detached][left] {
+    border-bottom: none;
     top: 0;
     position: sticky;
     text-align: left;
-    border-bottom: none;
     max-height: 100vh;
     overflow: auto;
 }
