@@ -155,8 +155,6 @@ Not requiring all things to be comparable allows partial orders to model hierarc
 
 Also consider what happens when comparing time periods. It is easy to say that June 7th 2011 occurred before the year 2022. However it is a lot harder to say whether week 35 2023 (from August 28 to September 2) happens before or after September 2023. Sure one of them *started* earlier, but the other *ended* earlier, so which was earlier?[^strict]
 
-[^strict]: Being later or earlier is an example of something that might be easier to model as a strict order, where the rule that $x \le x$ for all $x$ is replaced by the rule that $x \not< x$ for all $x$. Strict orders are basically equivalent to partial orders, but make it harder to talk about pre-orders hence why those are introduced first.
-
 As noted sorting strings shows how $x \le y$ and $y \le x$ does not have to imply that $x=y$. In fact these pair are interesting in their own right, because they represent something that is *like* equality, without being equal. This is precisely how SQL Server uses collation, sorting order, to check strings for equivalence. The underlying concept is called an equivalence relation.
 
 ## Equivalence Relations
@@ -212,13 +210,9 @@ In databases these show up whenever an entity has multiple different identifiers
 
 A less obvious example would be the relation of being 'related' or 'connected'. For instance let's say two land masses are called 'connected' if they are connected by land, in that case the Germany, Spain and France are all connected but the Netherlands and the UK are not.[^border]
 
-[^border]: This is different from sharing a land border, Germany and Spain share no land border but are connected by land through France. Being connected is what's called the 'transitive closure' of sharing a land border.
-
 An equivalence relation can be turned into equality by looking at equivalence classes, each class represents a set of entities that are all equivalent to each other. When the relation is whether things are connected then these equivalence classes are also called 'connected components'. A common notation for these is to denote the equivalence class of $x$ as $[x]$.
 
 Mathematicians also like to play around with these equivalence classed by doing things like declaring two numbers equivalent when they differ by an even amount. This yields two equivalence classes, 'even' and 'odd'. As it turns out you can still do arithmetic with these ('odd' + 'odd' = 'even', 'even' + 'odd' = 'odd' etc.). This doesn't only work for even numbers, you can also declare (whole) numbers equivalent if they differ by a multiple of 7 or 12 or any other whole number. In all cases it is possible to do arithmetic on the equivalence classes such that $[x+y]=[x]+[y]$ and $[x] [y] = [xy]$. This is called modular arithmetic, and numbers differing by a multiple of $m$ are said to be equal 'modulo' $m$.  [^nines]
-
-[^nines]: Since this gives a way to reduce a calculation with big numbers to one with smaller numbers it gives an easy way to check calculations. Calculating the result modulo 10 is easy, it's just doing the same calculation on the last digit. More interesting is calculating the result modulo 9, because a number is equal to the sum of its digits modulo 9, this follow from the fact that $[10]=[1]$ and therefore $[10^n]=[1^n]=[1]$ and therefore $[d_0 + d_1 10 + d_2 100 + ... + d_n 10^n] = [d_0 + d_1 + ... + d_n]$ modulo 9. This is called casting out nines since $[9] = [0]$ modulo 9, so you can remove any digits that add up to nine.
 
 ## Functions
 
@@ -297,9 +291,9 @@ Hopefully this article has given a bit of insight into the properties a relation
 
 However as stated in the beginning of the article this is just the binary relations. Converting those back to a database you'd end up with a database containing tables with only 2 columns (to the delight of advocates for RDF triples[^trip]), in practice this is not what databases look like. Does this mean that knowledge of binary relations is not useful? Well obviously not, in fact most tables are secretly a collection of binary relations.
 
-Take for instance a product table, it will contain various properties of each product such as its size, colour, possibly price etc. However usually it will also contain a product ID. Usually this is just a meaningless number that does nothing but identify the row. However if it is meaningless it should serve some purpose, otherwise why include it?
+Take for instance a product table, it will contain various properties of each product such as its size, colour, possibly price etc. However usually it will also contain a product ID, a meaningless number that does nothing but identify the row. However if it is meaningless it should serve some purpose, otherwise why include it?
 
-This product ID (or primary keys in general) is added to the table to turn it from an $n$-ary ($n$=number of columns) relation into $n$ binary relations. By design the product ID will uniquely refer to a single row which means each column of the table can be turned into a function from the product ID to the value in that column for that row. 
+This product ID (or primary keys in general) makes it possible to view the tabel not as an $n$-ary ($n$ = number of columns) relation but as $n$ binary relations. By design the product ID will uniquely refer to a single row which means each column of the table can be turned into a function from the product ID to the value in that column for that row. 
 
 Now why do this instead of simply making a 2 column table for each property? That is because a well designed database doesn't just turn each column of the product table into a function of the product ID, it also does the opposite. If each product has a unique row in the product table then each property of a product, which must be some kind of function from the product to some range of values, can be turned into a column of the product table by simply putting the output of the function at the row for the corresponding product. By allowing a column to have empty values it also becomes possible to include properties which are only defined for *some* products.
 
@@ -310,5 +304,13 @@ This trick is so pervasive in databases that any example where it doesn't work i
 Is anything lost by turning all $n$-ary relations into $n-1$ functions? Well yes, for one there are binary relations that aren't functions, and while turning those into pairs of functions has some utility it is not the best way to view those relations. It is entirely possible some properties of trinary or $n$-ary relations are hidden by turning them into triples or $n$-tuples of functions, but mathematics doesn't seem ready to deal with those kinds of properties yet.  
 
 So for all intents and purposes relational databases are just tables of functions bound together by using the primary key as the spine, and maybe a few link tables with some binary relations. Understanding binary relations is the best way to understand databases.
+
+----------------------------------------------------------------------
+
+[^strict]: Being later or earlier is an example of something that might be easier to model as a strict order, where the rule that $x \le x$ must always be true is replaced by the rule that $x < x$ must always be false, for all $x$. Strict orders are basically equivalent to partial orders but make it harder to talk about pre-orders hence why those are introduced first.
+
+[^border]: This is different from sharing a land border, Germany and Spain share no land border but are connected by land through France. Being connected is what's called the 'transitive closure' of sharing a land border.
+
+[^nines]: Since this gives a way to reduce a calculation with big numbers to one with smaller numbers it gives an easy way to check calculations. Calculating the result modulo 10 is easy, it's just doing the same calculation on the last digit. More interesting is calculating the result modulo 9, because a number is equal to the sum of its digits modulo 9, this follow from the fact that $[10]=[1]$ and therefore $[10^n]=[1^n]=[1]$ and therefore $[d_0 + d_1 10 + d_2 100 + ... + d_n 10^n] = [d_0 + d_1 + ... + d_n]$ modulo 9. This is called casting out nines since $[9] = [0]$ modulo 9, so you can remove any digits that add up to nine.
 
 [^trip]: Don't let the name 'triple' confuse you, one of the three values is just the table name.
