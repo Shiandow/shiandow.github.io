@@ -110,6 +110,15 @@ figure {
         clear: left;
         width: calc(50vw - 20em - 2em);
     }
+    /* Detached TOC */
+    #TOC[detached], #TOC[detached][left] {
+        border-bottom: none;
+        top: 0;
+        position: sticky;
+        text-align: left;
+        max-height: 100vh;
+        overflow: auto;
+    }
 } 
 @media(max-width: 1399px) {
     aside {
@@ -129,14 +138,6 @@ body[hide-toc] #TOC:not(:target) {
 }
 #TOC[draggable], #TOC-toggle[draggable] {
     cursor: grab;
-}
-#TOC[detached], #TOC[detached][left] {
-    border-bottom: none;
-    top: 0;
-    position: sticky;
-    text-align: left;
-    max-height: 100vh;
-    overflow: auto;
 }
 
 /* Header Styling */
