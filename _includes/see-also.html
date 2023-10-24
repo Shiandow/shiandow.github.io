@@ -1,5 +1,5 @@
 <ol>
-{%- for post in site.posts %}
+{%- for post in site.posts reversed %}
     {%- unless post.url and post.tags contains include.tag %}
         {% continue %}
     {% endunless %}
