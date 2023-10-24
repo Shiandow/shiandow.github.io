@@ -151,7 +151,7 @@ The main feature of a pre-order is the fact that it is transitive (meaning that 
 Figure 2. A pre-order on set of 7 points, containing the relation in figure 1 as a subset. Note that this requires quite a lot more arrows to draw, even though this is the <em>smallest</em> pre-order containing all arrows from figure 1.
 </figure>
 
-Partial orders have the additional rule that if $x \le y$ and $y \le x$ then $x = y$ (this is called anti-symmetry). Total orders are partial orders with the additional rule that for *all* pairs $x,y$ either $x \le y$ or $y \le x$. This makes partial and total orders more powerful than pre-orders, but not necessarily more useful. In fact for finite sets there is basically only one kind of total order, which boils down to just numbering the set from $1$ to $n$ (total orders typically reduce to just numerical order).
+Partial orders have the additional rule that if $x \le y$ and $y \le x$ then $x = y$ (this is called anti-symmetry). Total orders are partial orders with the additional rule that for *all* pairs $x,y$ either $x \le y$ or $y \le x$. This makes partial and total orders more powerful than pre-orders, but not necessarily more useful. In fact for finite sets there is basically only one kind of total order, which boils down to just numbering the set from $1$ to $n$ (total orders often boil down to just numerical order).
 
 Not requiring all things to be comparable allows partial orders to model hierarchical or 'part of' relations. For example Utrecht is a part of the Netherlands is a part of Europe, but France is not a part of Australia nor is Australia a part of France. Note that this is partial order, not a pre-order (can you tell why?). A more abstract version would the 'subset of' relation, which is why the symbol for 'subset of' $\subseteq$ is quite similar to $\le$.
 
@@ -161,9 +161,7 @@ And as noted earlier, sorting strings shows how $x \le y$ and $y \le x$ does not
 
 ## Equivalence Relations
 
-Equivalence relations show up whenever things are equal or equivalent. They're related to pre-orders with the only additional requirement that they are symmetric (this means that equivalence relations are *technically* also pre-orders, but things are either equivalent or not-comparable so it makes little sense to view them that way). 
-
-Using the symbol '$\sim$' the rules for an equivalence relation are that for all $x$,$y$,$z$
+Equivalence relations show up whenever things are equal or equivalent. They're related to pre-orders with the only additional requirement that they are symmetric. Using the symbol '$\sim$' the rules for an equivalence relation are that for all $x$,$y$,$z$
 
 > - $x \sim x$  
 > - if $x \sim y$ then $y \sim x$  
@@ -210,7 +208,7 @@ In short, every object is equivalent to itself, equivalence is symmetric (it has
 
 When dealing with data these types of relation often show up whenever an entity has multiple different identifiers (usually across different systems). These identifiers are all equivalent, but may not be equal. Sometimes it is obvious which identifiers belong together, sometimes it requires some guess work. Either way this typically results in a big list of identifiers that are equivalent. An interesting problem is that this list is not a full equivalence in its own right, just a subset of one, the trick then becomes to find the 'best' equivalence relation that matches the known data (more on that later).
 
-Things don't have to refer to the same entity to be equivalent however. A less obvious example would be the relation of being 'connected'. For instance let's say two land masses are called 'connected' if they are connected by land, in that case the Germany, Spain and France are all connected but the Netherlands and the UK are not.[^border]
+Things don't have to refer to the same entity to form an equivalence relation. A less obvious example would be the relation of being 'connected'. For instance let's say two land masses are called 'connected' if they are connected by land, in that case the Germany, Spain and France are all connected but the Netherlands and the UK are not.[^border]
 
 An important concept when dealing with equivalence relations are equivalence classes. These are sets such that two things are equivalent exactly when they are in the same equivalence class. A common notation for these is to denote the equivalence class of $x$ as $[x]$ (the definition then becomes $x \sim y$ if and only if $[x] = [y]$). An equivalence class of things that are connected is also called a 'connected component'.
 
@@ -257,7 +255,7 @@ A completely different type of relation is a function. Functions are a special t
 Figure 4. A function from a set of 4 points to a set of 3 points. The domain (set of inputs) and codomain (set of outputs) are delimited by dashed lines.
 </figure>
 
-The relevant database concept is a table with a primary key, which is precisely the constraint needed to turn a relation into a function. It is also common to keep track of the possible outputs of each function. If $X$ is the set of inputs of a function and its outputs are in $Y$ then this is denoted $f: X \to Y$. In databases this is done by specifying a foreign key, which ensure that the output falls within a certain range.
+The relevant database concept is a table with a primary key, which is precisely the constraint needed to turn a relation into a function. It is also common to keep track of the possible outputs of each function. If $X$ is the set of inputs of a function and its outputs are in $Y$ then this is denoted $f: X \to Y$. In databases this is done by specifying a foreign key, which ensures that the output falls within a certain range.
 
 The nice thing about functions is that they compose nicely. If there are two functions $f: X \to Y$ and $g:Y \to Z$ then they can be combined into a new relation $g \circ f: X \to Z$ which maps $x$ to $g(f(x))$. This new relation is also a function. Making this work seamlessly is precisely why it's so useful to keep track of the possible inputs and outputs.
 
@@ -269,9 +267,9 @@ Joins are the generalisation of function composition for general relations.
 
 For two relations $R$ and $S$ it is possible to identify all triples of values $x,y,z$ such that $x R y$ and $y S z$ and form a relation $S \circ R$ from the set of all pairs $(x,z)$. In relational databases this operation is usually called a join. There are also some variations like left and right joins, but those require the notion of a `NULL` value which is beyond the scope of this article.
 
-Joining a relation $R$ to a function $f$ result in a relation with a pair $(x, f(y))$ for each pair $(x,y)$ in $R$ (whenever $f(y)$ exists). If $R$ is also a function then this is precisely the function composition described earlier. It also means that joining a table on a primary key is essentially the same as applying a function.
+Joining a relation $R$ to a function $f$ result in a relation with a pair $(x, f(y))$ for each pair $(x,y)$ in $R$ (whenever $f(y)$ exists). If $R$ is also a function then this is precisely the function composition described earlier. This also shows that joining a table on a primary key is essentially the same as applying a function.
 
-This concept is also related to transitivity, a relation is transitive precisely when the composition $R \circ R$ is contained within $R$
+Note that a relation is transitive precisely when the composition $R \circ R$ is contained in $R$. Conversely a (finite) relation can be made transitive by repeatedly joining copies until it eventually is transitive. Obviously this process can grow a relation considerably, so instead of pre-calculating the result it would be nice to have repeated joins as a database operation...
 
 ## Back to Databases
 
