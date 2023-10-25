@@ -1,35 +1,35 @@
 /* Fonts */
 @font-face {
-  font-family: 'EB Garamond';
-  font-style: italic;
-  font-weight: 400;
-  font-display: fallback;
-  size-adjust: 120%;
-  src: url(/assets/fonts/garamond/EBGaramond-Italic.woff2) format('woff2');
+    font-family: 'EB Garamond';
+    font-style: italic;
+    font-weight: 400;
+    font-display: fallback;
+    size-adjust: 120%;
+    src: url(/assets/fonts/garamond/EBGaramond-Italic.woff2) format('woff2');
 }
 @font-face {
-  font-family: 'EB Garamond';
-  font-style: italic;
-  font-weight: 700;
-  font-display: fallback;
-  size-adjust: 120%;
-  src: url(/assets/fonts/garamond/EBGaramond-BoldItalic.woff2) format('woff2');
+    font-family: 'EB Garamond';
+    font-style: italic;
+    font-weight: 700;
+    font-display: fallback;
+    size-adjust: 120%;
+    src: url(/assets/fonts/garamond/EBGaramond-BoldItalic.woff2) format('woff2');
 }
 @font-face {
-  font-family: 'EB Garamond';
-  font-style: normal;
-  font-weight: 400;
-  font-display: fallback;
-  size-adjust: 120%;
-  src: url(/assets/fonts/garamond/EBGaramond-Regular.woff2) format('woff2');
+    font-family: 'EB Garamond';
+    font-style: normal;
+    font-weight: 400;
+    font-display: fallback;
+    size-adjust: 120%;
+    src: url(/assets/fonts/garamond/EBGaramond-Regular.woff2) format('woff2');
 }
 @font-face {
-  font-family: 'EB Garamond';
-  font-style: normal;
-  font-weight: 700;
-  font-display: fallback;
-  size-adjust: 120%;
-  src: url(/assets/fonts/garamond/EBGaramond-Bold.woff2) format('woff2');
+    font-family: 'EB Garamond';
+    font-style: normal;
+    font-weight: 700;
+    font-display: fallback;
+    size-adjust: 120%;
+    src: url(/assets/fonts/garamond/EBGaramond-Bold.woff2) format('woff2');
 }
 
 /* Basics */
@@ -76,7 +76,7 @@ a {
     text-align: center;
     display: block;
 }
-details, figure { 
+details { 
     margin: 0 2rem; 
 }
 
@@ -89,6 +89,17 @@ blockquote {
 figure {
     font-size: 0.8rem;
     text-align-last: center;
+    max-width: 20rem;
+    margin:  0 auto;
+    padding: 0 2rem;
+}
+/* Side figure */
+@media(min-width: 880px) {
+    figure {
+        float: right;
+        margin-left: 0rem;
+        margin-right: calc(min(0rem, max(-24rem, 20rem - 50vw)));
+    }
 }
 
 /* Side notes */
@@ -178,7 +189,7 @@ h2 .subtitle {
     font-weight: normal;
     font-style: italic;
 }
-
+h1,h2,h3,h4 { clear: right; }
 h1 a, h2 a, h3 a, h4 a, #TOC a {
     text-decoration: none;
 }

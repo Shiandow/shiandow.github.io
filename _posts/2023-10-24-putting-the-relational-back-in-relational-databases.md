@@ -20,7 +20,6 @@ A relation is nothing more or less than something that relates one thing to anot
 
 Concretely a relation can be modelled as a set of pairs. If a relation $R$ contains the pair $(x,y)$ then $R$ relates $x$ to $y$ which is usually written $x R y$. This way of modelling relations is the easiest to translate to a table in a database. 
 
-Note that this model uses a *set* of pairs, which is the reason many set operations such as `UNION` or `INTERSECT` and `MINUS` exist in SQL. The main difference between tables and sets is that tables may contain the same row multiple times. Since set operations return a set not a table they have the (sometimes useful) side effect that the result won't contain any row more than once.
 
 <figure>
 <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -70,6 +69,8 @@ Note that this model uses a *set* of pairs, which is the reason many set operati
 
 Figure 1. A graphical representation of a relation on a set of 7 points. Each arrow from a point $x$ to a point $y$ represents that the pair $(x,y)$ is in the relation. An arrow pointing both ways represents two arrows going each way.
 </figure>
+
+Note that this model uses a *set* of pairs, which is the reason many set operations such as `UNION` or `INTERSECT` and `MINUS` exist in SQL. The main difference between tables and sets is that tables may contain the same row multiple times. Since set operations return a set not a table they have the (sometimes useful) side effect that the result won't contain any row more than once.
 
 While this is a very flexible model it doesn't result in much useful properties to work with, hence why there are several different types of relations, each with its own set of defining properties.
 
