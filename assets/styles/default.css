@@ -169,6 +169,7 @@ h1:after, h2:after, h3:after, h4:after { clear: both; display: table; content: "
 .right.subtitle { 
     float: right;
     clear: right;
+    margin-left: 1em;
 }
 /* Links in headings */
 h1 a, h2 a, h3 a, h4 a, #TOC a {
