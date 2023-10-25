@@ -23,7 +23,7 @@ function dragOff(event) {
 
 function attachToc(event) {
   if (event.dataTransfer.getData('text') == "#TOC") {
-    document.getElementById('TOC').toggleAttribute('left', false);
+    // document.getElementById('TOC').toggleAttribute('left', false);
     document.getElementById('TOC').toggleAttribute('detached', false);
     document.body.toggleAttribute('hide-toc', false);
     document.removeEventListener("scroll", setCurrentToc);
@@ -33,7 +33,7 @@ function attachToc(event) {
     
 function detachToc(event) {
   if (event.dataTransfer.getData('text') == "#TOC") {
-    document.getElementById('TOC').toggleAttribute('left', event.pageX < 0.5*document.documentElement.clientWidth);
+    // document.getElementById('TOC').toggleAttribute('left', event.pageX < 0.5*document.documentElement.clientWidth);
     document.getElementById('TOC').toggleAttribute('detached', true);
     document.body.toggleAttribute('hide-toc', false);
     document.addEventListener("scroll", setCurrentToc);
