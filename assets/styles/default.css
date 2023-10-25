@@ -99,7 +99,7 @@ aside, figure {
         clear: right;
         margin-bottom: 2em;
         margin-left: 2rem;
-        margin-right: calc(min(0rem, max(-22rem, 20rem - 50vw + 2rem))); /* 22rem = width of note + margin, 20rem = half width of content */
+        margin-right: calc(min(0rem, max(-22rem, 20rem - 50vw + 1rem))); /* 22rem = width of note + margin, 20rem = half width of content */
     }
 }
 
@@ -137,7 +137,7 @@ body[hide-toc] #TOC:not(:target) {
     }
 }
 
-/* Header Styling */
+/* Heading Styling */
 h1 {
     font-size: 2rem;
     font-weight: bold;
@@ -154,7 +154,7 @@ h4 {
     font-size: 1.5rem;
     font-style: italic;
 }
-
+/* Subtitles */
 h1 .subtitle { 
     font-weight: normal;
     font-variant: small-caps;
@@ -164,6 +164,13 @@ h2 .subtitle {
     font-weight: normal;
     font-style: italic;
 }
+/* Right floating subtitles */
+h1:after, h2:after, h3:after, h4:after { clear: both; display: table; content: " "; }
+.right.subtitle { 
+    float: right;
+    clear: right;
+}
+/* Links in headings */
 h1 a, h2 a, h3 a, h4 a, #TOC a {
     text-decoration: none;
 }
