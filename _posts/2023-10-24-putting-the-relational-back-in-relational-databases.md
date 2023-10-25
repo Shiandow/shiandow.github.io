@@ -16,11 +16,6 @@ While databases use relations between more than 2 things (so called $n$-ary rela
 
 ## Relations
 
-A relation is nothing more or less than something that relates one thing to another. There are various well known examples, such as equality '$=$', inequality '$\ne$', order '&le;'. Once a relation has a name it is possible to make statements about this relation such as '$1<2$' or '$0=1$' (statements may turn out to be false). Typically this notation uses some symbol in between the two things that are related, but there are exceptions such as functions (which are a special kind of relation).
-
-Concretely a relation can be modelled as a set of pairs. If a relation $R$ contains the pair $(x,y)$ then $R$ relates $x$ to $y$ which is usually written $x R y$. This way of modelling relations is the easiest to translate to a table in a database. 
-
-
 <figure>
 <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
 <defs>
@@ -67,8 +62,12 @@ Concretely a relation can be modelled as a set of pairs. If a relation $R$ conta
 </g>
 </svg>
 
-Figure 1. A graphical representation of a relation on a set of 7 points. Each arrow from a point $x$ to a point $y$ represents that the pair $(x,y)$ is in the relation. An arrow pointing both ways represents two arrows going each way.
+Figure 1. A graphical representation of a relation on a set of 7 points. Each arrow from a point $x$ to a point $y$ represents that the $x$ relates to $y$. An arrow pointing both ways represents two arrows going each way.
 </figure>
+
+A relation is nothing more or less than something that relates one thing to another. There are various well known examples, such as equality '$=$', inequality '$\ne$', order '&le;'. Once a relation has a name it is possible to make statements about this relation such as '$1<2$' or '$0=1$' (statements may turn out to be false). Typically this notation uses some symbol in between the two things that are related, but there are exceptions such as functions (which are a special kind of relation).
+
+Concretely a relation can be modelled as a set of pairs. If a relation $R$ contains the pair $(x,y)$ then $R$ relates $x$ to $y$ which is usually written $x R y$. This way of modelling relations is the easiest to translate to a table in a database. 
 
 Note that this model uses a *set* of pairs, which is the reason many set operations such as `UNION` or `INTERSECT` and `MINUS` exist in SQL. The main difference between tables and sets is that tables may contain the same row multiple times. Since set operations return a set not a table they have the (sometimes useful) side effect that the result won't contain any row more than once.
 

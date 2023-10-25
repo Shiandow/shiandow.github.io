@@ -76,7 +76,7 @@ a {
     text-align: center;
     display: block;
 }
-details { 
+details, aside, figure { 
     margin: 0 2rem; 
 }
 
@@ -86,45 +86,20 @@ blockquote {
     padding: 0 1rem;
 }
 
-figure {
+aside, figure {
     font-size: 0.8rem;
-    text-align-last: center;
-    max-width: 20rem;
-    margin:  0 auto;
-    padding: 0 2rem;
+    width: 20rem;
+    margin: 0 auto;
 }
-/* Side figure */
-@media(min-width: 880px) {
-    figure {
-        float: right;
-        margin-left: 0rem;
-        margin-right: calc(min(0rem, max(-24rem, 20rem - 50vw)));
-    }
-}
-
-/* Side notes */
+/* Side notes and figures */
 /* See also: https://scripter.co/sidenotes-using-only-css/ */
-@media(min-width: 1400px) {
-    aside { 
-        margin-right: calc(20rem - 50vw + 1rem); /* 20em = half the article width */
-        margin-bottom: 1em;
-        text-align: left;
+@media(min-width: 880px) {
+    aside, figure {
         float: right;
         clear: right;
-        width: calc(50vw - 20rem - 2rem);
-    }
-    aside.left { 
-        margin-left: calc(20rem - 50vw + 1rem);
-        margin-bottom: 1em;
-        text-align: right;
-        float: left;
-        clear: left;
-        width: calc(50vw - 20rem - 2rem);
-    }
-}
-@media(max-width: 1399px) {
-    aside {
-        width: 100%;
+        margin-bottom: 2em;
+        margin-left: 2rem;
+        margin-right: calc(min(0rem, max(-22rem, 20rem - 50vw + 2rem))); /* 22rem = width of note + margin, 20rem = half width of content */
     }
 }
 
@@ -189,7 +164,6 @@ h2 .subtitle {
     font-weight: normal;
     font-style: italic;
 }
-h1,h2,h3,h4 { clear: right; }
 h1 a, h2 a, h3 a, h4 a, #TOC a {
     text-decoration: none;
 }
