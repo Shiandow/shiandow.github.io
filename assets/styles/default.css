@@ -76,8 +76,8 @@ a {
     text-align: center;
     display: block;
 }
-details, aside, figure { 
-    margin: 0 2rem; 
+details {
+    margin: 0 5%; /* 5% ~ 2rem */
 }
 
 blockquote {
@@ -88,8 +88,8 @@ blockquote {
 
 aside, figure {
     font-size: 0.8rem;
-    width: 20rem;
-    margin: 0 auto;
+    margin: 1rem auto;
+    max-width: calc(min(20rem, 100vw - 4em, 90%));
 }
 /* Side notes and figures */
 /* See also: https://scripter.co/sidenotes-using-only-css/ */
@@ -97,9 +97,8 @@ aside, figure {
     aside, figure {
         float: right;
         clear: right;
-        margin-bottom: 2em;
-        margin-left: 2rem;
-        margin-right: calc(min(0rem, max(-22rem, 20rem - 50vw + 1rem))); /* 22rem = width of note + margin, 20rem = half width of content */
+        margin: 0rem calc(min(0rem, max(-22rem, 20rem - 50vw + 1rem))) /* 22rem = width of note + margin, 20rem = half width of content */
+                2rem 2rem;
     }
 }
 
