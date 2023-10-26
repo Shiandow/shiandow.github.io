@@ -46,4 +46,3 @@ function deobfuscate() {
 };
 
 document.addEventListener("scroll", deobfuscate);
-document.addEventListener("mousemove", deobfuscate);
