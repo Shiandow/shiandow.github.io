@@ -76,7 +76,7 @@ a {
     text-align: center;
     display: block;
 }
-details {
+.display, details {
     margin: 0 5%; /* 5% ~ 2rem */
 }
 
@@ -87,10 +87,17 @@ blockquote {
     overflow: hidden; /* Fixes blockquote border overlapping floating note/figure */
 }
 
+/* List Environments */
+ul, ol { padding: 0 2em; }
+blockquote ul, blockquote ol { padding: 0 1em; } /* Avoid double margin */
+.footnotes ol, .csl-bib-body { padding-left: calc(max(0em, 50% - 50vw + 2rem)); } /* bullets in margin */
+.csl-entry { display: list-item; } /* Pandoc Bibliography */
+
+/* Notes and Figures */
 aside, figure {
     font-size: 0.8rem;
     margin: 1rem auto;
-    max-width: calc(min(19rem, 90%));
+    width: calc(min(19rem, 90%));
 }
 /* Side notes and figures */
 /* See also: https://scripter.co/sidenotes-using-only-css/ */
@@ -98,7 +105,7 @@ aside, figure {
     aside, figure {
         float: right;
         clear: right;
-        margin: 0rem calc(min(0rem, max(-21rem, 20rem - 50vw + 2rem))) /* 22rem = width of note + margin, 20rem = half width of content */
+        margin: 0rem calc(min(0rem, max(-21rem, 50% - 50vw + 2rem))) /* 21rem = width of note + margin */
                 1rem 2rem;
     }
 }
@@ -128,12 +135,12 @@ body[hide-toc] #TOC:not(:target) {
     #TOC[detached] { 
         float: right;
         clear: right;
-        width: calc(50vw - 20rem - 2rem);
+        width: calc(50vw - min(20rem, 50%) - 2rem);
     }
     #TOC[detached][left] { 
         float: left;
         clear: left;
-        width: calc(50vw - 20rem - 2rem);
+        width: calc(50vw - min(20rem, 50%) - 2rem);
     }
 }
 
@@ -222,9 +229,4 @@ footer {
 }
 .navigation .next {
     margin-left: auto;
-}
-
-/* Pandoc Bibliography */
-.csl-entry{
-    display: list-item;
 }

@@ -77,7 +77,7 @@ While this is a very flexible model it doesn't result in much useful properties 
 
 Let's start with something somewhat familiar. Ordinal relations. These show up whenever one thing is greater than another. The obvious example are numbers like $3 \le \pi \le 22/7$ but this concept also extends to things like sorting strings, with rules like "App &le; Apple &le; Bear". 
 
-Numbers have a very powerful ordering. All numbers are comparable and if two numbers are not equal then one of them is always higher than the other. Some orderings break one or both of these rules. Going back to the example of sorting string, it is common to ignore the difference between upper- and lower-case in which case both "apple &le; APPLE" and "APPLE &le; apple" are acceptable orderings.
+Numbers have a very powerful ordering. All numbers are comparable and if two numbers are not equal then one of them is always higher than the other. Some orderings break one or both of these rules. Going back to the example of sorting strings, it is common to ignore the difference between upper- and lower-case in which case both "apple &le; APPLE" and "APPLE &le; apple" are acceptable orderings.
 
 To keep the different types of orderings apart mathematicians distinguish between total orders, partial orders and pre-orders. Pre-orders are by far the most general and only need to satisfy two rules for all $x,y$ and $z$.
 
@@ -269,7 +269,7 @@ For two relations $R$ and $S$ it is possible to identify all triples of values $
 
 Joining a relation $R$ to a function $f$ result in a relation with a pair $(x, f(y))$ for each pair $(x,y)$ in $R$ (whenever $f(y)$ exists). If $R$ is also a function then this is precisely the function composition described earlier. This also shows that joining a table on a primary key is essentially the same as applying a function.
 
-Note that a relation is transitive precisely when the composition $R \circ R$ is contained in $R$. Conversely a (finite) relation can be made transitive by repeatedly joining copies until it eventually is transitive. Obviously this process can grow a relation considerably, so instead of pre-calculating the result it would be nice to have repeated joins as a database operation...
+Note that a relation is transitive precisely when the composition $R \circ R$ is contained in $R$. Conversely a (finite) relation can be made transitive by repeatedly joining copies until it eventually is transitive. Obviously this process can grow a relation considerably, so instead of pre-calculating the result it would be nice if database supported repeatedly joining a relation like that...
 
 ## Back to Databases
 
