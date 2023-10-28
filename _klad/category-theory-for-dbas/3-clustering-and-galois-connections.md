@@ -14,10 +14,10 @@ Before talking about clustering data, it is impossible to use Galois' name witho
 
 He applied to the École Polytechnique in 1828, but was rejected and entered the École normale supérieure instead (now known as one of the best mathematical institutes). During his study he became increasingly politically active. The École normale tried to prevent him from participating in the second French revolution. Eventually he was expelled and joined the artillery unit of the National Guard. He was eventually arrested heavily armed, leading a protest. He continued working on mathematics from prison. After his release from prison he participated in a duel for reasons that remain unknown and lost his life, a mere 3 years after first applying to the École Polytechnique, at the age of 20.
 
-During this period. He submitted a couple of papers to the Academy of Sciences, but Cauchy rejected them and advised him to submit a combined paper to the competition of the Academy of Sciences instead as he was likely to win. <aside>
+During this period. He submitted a couple of papers to the Academy of Sciences, but Cauchy rejected them and advised him to submit a combined paper to the competition of the Academy of Sciences instead as he was likely to win.
+<aside>
 He did submit a paper to the competition of the Academy of Sciences, sending it to Fourier the secretary of the Academy of Science. However this paper seems to have been lost because of Fourier's death shortly afterwards. The mathematicians Jacobi and Abel eventually won the competition.
-</aside> 
-
+</aside>
 The general consensus seems to have been that Galois' work contained great leaps of logic that were almost or completely incomprehensible, and were revolutionary after Galois explained his ideas more clearly.
 
 Anyway, back to clustering data.
