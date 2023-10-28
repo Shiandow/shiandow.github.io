@@ -1,4 +1,4 @@
-var n = 127;
+var n = Date.now() & 1023;
 
 function Caesar(text, rot, inverse) {
     result = "";
@@ -30,7 +30,7 @@ function deobfuscate() {
         "a.the_linkedin": "https://www.linkedin.com/in/"
     };
 
-    if (n & 1) { n = 3*n + 1} else { n = n >> 1;};
+    if (n & 1) { n = 3*n + 1 } else { n = n >> 1;};
 
     for (var key of Object.keys(obfs))
     for (var elem of document.querySelectorAll(key)) {
