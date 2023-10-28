@@ -88,8 +88,8 @@ blockquote {
 }
 
 /* List Environments */
-ul, ol { padding: 0 2em; }
-blockquote ul, blockquote ol { padding: 0 1em; } /* Avoid double margin */
+ul, ol { padding-left: 2em; }
+blockquote ul, blockquote ol { padding-left: 1em; } /* Avoid double margin */
 .footnotes ol, .csl-bib-body { padding-left: calc(max(0em, 50% - 50vw + 2rem)); } /* bullets in margin */
 .csl-entry { display: list-item; } /* Pandoc Bibliography */
 
