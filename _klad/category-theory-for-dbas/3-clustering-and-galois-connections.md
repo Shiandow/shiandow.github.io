@@ -3,8 +3,24 @@ title: Clustering Data and Galois Connections
 subtitle: Category Theory for DBAs &mdash; Part 3, Who?
 tag: category-theory-for-dbas
 planned_date: In a few weeks
+excerpt: |
+    TODO
 ---
-TODO  Galois
+{% include toc.md %}
+
+## Galois
+
+Before talking about clustering data, it is impossible to use Galois' name without saying a few words about who he was. Galois was one of the influential mathematicians of the 19th century. Amongst mathematicians he is well known for founding group theory, Galois theory (obviously) and using the two to show which polynomials can and cannot be solved and how [^solve], thereby solving a long list of old mathematical problems. His work is so general that it even now it shows up in seemingly unrelated areas like clustering data. However as incredible as his mathematical work was, his life was even more so. So before diving into data clustering, first some highlights of Galois remarkable life.
+
+He applied to the École Polytechnique in 1828, but was rejected and entered the École normale supérieure instead (now known as one of the best mathematical institutes). During his study he became increasingly politically active. The École normale tried to prevent him from participating in the second French revolution. Eventually he was expelled and joined the artillery unit of the National Guard. He was eventually arrested heavily armed, leading a protest. He continued working on mathematics from prison. After his release from prison he participated in a duel for reasons that remain unknown and lost his life, a mere 3 years after first applying to the École Polytechnique, at the age of 20.
+
+During this period. He submitted a couple of papers to the Academy of Sciences, but Cauchy rejected them and advised him to submit a combined paper to the competition of the Academy of Sciences instead as he was likely to win. <aside>
+He did submit a paper to the competition of the Academy of Sciences, sending it to Fourier the secretary of the Academy of Science. However this paper seems to have been lost because of Fourier's death shortly afterwards. The mathematicians Jacobi and Abel eventually won the competition.
+</aside> 
+
+The general consensus seems to have been that Galois' work contained great leaps of logic that were almost or completely incomprehensible, and were revolutionary after Galois explained his ideas more clearly.
+
+Anyway, back to clustering data.
 
 ## Clustering
 
@@ -14,7 +30,7 @@ you will also have some sources of data that tell you when two such pieces of da
 
 The next step then is to cluster your data. Doing so makes it easier to find all the available data and to verify if two pieces of data are talking about the same subject.
 
-## Clustering from a Mathematical Standpoint
+### Clustering from a Mathematical Standpoint
 
 Most people will have some idea about what it means to cluster data, 
 but let's try to make this precise. At the start we have some set of data $X$ about some objects, and for some pieces of data,
@@ -48,14 +64,14 @@ In this case a clustering is again two functions $(f,r)$ going both ways and whi
 such that for all datums $x,y$ and clusters $c,d$ 
 
 $$
-x \sim y => f(x) \approx f(y)\\
-c \approx d => r(c) \sim r(d)
+x \sim y \Rightarrow f(x) \approx f(y)\\
+c \approx d \Rightarrow r(c) \sim r(d)
 $$
 
 and we also want $r$ to function as a kind of representative of the cluster by requiring
 
 $$
-x \sim r(c) <=> f(x) \approx c.
+x \sim r(c) \Leftrightarrow f(x) \approx c.
 $$
 
 Is this the same as a representative? Well, almost. Instead of requiring that $r(c)$ is actually mapped into the cluster $c$ we instead get $f(r(c)) \approx c$, and instead of 
@@ -88,10 +104,16 @@ So basically what we have here is an *ordering* of data, where if $x \le z$ and 
 to cluster $x,y$ and $z$ together but not if $z \le x$ and $z \le y$. 
 Not entirely accidentally this can be achieved by swapping equivalence to inequality in the above definition of a clustering:
 
-> $x \le y$ implies $f(x) \le f(y)$  
-> $c \le d$ implies $r(c) \le r(d)$  
-> $x \le r(c)$ if and only if $f(x) \le c$.
+> - $x \le y$ implies $f(x) \le f(y)$  
+> - $c \le d$ implies $r(c) \le r(d)$  
+> - $x \le r(c)$ if and only if $f(x) \le c$.
 
 This is what is called a Galois connection. 
 
 ## Beyond Ordinal Relations and Ordinary Relational Databases
+
+TODO (?)
+
+--------------------------------------------------------------
+
+[^solve]: Solving a polynomial here means writing a general formula for its roots. For example how all quadratic equations can be solved with the abc-formula. Similar formulae exist for cubic and quartic equations, but Galois showed it such a formula cannot exist for higher order polynomials.
