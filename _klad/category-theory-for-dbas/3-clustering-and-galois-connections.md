@@ -4,7 +4,7 @@ subtitle: Category Theory for DBAs &mdash; Part 3, Who?
 tag: category-theory-for-dbas
 planned_date: In a few weeks
 excerpt: |
-    TODO
+    Before talking about clustering data, it is impossible to use Galois' name without saying a few words about who he was. Galois was one of the influential mathematicians of the 19th century. Amongst mathematicians he is well known for founding group theory, Galois theory (obviously) and using the two to show which polynomials can and cannot be solved and how, thereby solving a long list of old mathematical problems. His work is so general that it even now it shows up in seemingly unrelated areas like clustering data. However as incredible as his mathematical work was, his life was even more so. So before diving into data clustering, first some highlights of Galois remarkable life.
 ---
 {% include toc.md %}
 
