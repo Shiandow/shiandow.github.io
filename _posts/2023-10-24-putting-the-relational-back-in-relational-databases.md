@@ -81,10 +81,7 @@ Numbers have a very powerful ordering. All numbers are comparable and if two num
 
 To keep the different types of orderings apart mathematicians distinguish between total orders, partial orders and pre-orders. Pre-orders are by far the most general and only need to satisfy two rules for all $x,y$ and $z$.
 
-> - $x \le x$  
-> - if $x \le y$ and $y \le z$ then $x \le z$
-
-The main feature of a pre-order is the fact that it is transitive (meaning that if $x \le y$ and $y \le z$ then $x \le z$ as well). Most transitive relations are either pre-orders or can trivially be turned into one.
+<div markdown="1" class="hopscotch">
 
 <figure>
 <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -151,21 +148,26 @@ The main feature of a pre-order is the fact that it is transitive (meaning that 
 Figure 2. A pre-order on set of 7 points, containing the relation in figure 1 as a subset. Note that this requires quite a lot more arrows to draw, even though this is the <em>smallest</em> pre-order containing all arrows from figure 1.
 </figure>
 
+> - $x \le x$  
+> - if $x \le y$ and $y \le z$ then $x \le z$
+
+</div>
+
+The main feature of a pre-order is the fact that it is transitive (meaning that if $x \le y$ and $y \le z$ then $x \le z$ as well). Most transitive relations are either pre-orders or can trivially be turned into one.
+
 Partial orders have the additional rule that if $x \le y$ and $y \le x$ then $x = y$ (this is called anti-symmetry). Total orders are partial orders with the additional rule that for *all* pairs $x,y$ either $x \le y$ or $y \le x$. This makes partial and total orders more powerful than pre-orders, but not necessarily more useful. In fact for finite sets there is basically only one kind of total order, which boils down to just numbering the set from $1$ to $n$ (total orders often boil down to just numerical order).
 
 Not requiring all things to be comparable allows partial orders to model hierarchical or 'part of' relations. For example Utrecht is a part of the Netherlands is a part of Europe, but France is not a part of Australia nor is Australia a part of France. Note that this is partial order, not a pre-order (can you tell why?). A more abstract version would the 'subset of' relation, which is why the symbol for 'subset of' $\subseteq$ is quite similar to $\le$.
 
 Another examples shows up when trying to order time periods. It is easy to say that June 7th 2011 occurred before the year 2022. However it is a lot harder to say whether week 35 2023 (from August 28 to September 2) happens before or after September 2023. Sure one of them *started* earlier, but the other *ended* earlier, so which was earlier?[^strict]
 
-And as noted earlier, sorting strings shows how $x \le y$ and $y \le x$ does not have to imply that $x=y$. In fact this is precisely how SQL Server uses collation, sorting order, to check strings for equivalence while ignoring differences in case and equivalent ways to encode the same unicode characters. This means the pairs where both $x \le y$ and $y \le x$ are interesting in their own right because they represent something that is *like* equality, without being equal. They form what is called an equivalence relation.
+And as noted earlier, sorting strings shows how $x \le y$ and $y \le x$ does not have to imply that $x=y$. In fact this is precisely how SQL Server uses collation, sorting order, to check strings for equivalence while ignoring differences in case and equivalent ways to encode the same characters. This means the pairs where both $x \le y$ and $y \le x$ are interesting in their own right because they represent something that is *like* equality, without being equal. They form what is called an equivalence relation.
 
 ## Equivalence Relations
 
 Equivalence relations show up whenever things are equal or equivalent. They're related to pre-orders with the only additional requirement that they are symmetric. Using the symbol '$\sim$' the rules for an equivalence relation are that for all $x$,$y$,$z$
 
-> - $x \sim x$  
-> - if $x \sim y$ then $y \sim x$  
-> - if $x \sim y$ and $y \sim z$ then $x \sim z$.
+<div markdown="1" class="hopscotch">
 
 <figure>
 <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -204,6 +206,12 @@ Equivalence relations show up whenever things are equal or equivalent. They're r
 Figure 3. An equivalence relation on 7 points, the arrow from each point to itself has been omitted for clarity.
 </figure>
 
+> - $x \sim x$  
+> - if $x \sim y$ then $y \sim x$  
+> - if $x \sim y$ and $y \sim z$ then $x \sim z$.
+
+</div>
+
 In short, every object is equivalent to itself, equivalence is symmetric (it has no direction) and equivalence is transitive. It is easy to show that for any pre-order the set of pairs such that $x \le y$ and $y \le x$ forms an equivalence relation.
 
 When dealing with data these types of relation often show up whenever an entity has multiple different identifiers (usually across different systems). These identifiers are all equivalent, but may not be equal. Sometimes it is obvious which identifiers belong together, sometimes it requires some guess work. Either way this typically results in a big list of identifiers that are equivalent. An interesting problem is that this list is not a full equivalence in its own right, just a subset of one, the trick then becomes to find the 'best' equivalence relation that matches the known data (more on that later).
@@ -215,8 +223,6 @@ An important concept when dealing with equivalence relations are equivalence cla
 Mathematicians like to play around with these equivalence classes by doing things like declaring numbers equivalent when they differ by an even amount. This yields two equivalence classes, 'even' and 'odd'. As it turns out you can still do arithmetic with these ('odd' + 'odd' = 'even', 'even' + 'odd' = 'odd' etc.). This doesn't only work for even numbers, you can also declare (whole) numbers equivalent if they differ by a multiple of 7 or 12 or any other whole number. In all cases it is possible to do arithmetic on the equivalence classes such that $[x+y]=[x]+[y]$ and $[x] [y] = [xy]$. This is called modular arithmetic, and numbers differing by a multiple of $m$ are said to be equal 'modulo' $m$. [^nines]
 
 ## Functions
-
-A completely different type of relation is a function. Functions are a special type of relation where the left hand side is guaranteed to be unique. This means that if a function $f$ has a pair $(x,y)$ then this is the only pair relating $x$ to some value, there will never be *another* pair $(x,z)$ with $z \ne y$. This is usually written $f(x) = y$, or sometimes this is written $f : x \mapsto y$ (the symbol $\mapsto$ is read as 'maps to'). The infix notation $x f y$ is basically never used.
 
 <figure>
 <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -254,6 +260,8 @@ A completely different type of relation is a function. Functions are a special t
 </svg>
 Figure 4. A function from a set of 4 points to a set of 3 points. The domain (set of inputs) and codomain (set of outputs) are delimited by dashed lines.
 </figure>
+
+A completely different type of relation is a function. Functions are a special type of relation where the left hand side is guaranteed to be unique. This means that if a function $f$ has a pair $(x,y)$ then this is the only pair relating $x$ to some value, there will never be *another* pair $(x,z)$ with $z \ne y$. This is usually written $f(x) = y$, or sometimes this is written $f : x \mapsto y$ (the symbol $\mapsto$ is read as 'maps to'). The infix notation $x f y$ is basically never used.
 
 The relevant database concept is a table with a primary key, which is precisely the constraint needed to turn a relation into a function. It is also common to keep track of the possible outputs of each function. If $X$ is the set of inputs of a function and its outputs are in $Y$ then this is denoted $f: X \to Y$. In databases this is done by specifying a foreign key, which ensures that the output falls within a certain range.
 

@@ -109,6 +109,16 @@ aside, figure {
                 1rem 2rem;
     }
 }
+/* Utility class to fix reading order */
+@media(max-width: 879px) {
+    .hopscotch {
+      display: flex;
+      flex-flow: column;
+    }
+    .hopscotch > aside, .hopscotch > figure { 
+        order: 9999;
+    }
+}
 
 /* Table of Contents */
 #TOC { 
