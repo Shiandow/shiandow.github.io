@@ -88,13 +88,14 @@ blockquote {
 }
 
 /* List Environments */
-ul, ol { padding-left: 2em; }
-blockquote ul, blockquote ol { padding-left: 1em; } /* Avoid double margin */
-.footnotes ol, .csl-bib-body { padding-left: calc(max(0em, 50% - 50vw + 2rem)); } /* bullets in margin */
+ul, ol { padding-left: 5%; }
+blockquote ul, blockquote ol { padding-left: 2.5%; } /* Avoid double margin */
+.footnotes ol, .csl-bib-body { padding-left: calc(max(0em, 50% - 50vw + 5%)); } /* bullets in margin */
 .csl-entry { display: list-item; } /* Pandoc Bibliography */
 
 /* Notes and Figures */
-aside, figure {
+/* Notes and Figures */
+aside, figure, .sidenote {
     font-size: 0.8rem;
     margin: 1rem auto;
     width: calc(min(19rem, 90%));
@@ -102,7 +103,7 @@ aside, figure {
 /* Side notes and figures */
 /* See also: https://scripter.co/sidenotes-using-only-css/ */
 @media(min-width: 880px) {
-    aside, figure {
+    aside, figure, .sidenote {
         float: right;
         clear: right;
         margin: 0rem calc(min(0rem, max(-21rem, 50% - 50vw + 2rem))) /* 21rem = width of note + margin */
@@ -115,7 +116,7 @@ aside, figure {
       display: flex;
       flex-flow: column;
     }
-    .hopscotch > aside, .hopscotch > figure { 
+    .hopscotch > aside, .hopscotch > figure, .hopscotch > .sidenote { 
         order: 9999;
     }
 }
