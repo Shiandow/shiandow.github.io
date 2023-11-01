@@ -76,7 +76,7 @@ a {
     text-align: center;
     display: block;
 }
-.display, details {
+details {
     margin: 0 5%; /* 5% ~ 2rem */
 }
 
@@ -88,9 +88,9 @@ blockquote {
 }
 
 /* List Environments */
-ul, ol { padding-left: 5%; }
-blockquote ul, blockquote ol { padding-left: 2.5%; } /* Avoid double margin */
-.footnotes ol, .csl-bib-body { padding-left: calc(max(0em, 50% - 50vw + 5%)); } /* bullets in margin */
+ul, ol { padding-left: 2em; }
+blockquote ul, blockquote ol { padding-left: 1em; } /* Avoid double margin */
+.footnotes ol, .csl-bib-body { padding-left: calc(max(0em, min(2em, 50% - 50vw + 3em))); } /* bullets in margin */
 .csl-entry { display: list-item; } /* Pandoc Bibliography */
 
 /* Notes and Figures */
