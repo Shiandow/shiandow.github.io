@@ -2,21 +2,18 @@
 title: Clustering Data and Galois Connections
 subtitle: Category Theory for DBAs &mdash; Part 3, Who?
 tag: category-theory-for-dbas
-planned_date: In a few weeks
+progress: 60% (pending rewrite to show work)
 excerpt: |
-    Before talking about clustering data, it is impossible to use Galois' name without saying a few words about who he was. Galois was one of the most influential mathematicians of the 19th century. Amongst mathematicians he is well known for founding group theory, Galois theory (obviously) and using the two to show which polynomials can and cannot be solved and how, thereby solving a long list of old mathematical problems. His work is so general that it even now it shows up in seemingly unrelated areas like clustering data. However as incredible as his mathematical work was, his life was even more so. So before diving into data clustering, first some highlights of Galois remarkable life.
+    TODO
 ---
 {% include toc.md %}
 
-## Galois
 
-Before talking about clustering data, it is impossible to use Galois' name without saying a few words about who he was. Galois was one of the most influential mathematicians of the 19th century. Amongst mathematicians he is well known for founding group theory, Galois theory (obviously) and using the two to show which polynomials can and cannot be solved and how[^solve], thereby solving a long list of old mathematical problems. His work is so general that even now it shows up in seemingly unrelated areas like clustering data. However as incredible as his mathematical work was, his life was even more so. So before diving into data clustering, first some highlights of Galois remarkable life.
 
-He applied to the École Polytechnique in 1828, but was rejected and entered the École normale supérieure instead (now known as one of the best mathematical institutes). During his study he became increasingly politically active. The École normale tried to prevent him from participating in the second French revolution. Eventually he was expelled and joined the artillery unit of the National Guard. He was eventually arrested heavily armed, leading a protest. He continued working on mathematics from prison. After his release from prison he participated in a duel for reasons that remain unknown and lost his life, a mere 3 years after first applying to the École Polytechnique, at the age of 20.
 
-During this period. He submitted a couple of papers to the Academy of Sciences, but Cauchy rejected them and advised him to submit a combined paper to the competition of the Academy of Sciences instead as he was likely to win.[^fourier] The general consensus seems to have been that Galois' work contained great leaps of logic that were almost or completely incomprehensible, and were revolutionary after Galois explained his ideas more clearly.
+## Introduction
 
-Anyway, back to clustering data.
+Abel: He is like the fox, who effaces his tracks in the sand with his tail
 
 ## Clustering
 
@@ -109,9 +106,3 @@ This is what is called a Galois connection.
 ## Beyond Ordinal Relations and Ordinary Relational Databases
 
 TODO (?)
-
---------------------------------------------------------------
-
-[^solve]: Solving a polynomial here means writing a general formula for its roots. Consider for example how all quadratic equations can be solved with the abc-formula. Similar formulae exist for cubic and quartic equations, but Galois showed such a formula cannot exist for higher order polynomials.
-
-[^fourier]: Galois did eventually submit a paper to the competition of the Academy of Sciences, sending it to Fourier the secretary of the Academy of Science. However this paper seems to have been lost because of Fourier's death shortly afterwards. The mathematicians Jacobi and Abel eventually won the competition.
